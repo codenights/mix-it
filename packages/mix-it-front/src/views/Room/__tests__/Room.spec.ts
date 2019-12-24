@@ -20,14 +20,13 @@ describe('Room.vue', () => {
         expect(playersContainerBlock.exists()).toBe(true)
       })
     })
-    
+
     describe('users container', () => {
       it('should display the block', () => {
         // Given
         const usersContainerBlock = wrapper.find('[data-test=users-container]')
         // Then
         expect(usersContainerBlock.exists()).toBe(true)
-        
       })
     })
     describe('playlist container', () => {
