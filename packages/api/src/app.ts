@@ -1,5 +1,5 @@
 import express from 'express'
-import * as Io from 'socket.io'
+import * as socketio from 'socket.io'
 import compression from 'compression'  // compresses requests
 import session from 'express-session'
 import bodyParser from 'body-parser'
@@ -16,48 +16,37 @@ const MongoStore = mongo(session)
 // Controllers (route handlers)
 import * as homeController from './controllers/home'
 import * as roomController from './controllers/room'
-import * as userController from './controllers/user'
-import * as apiController from './controllers/api'
-import * as contactController from './controllers/contact'
-
-
-// API keys and Passport configuration
-// API keys and Passport configuration
-import * as passportConfig from './config/passport'
 
 // Create Express server
 const app = express()
+const server = app.listen(3000)
 
-const http = require('http').Server(app)
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const io = require('socket.io')(http)
+const io = require('socket.io')(server, { origins: '*:*' })
 
 // Connect to MongoDB
 const mongoUrl = MONGODB_URI
 mongoose.Promise = bluebird
 
 mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true } ).then(
-    () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ },
+  () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ },
 ).catch(err => {
-    console.log('MongoDB connection error. Please make sure MongoDB is running. ' + err)
-    // process.exit();
+  console.log('MongoDB connection error. Please make sure MongoDB is running. ' + err)
+  // process.exit();
 })
 
-io.on('connection', () => { /* … */ })
-
 // Express configuration
-app.set('port', process.env.PORT || 3000)
 app.use(compression())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: SESSION_SECRET,
-    store: new MongoStore({
-        url: mongoUrl,
-        autoReconnect: true
-    })
+  resave: true,
+  saveUninitialized: true,
+  secret: SESSION_SECRET,
+  store: new MongoStore({
+    url: mongoUrl,
+    autoReconnect: true
+  })
 }))
 app.use(flash())
 app.use(lusca.xframe('SAMEORIGIN'))
@@ -72,8 +61,14 @@ app.get('/', homeController.index)
 app.get('/room', roomController.index)
 
 io.on('connection', function(socket: any) {
-    console.log('a user connected')
+  console.log('a user connected')
+  socket.emit('request', { hello: 'world' }) // emit an event to the socket
+  socket.on('pingServer', (data) => {
+    console.log('Client sent : ', data)
+    setTimeout(() => socket.emit('pongClient', 'PONG'), 2000)
+  })
 })
+
 // ============================
 // app.get('/login', userController.getLogin)
 // app.post('/login', userController.postLogin)
