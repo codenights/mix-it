@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home/Home.vue'
 import MainLayout from '@/views/MainLayout/MainLayout.vue'
 import Room from '@/views/Room/Room.vue'
+import Host from '@/views/Host/Host.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,11 @@ const routes = [
         path: 'room/:roomId',
         name: 'room',
         component: Room
+      },
+      {
+        path: 'host',
+        name: 'host',
+        component: Host
       }
     ]
   }
