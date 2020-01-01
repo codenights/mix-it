@@ -14,7 +14,7 @@
 <script>
 import { createComponent } from '@vue/composition-api'
 import { useGoogleAuth } from '@/feature/google-auth.feature'
-import { useHome } from './home.feature'
+import useHome from './home.feature'
 
 const Home = createComponent({
   name: 'Home',

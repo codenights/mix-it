@@ -1,43 +1,34 @@
 <template>
   <div class="room__container">
-    <div class="players__container" data-test="players-container">
-      <div class="player">
-         <youtube videoId="6OFHXmiZP38"></youtube>
-      </div>
-      <div class="player">
-        <youtube videoId="Ti9czvLa-4"></youtube>
-      </div>
-    </div>
-    <div class="playlist__container" data-test="playlist-container">
-      <strong class="container__title">File d'attente</strong>
-    </div>
-    <div class="users__container" data-test="users-container">
-      <div class="users__list__container">
-        <strong class="container__title">Utilisateurs</strong>
-      </div>
-      <div class="qr-code__container" data-test="qr-code-container">
-        <strong class="container__title">Room {{ roomId }}</strong>
-        <div class="qr-code__content">
-          Experimentum vix ducunt ad albus historia.
-          Experimentum vix ducunt ad albus historia.
-          Experimentum vix ducunt ad albus historia.
-          Experimentum vix ducunt ad albus historia.
-          Experimentum vix ducunt ad albus historia.
-        </div>
-      </div>
+    <div>
+      <h1>{{ roomId }}</h1>
+      <form @submit.prevent="addSongToPlaylist(songId)">
+        <label for="song-id">{{ songId }}</label>
+        <input type="text" id="song-id" v-model="songId">
+        <button type="submit"> Envoyer</button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
 import { createComponent, ref } from '@vue/composition-api'
+import useRoom from '@/views/Room/room.feature'
 
 const Room = createComponent({
   name: 'Room',
   setup(props, context) {
-    const { roomId } = context.root.$route.params
+    const songId = ref('')
+    const { roomId, addSongToPlaylist } = useRoom(context)
     return {
-      roomId
+      roomId,
+      songId,
+      addSongToPlaylist
+    }
+  },
+  sockets: {
+    connect() {
+      console.log('Client connected')
     }
   }
 })

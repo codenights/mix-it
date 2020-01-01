@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import VueCompositionApi from '@vue/composition-api'
 import VueYoutubeEmbed from 'vue-youtube-embed'
 import socketio from 'socket.io-client'
@@ -8,7 +10,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 
-const SocketInstance = socketio.connect('http://localhost:3000')
+const SocketInstance = socketio.connect('http://localhost:3000/host')
 
 Vue.use(new VueSocketIO({
   debug: true,
@@ -19,9 +21,10 @@ const gauthOption = {
   scope: 'profile email',
   prompt: 'select_account'
 }
-Vue.use(GAuth, gauthOption)
-
 Vue.config.productionTip = false
+
+Vue.use(GAuth, gauthOption)
+Vue.use(VueAxios, axios)
 Vue.use(VueCompositionApi)
 Vue.use(VueYoutubeEmbed)
 

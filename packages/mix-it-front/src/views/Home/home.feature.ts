@@ -1,6 +1,6 @@
-export function useHome(context) {
+export default function useHome(context) {
   function redirectToRoom() {
-    context.root.$router.push('room')
+    context.root.$router.push('room/a')
   }
   function redirectToHost() {
     context.root.$router.push('host')
