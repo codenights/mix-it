@@ -1,6 +1,7 @@
 import express from 'express'
 import * as socketio from 'socket.io'
 import compression from 'compression'  // compresses requests
+import cors from 'cors'
 import session from 'express-session'
 import bodyParser from 'body-parser'
 import lusca from 'lusca'
@@ -16,10 +17,13 @@ const MongoStore = mongo(session)
 // Controllers (route handlers)
 import * as homeController from './controllers/home'
 import * as roomController from './controllers/room'
+import * as hostController from './controllers/host'
 
 // Create Express server
 const app = express()
-const server = app.listen(3000)
+const server = app.listen(3000, () => {
+  console.log('server running')
+})
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const io = require('socket.io')(server, { origins: '*:*' })
@@ -36,6 +40,7 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUni
 })
 
 // Express configuration
+app.use(cors({ origin: true }))
 app.use(compression())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -58,14 +63,34 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  * Primary app routes.
  */
 app.get('/', homeController.index)
+app.get('/host', hostController.index)
 app.get('/room', roomController.index)
 
 io.on('connection', function(socket: any) {
   console.log('a user connected')
   socket.emit('request', { hello: 'world' }) // emit an event to the socket
-  socket.on('pingServer', (data) => {
+  socket.on('pingServer', (data: string) => {
     console.log('Client sent : ', data)
     setTimeout(() => socket.emit('pongClient', 'PONG'), 2000)
+  })
+})
+const host = io.of('/host').on('connection', (socket: any) => {
+  console.log('Host connected')
+})
+
+const room = io.of('/room').on('connection', (socket: any) => {
+  console.log('Room connected')
+  socket.on('addSong', (data: any) => {
+    const party = hostController.partyList.get('113086919703832645762')
+    if(!party) {
+      console.log('La party n\'existe pas')
+    } else {
+      const existingSong = party.playlist.find(song => song === data)
+      if (!existingSong) party.playlist.push(data)
+      const eventName = 'a'
+      console.log('event emit on ', eventName)
+      host.broadcast.emit('a', hostController.partyList.get('113086919703832645762')) // emit an event to the socket
+    }
   })
 })
 
