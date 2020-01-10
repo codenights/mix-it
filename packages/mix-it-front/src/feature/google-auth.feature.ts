@@ -1,7 +1,6 @@
 import { ref } from '@vue/composition-api'
 
-// eslint-disable-next-line import/prefer-default-export
-export function useGoogleAuth(context) {
+export default function useGoogleAuth(context) {
   const isSignIn = ref(context.root.$gAuth.isAuthorized)
 
   async function signIn() {

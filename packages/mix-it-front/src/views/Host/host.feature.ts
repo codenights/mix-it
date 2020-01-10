@@ -17,10 +17,11 @@ export default function useHost(context) {
     const [firstValue, secondValue] = [...room.value.playlist]
     firstVideoId.value = firstValue
     secondVideoId.value = secondValue
+    context.root.$socket.emit('addHost', room.value.partyId)
   }
 
   function joinRoomAsHost() {
-    context.root.sockets.subscribe('a', (data: Party) => {
+    context.root.sockets.subscribe(room.value.partyId, (data: Party) => {
       console.log('Message receive', data)
       room.value = data
       context.root.$socket.emit('a', 'dataTest')
