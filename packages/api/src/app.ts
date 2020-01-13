@@ -66,7 +66,7 @@ app.get('/', homeController.index)
 app.get('/host', hostController.index)
 app.get('/room', roomController.index)
 
-io.on('connection', function(socket: any) {
+const global = io.on('connection', function(socket: any) {
   console.log('a user connected')
   socket.emit('request', { hello: 'world' }) // emit an event to the socket
   socket.on('pingServer', (data: string) => {
@@ -74,22 +74,30 @@ io.on('connection', function(socket: any) {
     setTimeout(() => socket.emit('pongClient', 'PONG'), 2000)
   })
 })
-const host = io.of('/host').on('connection', (socket: any) => {
+io.of('/host').on('connection', (socketHost: any) => {
   console.log('Host connected')
+  socketHost.on('addHost', (partyId: string) => {
+    const room = hostController.partyList.get(partyId)
+    room.host = socketHost
+  })
 })
 
-const room = io.of('/room').on('connection', (socket: any) => {
+interface RoomRequest {
+  songId: string;
+  partyId: string;
+}
+io.of('/room').on('connection', (socketRoom: any) => {
   console.log('Room connected')
-  socket.on('addSong', (data: any) => {
-    const party = hostController.partyList.get('113086919703832645762')
-    if(!party) {
+  socketRoom.on('addSong', ({ songId, partyId }: RoomRequest) => {
+    console.log(songId, partyId)
+    const room = hostController.partyList.get(partyId)
+    if(!room) {
       console.log('La party n\'existe pas')
     } else {
-      const existingSong = party.playlist.find(song => song === data)
-      if (!existingSong) party.playlist.push(data)
-      const eventName = 'a'
-      console.log('event emit on ', eventName)
-      host.broadcast.emit('a', hostController.partyList.get('113086919703832645762')) // emit an event to the socket
+      console.log(room)
+      const existingSong = room.party.playlist.find(song => song === songId)
+      if (!existingSong) room.party.playlist.push(songId)
+      room.host.emit(partyId, room.party)
     }
   })
 })
