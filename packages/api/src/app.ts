@@ -15,8 +15,6 @@ import { MONGODB_URI, SESSION_SECRET } from './util/secrets'
 const MongoStore = mongo(session)
 
 // Controllers (route handlers)
-import * as homeController from './controllers/home'
-import * as roomController from './controllers/room'
 import * as hostController from './controllers/host'
 
 // Create Express server
@@ -32,7 +30,7 @@ const io = require('socket.io')(server, { origins: '*:*' })
 const mongoUrl = MONGODB_URI
 mongoose.Promise = bluebird
 
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true } ).then(
+mongoose.connect(mongoUrl, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }).then(
   () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ },
 ).catch(err => {
   console.log('MongoDB connection error. Please make sure MongoDB is running. ' + err)
@@ -62,9 +60,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
 /**
  * Primary app routes.
  */
-app.get('/', homeController.index)
 app.get('/host', hostController.index)
-app.get('/room', roomController.index)
 
 const global = io.on('connection', function(socket: any) {
   console.log('a user connected')
