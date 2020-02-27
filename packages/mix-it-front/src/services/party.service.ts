@@ -10,7 +10,7 @@ class PartyServiceImpl implements PartyService {
   private readonly api: AxiosInstance
 
   constructor({ hostApi }) {
-    this.api = axios.create(hostApi)
+    this.api = axios.create({ baseURL: hostApi })
   }
 
   async create(party: Party): Promise<Party> {
