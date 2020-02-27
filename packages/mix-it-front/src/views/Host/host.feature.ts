@@ -1,8 +1,8 @@
 import { reactive, ref } from '@vue/composition-api'
-import { hostService } from '@/services'
+import { hostService, partyService } from '@/services'
 
 interface Party {
-  partyId: string
+  id: string
   playlist: string[]
 }
 
@@ -12,14 +12,14 @@ export default function useHost(context) {
   const playlist = ref([])
   async function createRoom() {
     const user = await context.root.$gAuth.GoogleAuth.currentUser.get()
-    const result = await hostService.create(user.getId())
+    const result = await partyService.create({ owner: user.getId() })
     room.value = result.data
     playlist.value = room.value.playlist
-    context.root.$socket.emit('addHost', room.value.partyId)
+    context.root.$socket.emit('addHost', room.value.id)
   }
 
   function joinRoomAsHost(player1, player2, firstVideoId, secondVideoId) {
-    context.root.sockets.subscribe(room.value.partyId, (data: Party) => {
+    context.root.sockets.subscribe(room.value.id, (data: Party) => {
       console.log(player1.value.player)
       console.log(player2.value.player)
       room.value = data
