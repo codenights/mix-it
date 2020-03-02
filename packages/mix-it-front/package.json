@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
+    "@types/socket.io-client": "^1.4.32",
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-e2e-cypress": "^4.1.0",
     "@vue/cli-plugin-eslint": "^4.1.0",
@@ -44,7 +45,7 @@
     "jest-extended": "^0.11.2",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
-    "typescript": "~3.5.3",
+    "typescript": "~3.8.3",
     "vue-template-compiler": "^2.6.10"
   }
 }
