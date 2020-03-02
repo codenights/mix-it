@@ -9,7 +9,7 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 
-const SocketInstance = socketio.connect('http://localhost:3000/room')
+const SocketInstance = socketio.connect('http://localhost:3000/parties')
 
 Vue.use(new VueSocketIO({
   debug: true,

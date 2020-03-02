@@ -2,7 +2,7 @@
   <div class="room__container">
     <div>
       <h1>{{ roomId }}</h1>
-      <form @submit.prevent="addSongToPlaylist(songId)">
+      <form @submit.prevent="submitSong(songId)">
         <label for="song-id">{{ songId }}</label>
         <input type="text" id="song-id" v-model="songId">
         <button type="submit"> Envoyer</button>
@@ -19,11 +19,12 @@ const Room = createComponent({
   name: 'Room',
   setup(props, context) {
     const songId = ref('')
-    const { roomId, addSongToPlaylist } = useRoom(context)
+    const { roomId, submitSong } = useRoom(context)
+
     return {
       roomId,
       songId,
-      addSongToPlaylist
+      submitSong
     }
   },
   sockets: {
