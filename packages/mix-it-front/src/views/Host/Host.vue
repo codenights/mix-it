@@ -7,16 +7,17 @@
           @ready="onReady1"
           @playing="onPlay1"
           @paused="onPause1"
-          @ended="onEnded(onEnded1, playlist)"
+          @ended="onEnded(onEnded1, party.playlist)"
           ref="player1"
         ></youtube>
       </div>
       <div class="player">
         <youtube
           :videoId="secondVideoId"
+          @ready="onReady2"
           @playing="onPlay2"
           @paused="onPause2"
-          @ended="onEnded(onEnded2, playlist)"
+          @ended="onEnded(onEnded2, party.playlist)"
           ref="player2"
         ></youtube>
       </div>
@@ -24,7 +25,7 @@
     <div class="playlist__container" data-test="playlist-container">
       <strong class="container__title">File d'attente</strong>
       <ul>
-        <li v-for="song in playlist" :key="song">{{ song }}</li>
+        <li v-for="song in party.playlist" :key="song">{{ song }}</li>
       </ul>
     </div>
     <div class="users__container" data-test="users-container">
@@ -56,9 +57,9 @@
         </ul>
       </div>
       <div class="qr-code__container" data-test="qr-code-container">
-        <span>{{ room.partyId }}</span>
+        <span>{{ party.id }}</span>
         <div class="qr-code__content">
-          <qrcode-vue :value="generateQrCodeValue(room.partyId)" :size="qrCodeSize" level="H"></qrcode-vue>
+          <qrcode-vue :value="generateQrCodeValue(party.id)" :size="qrCodeSize" level="H"></qrcode-vue>
         </div>
       </div>
     </div>
@@ -66,11 +67,12 @@
 </template>
 
 <script>
-import { createComponent, onMounted } from '@vue/composition-api'
+import { createComponent, onMounted, onUnmounted, watch } from '@vue/composition-api'
 import QrcodeVue from 'qrcode.vue'
-import useHost from './host.feature'
-import useQrCodeFeature from '@/feature/qr-code.feature'
+import { partyService } from '@/services'
 import usePlayerFeature from '@/feature/player.feature'
+import useQrCodeFeature from '@/feature/qr-code.feature'
+import useHost from './host.feature'
 
 const Host = createComponent({
   name: 'Host',
@@ -78,9 +80,7 @@ const Host = createComponent({
     QrcodeVue
   },
   setup(props, context) {
-    const {
-      room, playlist, createRoom, joinRoomAsHost
-    } = useHost(context)
+    const { party, joinRoomAsHost, join, leave, onPlaylist } = useHost(context)
 
     const { qrCodeSize, generateQrCodeValue } = useQrCodeFeature()
 
@@ -92,31 +92,56 @@ const Host = createComponent({
       onPlay: onPlay1,
       onPause: onPause1,
       onEnded: onEnded1
-    } = usePlayerFeature(context, playlist)
+    } = usePlayerFeature(context, party.value.playlist)
     const {
       player: player2,
       videoId: secondVideoId,
       linkPlayer: linkPlayer2,
+      onReady: onReady2,
       onPlay: onPlay2,
       onPause: onPause2,
       onEnded: onEnded2
-    } = usePlayerFeature(context, playlist)
+    } = usePlayerFeature(context, party.value.playlist)
+
+    watch(party, newParty => {
+      if (newParty && newParty.value) {
+        const { playlist } = newParty.value
+        console.log('Playlist')
+        if (playlist) {
+          const [first, second] = playlist
+          firstVideoId.value = first
+          secondVideoId.value = second
+          console.log('New videos', firstVideoId.value, secondVideoId.value)
+        }
+      }
+    })
 
     onMounted(async () => {
-      await createRoom()
-      joinRoomAsHost(player1, player2, firstVideoId, secondVideoId)
+      const { partyId } = context.root.$route.params
+      party.value = await partyService.get(partyId)
+      // TODO: use props as an alternative
+      await joinRoomAsHost(player1, player2, firstVideoId, secondVideoId)
+      console.log('Party 1', party.value)
+      onPlaylist()
       linkPlayer1(player2.value)
       linkPlayer2(player1.value)
-      const [first, second] = playlist.value
-      firstVideoId.value = first
-      secondVideoId.value = second
-      setTimeout(() => {
-        player1.value.player.playVideo()
-      }, 2000)
+      if (party.value.playlist && party.value.playlist.length >= 2) {
+        console.log('Party 2', party.value)
+        const [first, second] = party.value.playlist
+        firstVideoId.value = first
+        secondVideoId.value = second
+        setTimeout(() => {
+          player1.value.player.playVideo()
+        }, 2000)
+      }
+    })
+
+    onUnmounted(async () => {
+      await leave()
     })
 
     return {
-      room,
+      party,
       player1,
       player2,
       firstVideoId,
@@ -126,9 +151,9 @@ const Host = createComponent({
       onPause1,
       onPause2,
       onReady1,
+      onReady2,
       onEnded1,
       onEnded2,
-      playlist,
       qrCodeSize,
       generateQrCodeValue
     }

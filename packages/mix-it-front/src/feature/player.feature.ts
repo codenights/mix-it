@@ -3,8 +3,8 @@ import { ref } from '@vue/composition-api'
 export default function usePlayerFeature(context, playlist) {
   const player = ref({} as any)
   const player2 = ref(null)
-  const videoId = ref('')
-  let interval
+  const videoId = ref<string>('')
+  let interval: number
 
   function linkPlayer(refPlayer2) {
     player2.value = refPlayer2
@@ -39,6 +39,12 @@ export default function usePlayerFeature(context, playlist) {
   }
 
   return {
-    player, videoId, linkPlayer, onPlay, onPause, onEnded, onReady
+    player,
+    videoId,
+    linkPlayer,
+    onPlay,
+    onPause,
+    onEnded,
+    onReady
   }
 }

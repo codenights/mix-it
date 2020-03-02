@@ -23,7 +23,7 @@ const routes = [
         component: Room
       },
       {
-        path: 'host',
+        path: 'host/:partyId',
         name: 'host',
         component: Host
       }
