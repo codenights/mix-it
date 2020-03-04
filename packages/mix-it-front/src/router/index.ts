@@ -18,11 +18,6 @@ const routes = [
         component: Home
       },
       {
-        path: 'room/:roomId',
-        name: 'room',
-        component: Room
-      },
-      {
         path: 'host/:partyId',
         name: 'host',
         component: Host

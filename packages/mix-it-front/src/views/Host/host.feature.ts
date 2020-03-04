@@ -10,6 +10,10 @@ export default function useHost(context) {
     owner: ''
   })
 
+  async function fetchParty(): Promise<void> {
+    party.value = await partyService.get(partyId)
+  }
+
   async function join(): Promise<void> {
     console.log(`Joining party ${party.value.id}...`)
     await partyService.join(party.value.id)
@@ -23,13 +27,8 @@ export default function useHost(context) {
 
   function onPlaylist(): void {
     partyService.onPlaylist((playlist: Playlist) => {
-      // eslint-disable-next-line no-param-reassign
-      // @ts-ignore
-      party.value = ref<Party>({
-        ...party.value,
-        playlist
-      })
-      console.log('new playlist', party.value.playlist)
+      party.value.playlist = playlist
+      console.log('new playlist', playlist)
     })
   }
 
@@ -58,6 +57,7 @@ export default function useHost(context) {
 
   return {
     party,
+    fetchParty,
     join,
     joinRoomAsHost,
     leave,

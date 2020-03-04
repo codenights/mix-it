@@ -4,7 +4,7 @@ export default function useQrCodeFeature() {
   const qrCodeSize = 150
 
   function generateQrCodeValue(partyId) {
-    return `http://192.168.43.156:8081/#/room/${partyId}`
+    return `http://10.30.48.62:8081/#/room/${partyId}`
   }
 
   return { qrCodeSize, generateQrCodeValue }

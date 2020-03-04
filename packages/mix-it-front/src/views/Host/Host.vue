@@ -80,7 +80,7 @@ const Host = createComponent({
     QrcodeVue
   },
   setup(props, context) {
-    const { party, joinRoomAsHost, join, leave, onPlaylist } = useHost(context)
+    const { party, fetchParty, joinRoomAsHost, join, leave, onPlaylist } = useHost(context)
 
     const { qrCodeSize, generateQrCodeValue } = useQrCodeFeature()
 
@@ -117,16 +117,13 @@ const Host = createComponent({
     })
 
     onMounted(async () => {
-      const { partyId } = context.root.$route.params
-      party.value = await partyService.get(partyId)
       // TODO: use props as an alternative
       await joinRoomAsHost(player1, player2, firstVideoId, secondVideoId)
-      console.log('Party 1', party.value)
+      await fetchParty()
       onPlaylist()
       linkPlayer1(player2.value)
       linkPlayer2(player1.value)
       if (party.value.playlist && party.value.playlist.length >= 2) {
-        console.log('Party 2', party.value)
         const [first, second] = party.value.playlist
         firstVideoId.value = first
         secondVideoId.value = second

@@ -3,28 +3,20 @@ module.exports = {
   env: {
     node: true
   },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
-    '@vue/typescript'
-  ],
+  extends: ['plugin:vue/essential', '@vue/airbnb', '@vue/typescript', 'plugin:prettier/recommended'],
+  plugins: ['prettier'],
   rules: {
+    'prettier/prettier': 'error',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    quotes: ['error', 'single'],
-    semi: ['error', 'never'],
-    'comma-dangle': ['error', 'never'],
-    'max-len': ['error', { 'code': 120}]
+    'no-param-reassign': ["error", { "props": false }]
   },
   parserOptions: {
     parser: '@typescript-eslint/parser'
   },
   overrides: [
     {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
-      ],
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
       env: {
         jest: true
       }
