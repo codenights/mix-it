@@ -28,6 +28,7 @@ const Room = createComponent({
   },
   sockets: {
     connect() {
+      // eslint-disable-next-line
       console.log('Client connected')
     }
   }
