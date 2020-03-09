@@ -1,18 +1,17 @@
 language: node_js
 node_js:
-  - '12'
+- '12'
 cache:
   yarn: true
 env:
-  - LOG_LEVEL=warn
+- LOG_LEVEL=warn
 script:
-  - yarn test
-  - yarn build
-before_deploy: cd dist
+- yarn test
+- yarn build
 deploy:
   provider: heroku
   api_key:
-    secure: q7mVOv8R8rRqEZGQqUpcjhmL2REMTaixj9kQtX9Er6Hpc9MMUhg2o1fYmlw5A5VDGjZ4ehlX4rVWBEL7O7IPhQAvHVHrw9s0toY+Ux27D934Ri2TEJwl1vylVXhaEd0Ia6yLGB4E6OgcQIwntPZ2uokMXbfbKE8FW/eD8iIlWavjIXlmCEPsXDlG9YAxUNA11N2rmPWn/lUWGTlusVTG82cJtN5Qyi+wbc2CgqTrAcs3Y+Nk3VlaEC+Ubg3NKSHzGv1pvEtUrs7RKVLXtBGa3l9S831Pv8fzSJKvDDBENsiUPCJ5QSwqO1BoJ819fwb6XANufhveDTTaCfEKrbddMonc/mcpnomxJRfPClK2+OK5BaUJJ0uQUMNQ2qimKagX4vkTlIjo7VZRcL1JuE8i8QhmE8j5FO0LVwnUNEwY1LLnt3QIF50M4yIliQ3u28/eQINOqlOKFPSwlYAaORF0OrAr/70r/1MKzk/SPQwoIp+0U8F3D7BXZR7G5h6uQJMZZ0aX/hMS+nCiO4aUnhKDcvWhG2glmLpfK5i+obcfw9kG2fcLRAiO2g+YA325Xa+XTPVoPXG/14xj1ULkJ+Fna272A0QD9W8aG0jPdimKEwTXt6Zk8U/Jg/vXHUCcXDt7uvYFl+HPhdFFCeEaO7PpgEydXpXpjagAI9DnJPUZTXk=
+    secure: t2rWEH+EQo5Pkd16y/cYTQJoeRMJTgDdDT/H16O+dDJqErF0ZzQ+Svlf5mQsYOP6kl5fhbSJGbZlDoi8tyiQ5m6x89zSvyiH5RHCQPEp++BD2Yi4lJ37A3WeQc19r6yP1EGysbRko54cOBZRcMAxd7aAjGZlkdL9lx20Ko9+YckkeBtfR5NsMH16HE4nXOfvP/MZl0Sk34cEvrpp0eemsdAmXgJB5t+HdEEYDvT4LNAwmM7Gu1LubQdH2el8sV0GMXCbyxkxIoU9MPP+syJn2htkDSKuSJBIJp8TrycOKvaR0o8iYhPj8d9Dz1xZ6jBRfcq1xYU4BIssI3+RmJNjwUH6KFdzXSeYLzTM6SPcfIFoznSgrat1XaJR8Xb3xUxa+TkNFh8M+0oei4iZ5yeSAhW4J7v/IMToh7dur9M3qodr2PuJhrKAZp6rGZPOBOwc43i/eN5uZqu4YPA01zO6x2ZGSkmRbbH1PfyTsKTCNq7uNJ6EdXOz7d4i8Le2zEDn1JwjW0sRy1Nxnxo51v/BFaKlR3EDAlV2YQyPGsOlgexvfOqoOCqu1vW0bG5PGWVgLGEtOun1/DRwcVL+lCzj94755pKbk1sRjGC5JMTuKzKE02MXmuukJx1H4pnTajMwqdtYQ+oLg0bxn96+PHg98pNT482QpiT+32X4Y3lhkfk=
   app: mix-it-front
   on:
     repo: codenights/mix-it-front
