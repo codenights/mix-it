@@ -15,7 +15,8 @@ interface App {
 }
 
 interface AppOptions {
-  port: number
+  host?: string
+  port?: number
 }
 
 export function createApp(opts: AppOptions = config): App {
@@ -26,7 +27,7 @@ export function createApp(opts: AppOptions = config): App {
     ws,
     async start(): Promise<void> {
       return new Promise(resolve => {
-        http.listen(opts.port, () => {
+        http.listen(opts, () => {
           logger.info(`App running on port ${opts.port}`)
           resolve()
         })

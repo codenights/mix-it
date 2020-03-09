@@ -5,15 +5,10 @@ import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import morgan from 'koa-morgan'
 
-import config from './config'
 import { errorHandler } from './core'
 import partyModule from './party'
 
-export interface ServerOptions {
-  port: number
-}
-
-export function createHttpServer(opts: ServerOptions = config): HttpServer | Http2Server {
+export function createHttpServer(): HttpServer | Http2Server {
   const koa = new Koa()
 
   // Register middlewares

@@ -1,7 +1,7 @@
 import Nedb from 'nedb'
 
-import { Party } from './party'
 import { logger } from '../core'
+import { Party } from './party'
 
 type PartyModel = Exclude<Party, 'id'> & { _id: string }
 

@@ -9,6 +9,11 @@ const config = convict({
     format: ['production', 'test', 'development'],
     default: 'development'
   },
+  host: {
+    env: 'HOST',
+    format: 'host',
+    default: 'http://localhost'
+  },
   port: {
     env: 'PORT',
     format: 'port',
@@ -17,8 +22,7 @@ const config = convict({
   log: {
     level: {
       env: 'LOG_LEVEL',
-      format: ['debug', 'info', 'warn', 'error'],
-      default: 'debug'
+      format: ['debug', 'info', 'warn', 'error']
     }
   }
 })

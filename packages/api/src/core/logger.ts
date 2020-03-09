@@ -1,5 +1,7 @@
 import { createLogger, LoggerOptions, transports } from 'winston'
 
+import config from '../config'
+
 type LoggerFn = (message: string, context?: object) => void
 interface Logger {
   debug: LoggerFn
@@ -8,17 +10,15 @@ interface Logger {
   error: LoggerFn
 }
 
+const logLevel = config.log.level ?? config.env === 'production' ? 'error' : 'debug'
+
 const options: LoggerOptions = {
   transports: [
     new transports.Console({
-      level: process.env.NODE_ENV === 'production' ? 'error' : 'debug'
+      level: logLevel
     }),
     new transports.File({ filename: 'debug.log', level: 'debug' })
   ]
 }
 
 export const logger: Logger = createLogger(options)
-
-if (process.env.NODE_ENV !== 'production') {
-  logger.debug('Logging initialized at debug level')
-}
