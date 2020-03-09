@@ -1,33 +1,37 @@
-import { Ref, ref } from '@vue/composition-api'
+import { Ref, ref, reactive } from '@vue/composition-api'
 import { partyService } from '@/services'
 import { Party, Playlist } from '@/models/party'
 
 export default function useHost(context) {
   const { partyId } = context.root.$route.params
-  const party: Ref<Party> = ref<Party>({
+  const party = reactive({
     id: partyId,
     playlist: [],
     owner: ''
   })
 
   async function fetchParty(): Promise<void> {
-    party.value = await partyService.get(partyId)
+    const fetchedParty = await partyService.get(partyId)
+    console.log('fetchedParty', fetchedParty)
+    party.id = fetchedParty.id
+    party.playlist = fetchedParty.playlist
+    party.owner = fetchedParty.owner
   }
 
   async function join(): Promise<void> {
-    console.log(`Joining party ${party.value.id}...`)
-    await partyService.join(party.value.id)
-    console.log(`Joined party ${party.value.id}.`)
+    console.log(`Joining party ${party.id}...`)
+    await partyService.join(party.id)
+    console.log(`Joined party ${party.id}.`)
   }
 
   async function leave(): Promise<void> {
-    await partyService.leave(party.value.id)
-    console.log(`Left party ${party.value.id}.`)
+    await partyService.leave(party.id)
+    console.log(`Left party ${party.id}.`)
   }
 
   function onPlaylist(): void {
     partyService.onPlaylist((playlist: Playlist) => {
-      party.value.playlist = playlist
+      party.playlist = playlist
       console.log('new playlist', playlist)
     })
   }
@@ -42,14 +46,14 @@ export default function useHost(context) {
       if (player1State > 1 || player2State > 1) {
         if (player2State > 1) {
           // eslint-disable-next-line no-param-reassign,prefer-destructuring
-          secondVideoId.value = party.value.playlist[1]
+          secondVideoId.value = party.playlist[1]
           if (player1State > 1) {
             // eslint-disable-next-line no-param-reassign,prefer-destructuring
-            firstVideoId.value = party.value.playlist[0]
+            firstVideoId.value = party.playlist[0]
           }
         } else {
           // eslint-disable-next-line no-param-reassign,prefer-destructuring
-          firstVideoId.value = party.value.playlist[1]
+          firstVideoId.value = party.playlist[1]
         }
       }
     }, 2000)

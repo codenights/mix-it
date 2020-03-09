@@ -4,8 +4,12 @@ export default function useGoogleAuth(context) {
   const isSignIn = ref(context.root.$gAuth.isAuthorized)
 
   async function signIn() {
-    await context.root.$gAuth.signIn()
-    isSignIn.value = context.root.$gAuth.isAuthorized
+    try {
+      await context.root.$gAuth.signIn()
+      isSignIn.value = context.root.$gAuth.isAuthorized
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function signOut() {

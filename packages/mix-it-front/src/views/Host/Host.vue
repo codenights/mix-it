@@ -11,6 +11,7 @@
           ref="player1"
         ></youtube>
       </div>
+      {{ firstVideoId }} {{ secondVideoId }}
       <div class="player">
         <youtube
           :videoId="secondVideoId"
@@ -92,7 +93,7 @@ const Host = createComponent({
       onPlay: onPlay1,
       onPause: onPause1,
       onEnded: onEnded1
-    } = usePlayerFeature(context, party.value.playlist)
+    } = usePlayerFeature(context, party.playlist)
     const {
       player: player2,
       videoId: secondVideoId,
@@ -101,18 +102,19 @@ const Host = createComponent({
       onPlay: onPlay2,
       onPause: onPause2,
       onEnded: onEnded2
-    } = usePlayerFeature(context, party.value.playlist)
+    } = usePlayerFeature(context, party.playlist)
 
-    watch(party, newParty => {
-      if (newParty && newParty.value) {
-        const { playlist } = newParty.value
+    watch(() => {
+      if (party && party.playlist) {
+        const { playlist } = party
         console.log('Playlist')
-        if (playlist) {
-          const [first, second] = playlist
-          firstVideoId.value = first
-          secondVideoId.value = second
-          console.log('New videos', firstVideoId.value, secondVideoId.value)
-        }
+        const [first, second] = playlist
+        firstVideoId.value = first
+        secondVideoId.value = second
+        console.log('New videos', firstVideoId.value, secondVideoId.value)
+        setTimeout(() => {
+          player1.value.player.playVideo()
+        }, 2000)
       }
     })
 
@@ -123,8 +125,8 @@ const Host = createComponent({
       onPlaylist()
       linkPlayer1(player2.value)
       linkPlayer2(player1.value)
-      if (party.value.playlist && party.value.playlist.length >= 2) {
-        const [first, second] = party.value.playlist
+      if (party.playlist && party.playlist.length >= 2) {
+        const [first, second] = party.playlist
         firstVideoId.value = first
         secondVideoId.value = second
         setTimeout(() => {

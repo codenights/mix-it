@@ -32,7 +32,7 @@ export default function usePlayerFeature(context, playlist) {
   function onEnded() {
     clearInterval(interval)
     // unshift playlist by socket
-    const [first, second] = playlist.value
+    const [, second] = playlist
     videoId.value = second
     // @ts-ignore
     player.value.player.stopVideo()
