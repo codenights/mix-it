@@ -4,10 +4,11 @@ node_js:
 cache:
   yarn: true
 env:
-- LOG_LEVEL=warn
+  - LOG_LEVEL=warn
 script:
-- yarn build
-- yarn test
+  - yarn test
+  - yarn build
+before_deploy: cd dist
 deploy:
   provider: heroku
   api_key:
