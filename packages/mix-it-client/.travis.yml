@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+- '12'
+cache:
+  yarn: true
+env:
+- LOG_LEVEL=warn
+script:
+- yarn build
+- yarn test
+deploy:
+  provider: heroku
+  api_key:
+    secure: q7mVOv8R8rRqEZGQqUpcjhmL2REMTaixj9kQtX9Er6Hpc9MMUhg2o1fYmlw5A5VDGjZ4ehlX4rVWBEL7O7IPhQAvHVHrw9s0toY+Ux27D934Ri2TEJwl1vylVXhaEd0Ia6yLGB4E6OgcQIwntPZ2uokMXbfbKE8FW/eD8iIlWavjIXlmCEPsXDlG9YAxUNA11N2rmPWn/lUWGTlusVTG82cJtN5Qyi+wbc2CgqTrAcs3Y+Nk3VlaEC+Ubg3NKSHzGv1pvEtUrs7RKVLXtBGa3l9S831Pv8fzSJKvDDBENsiUPCJ5QSwqO1BoJ819fwb6XANufhveDTTaCfEKrbddMonc/mcpnomxJRfPClK2+OK5BaUJJ0uQUMNQ2qimKagX4vkTlIjo7VZRcL1JuE8i8QhmE8j5FO0LVwnUNEwY1LLnt3QIF50M4yIliQ3u28/eQINOqlOKFPSwlYAaORF0OrAr/70r/1MKzk/SPQwoIp+0U8F3D7BXZR7G5h6uQJMZZ0aX/hMS+nCiO4aUnhKDcvWhG2glmLpfK5i+obcfw9kG2fcLRAiO2g+YA325Xa+XTPVoPXG/14xj1ULkJ+Fna272A0QD9W8aG0jPdimKEwTXt6Zk8U/Jg/vXHUCcXDt7uvYFl+HPhdFFCeEaO7PpgEydXpXpjagAI9DnJPUZTXk=
+  app: mix-it-client
+  on:
+    repo: codenights/mix-it-client
