@@ -1,34 +1,31 @@
+import cors from '@koa/cors'
+import { createServer, Server as HttpServer } from 'http'
+import { Http2Server } from 'http2'
 import Koa from 'koa'
+import bodyParser from 'koa-bodyparser'
+import morgan from 'koa-morgan'
 
 import config from './config'
-import host from './host'
-
-export interface Server {
-  callback: any
-  start(): Promise<number>
-}
+import { errorHandler } from './core'
+import partyModule from './party'
 
 export interface ServerOptions {
   port: number
 }
 
-export function createServer(opts: ServerOptions = config): Server {
+export function createHttpServer(opts: ServerOptions = config): HttpServer | Http2Server {
   const koa = new Koa()
-  const listen = (port: number) => new Promise(resolve => koa.listen(port, resolve))
+
+  // Register middlewares
+  koa.use(errorHandler())
+  koa.use(morgan('dev'))
+  koa.use(bodyParser())
+  koa.use(cors())
 
   // Register API modules
-  koa.use(host)
-  return {
-    callback: koa.callback(),
-    async start(): Promise<number> {
-      await listen(opts.port)
-      return opts.port
-    }
-  }
+  koa.use(partyModule)
+
+  return createServer(koa.callback())
 }
 
-export function createTestServer() {
-  return createServer().callback
-}
-
-export default createServer
+export default createHttpServer

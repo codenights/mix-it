@@ -1,10 +1,17 @@
 language: node_js
 node_js:
-  - "10"
-  - "11"
-  - "12"
+- '12'
 cache:
   yarn: true
+env:
+- LOG_LEVEL=warn
 script:
-  - yarn build
-  - yarn test
+- yarn build
+- yarn test
+deploy:
+  provider: heroku
+  api_key:
+    secure: ADFaJ2MSZ9+VD0WtrIgJSWdmBdaTrHZr9ycRYkqahlZQq4z4J+CxJR2OeC84lora7WE6mPZU5DbedSqp4bscZeoa11K+AmRW2DAuq/Kh5FMX3AhnjY4QRFBn1+CcLpVz2S8yqTa6gQGMUPIYhUEGi3X7Dmfxc2TYAJl0oCrdUghe9kecgI6ewGWNMb8/q3FrUhjT2XnWpU8OBH9QDecpgovoqQz33kUC+hZ8CyquhEmeOPiXuN2r/9bAZHUP54B/K/wSo7hkhBYf/tlwpOo/G0XTTgVrvN61e7Fri7RSAzaeAtmTfUR9l2LkgqLh104gJxjXVNzwZDF5R2jxMIufy9l20vhX+etq6c1BnAk0VvNdaUpqOhsmAkyLLe3A7jOMwveZ49IP6Jgmn/D3y7+FN6EjtSJcYDJUBk/nMiaud1ruEV5jcITFSkbzP+Y/NChphnkcU3T17mMDgwxg65a32v/oSkVbuqqJwAjxroOKW7fJgNESr4IHan12hwndyaYUMbZ7i+vbs2L0S8MeoQX0fUDPR1Y1A8YIVqQ50G8J3tcdiokEVKfL6CYfW+1CnqX0pLZW/VcwV7K0Y6LJK/ZJ75fA4M1aGpr6py1+nNUB3UpSzdLzOxPS72lbgdfoempjiqsAcCcRXpDwBKZZhr+Xw5n/qg/mslfCOp58QA4hMEU=
+  app: mix-it-back
+  on:
+    repo: codenights/mix-it-back

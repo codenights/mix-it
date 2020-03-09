@@ -1,6 +1,5 @@
-import createServer from 'http-server.ts'
+import createApp from '../src/app'
+import { logger } from '../src/core'
 
-;(async () => {
-  const server = createServer()
-  await server.listen()
-})()
+const app = createApp()
+app.start().catch(logger.error)

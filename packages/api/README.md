@@ -2,9 +2,35 @@
 
 [![Dependency Status](https://david-dm.org/Microsoft/TypeScript-Node-Starter.svg)](https://david-dm.org/Microsoft/TypeScript-Node-Starter) [![Build Status](https://travis-ci.org/Microsoft/TypeScript-Node-Starter.svg?branch=master)](https://travis-ci.org/Microsoft/TypeScript-Node-Starter)
 
-**Live Demo**: [https://typescript-node-starter.azurewebsites.net/](https://typescript-node-starter.azurewebsites.net/)
+# WebSocket connection
 
-![image](https://user-images.githubusercontent.com/820883/36764267-abbdb7f8-1be0-11e8-9678-2a9ea448d7f8.png)
+You must connect to the `/parties` namespace specifying a `clientType` and a
+`partyId` in the handshake query as follows:
+
+```javascript
+import client from 'socket.io-client'
+
+const socket = client.connect(`http://localhost:${port}/parties`, {
+  query: {
+    clientType: 'host' | 'client',
+    partyId: '<your party ID>'
+  }
+})
+```
+
+On connection, you will join the party if it exists. Otherwise, it will throw
+an error. You must create the party before using the REST API endpoint:
+```text
+POST /parties
+```
+
+## Events
+
+- `song:submit` with a string payload which is the song ID. You will eventually
+receive a `playlist` event with the new playlist, to which your song was added.
+The playlist is a list of strings representing the song IDs.
+
+# Intro
 
 The main purpose of this repository is to show a good end-to-end project setup and workflow for writing Node code in TypeScript.
 We will try to keep this as up-to-date as possible, but community contributions and recommendations for improvements are encouraged and will be most welcome.
@@ -202,7 +228,7 @@ The full folder structure of this app is explained below:
 | **src/models**           | Models define Mongoose schemas that will be used in storing and retrieving data from MongoDB  |
 | **src/public**           | Static assets that will be used client side                                                   |
 | **src/types**            | Holds .d.ts files not found on DefinitelyTyped. Covered more in this [section](#type-definition-dts-files)          |
-| **src**/server.ts        | Entry point to your express app                                                               |
+| **src**/http-server.ts        | Entry point to your express app                                                               |
 | **test**                 | Contains your tests. Separate from source because there is a different build process.         |
 | **views**                | Views define how your app renders on the client. In this case we're using pug                 |
 | .env.example             | API keys, tokens, passwords, database URI. Clone this, but don't check it in to public repos. |
