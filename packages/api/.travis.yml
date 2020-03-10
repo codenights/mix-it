@@ -1,15 +1,15 @@
 language: node_js
 node_js:
-  - '12'
+- '12'
 cache:
   yarn: true
 script:
-  - yarn test
-  - yarn build
+- yarn test
+- yarn build
 deploy:
   provider: heroku
   api_key:
-    secure: q7mVOv8R8rRqEZGQqUpcjhmL2REMTaixj9kQtX9Er6Hpc9MMUhg2o1fYmlw5A5VDGjZ4ehlX4rVWBEL7O7IPhQAvHVHrw9s0toY+Ux27D934Ri2TEJwl1vylVXhaEd0Ia6yLGB4E6OgcQIwntPZ2uokMXbfbKE8FW/eD8iIlWavjIXlmCEPsXDlG9YAxUNA11N2rmPWn/lUWGTlusVTG82cJtN5Qyi+wbc2CgqTrAcs3Y+Nk3VlaEC+Ubg3NKSHzGv1pvEtUrs7RKVLXtBGa3l9S831Pv8fzSJKvDDBENsiUPCJ5QSwqO1BoJ819fwb6XANufhveDTTaCfEKrbddMonc/mcpnomxJRfPClK2+OK5BaUJJ0uQUMNQ2qimKagX4vkTlIjo7VZRcL1JuE8i8QhmE8j5FO0LVwnUNEwY1LLnt3QIF50M4yIliQ3u28/eQINOqlOKFPSwlYAaORF0OrAr/70r/1MKzk/SPQwoIp+0U8F3D7BXZR7G5h6uQJMZZ0aX/hMS+nCiO4aUnhKDcvWhG2glmLpfK5i+obcfw9kG2fcLRAiO2g+YA325Xa+XTPVoPXG/14xj1ULkJ+Fna272A0QD9W8aG0jPdimKEwTXt6Zk8U/Jg/vXHUCcXDt7uvYFl+HPhdFFCeEaO7PpgEydXpXpjagAI9DnJPUZTXk=
+    secure: "OCVKFBTqEv4WS6g8hhJFHQbmLShjEobQOKhfG6OSGD7LbUDOXv1sbeLiyuEYC8QhHSIdTBgE7O3yknLk2BY2OTQfzsuofF8BhWF0HleWzdRdsfogYGvkMsY+B1kfGVkKzHeq9mn5m6FWbVWARI0GaKMTSwF8pEfJMybR5EEf93zXk+Telf9l38URIpXaoQZ8P9o6tfF7IHRGHE4IpA8R6z8PASDmuSn1TtkNyDGIM7HLtZPFfMfDU7myNqzV5xNb5QA0u8DpJ2kGkCJZNTfGHNmySDdSv4MUJiwGCkxY3dzmSKQdBRgypG0RDuIbZlz7vJWhseoQwGSKinnnxFtHqCtZeRq4fPNdFHFSzfIC1CbAlUFeGSq651clP5+j6Xc7oVD5oTlt4SkSvpE1NnaY8Py+8+UHz4dIeHScYGaBF9stKnCAn5bVv/gD6iR7LT7SBR0s7KfVNvLivzONV6h4I6ttF0gFupAbD7Y/qJ26+0JMjcdKzSqtQyMOxheOP3dv2H9PfY9hRyBgQKpbMsNc/DGa8qITvz/CKbub1fCrMjpfqQ3TCayaG14gNglzC+Bzg+OstglIxDWEW4fg1f/Bf8P6GxbQX2xWq+CWHDu8mf+Ww+P1B7nqEwb4CAm/KoMdOB4X6kZX5SxG5YeOxe38smHoGOAj967hYoaHYAG/c/o="
   app: mix-it-back
   on:
     repo: codenights/mix-it-back
