@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import Home from '../Home.vue'
+import useHome from '../home.feature'
 
 describe('Home.vue', () => {
   let wrapper

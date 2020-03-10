@@ -5,21 +5,13 @@ import MainLayout from '../MainLayout.vue'
 describe('MainLayout.vue', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(MainLayout)
+    wrapper = shallowMount(MainLayout, {
+      stubs: ['router-view']
+    })
   })
   describe('default', () => {
     it('should create', () => {
       expect(wrapper.exists()).toBe(true)
-    })
-  })
-  describe('display', () => {
-    describe('navbar', () => {
-      it('should display the navbar', () => {
-        // Given
-        const navbarBlock = wrapper.find('[data-test=navbar]')
-        // Then
-        expect(navbarBlock.exists()).toBe(true)
-      })
     })
   })
 })
