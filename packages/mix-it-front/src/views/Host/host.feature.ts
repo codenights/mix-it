@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Ref, ref, reactive } from '@vue/composition-api'
 import { partyService } from '@/services'
 import { Party, Playlist } from '@/models/party'
@@ -26,6 +27,7 @@ export default function useHost(context) {
 
   async function leave(): Promise<void> {
     await partyService.leave(party.id)
+
     console.log(`Left party ${party.id}.`)
   }
 
@@ -38,7 +40,6 @@ export default function useHost(context) {
 
   async function joinRoomAsHost(player1, player2, firstVideoId, secondVideoId) {
     await join()
-    console.log(player1.value)
     setTimeout(() => {
       const player1State = player1.value.player.getPlayerState()
       const player2State = player2.value.player.getPlayerState()
