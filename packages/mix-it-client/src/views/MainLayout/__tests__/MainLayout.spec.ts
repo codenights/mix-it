@@ -5,7 +5,9 @@ import MainLayout from '../MainLayout.vue'
 describe('MainLayout.vue', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallowMount(MainLayout)
+    wrapper = shallowMount(MainLayout, {
+      stubs: ['router-link', 'router-view']
+    })
   })
   describe('default', () => {
     it('should create', () => {
