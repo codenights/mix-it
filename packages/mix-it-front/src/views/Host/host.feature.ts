@@ -27,14 +27,11 @@ export default function useHost(context) {
 
   async function leave(): Promise<void> {
     await partyService.leave(party.id)
-
-    console.log(`Left party ${party.id}.`)
   }
 
   function onPlaylist(): void {
     partyService.onPlaylist((playlist: Playlist) => {
       party.playlist = playlist
-      console.log('new playlist', playlist)
     })
   }
 

@@ -8,6 +8,7 @@ export default function useGoogleAuth(context) {
       await context.root.$gAuth.signIn()
       isSignIn.value = context.root.$gAuth.isAuthorized
     } catch (error) {
+      /* eslint-disable no-console */
       console.log(error)
     }
   }

@@ -107,11 +107,9 @@ const Host = createComponent({
     watch(() => {
       if (party && party.playlist) {
         const { playlist } = party
-        console.log('Playlist')
         const [first, second] = playlist
         firstVideoId.value = first
         secondVideoId.value = second
-        console.log('New videos', firstVideoId.value, secondVideoId.value)
         setTimeout(() => {
           player1.value.player.playVideo()
         }, 2000)
@@ -163,9 +161,7 @@ const Host = createComponent({
       // eslint-disable-next-line no-param-reassign
       playlist = rest
       this.playlist = rest
-      console.log(this.playlist)
       onEndedFn()
-      console.log('hello2')
     }
   }
 })
