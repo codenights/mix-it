@@ -11,7 +11,7 @@ const config = convict({
   },
   host: {
     env: 'HOST',
-    format: 'host',
+    format: String,
     default: 'http://localhost'
   },
   port: {
