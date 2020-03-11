@@ -12,7 +12,7 @@ const config = convict<Configuration>({
     default: 'development'
   },
   api: {
-    env: 'API',
+    env: 'VUE_APP_API',
     format: String,
     default: 'http://localhost:3000'
   }
