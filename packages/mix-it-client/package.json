@@ -13,6 +13,7 @@
   "dependencies": {
     "@vue/composition-api": "^0.3.4",
     "axios": "^0.19.0",
+    "convict": "^5.2.0",
     "core-js": "^3.4.3",
     "register-service-worker": "^1.6.2",
     "socket.io-client": "^2.3.0",
@@ -26,6 +27,7 @@
     "vue-youtube-embed": "^2.2.2"
   },
   "devDependencies": {
+    "@types/convict": "^4.2.1",
     "@types/jest": "^24.0.19",
     "@types/socket.io-client": "^1.4.32",
     "@vue/cli-plugin-babel": "^4.1.0",
