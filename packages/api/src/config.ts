@@ -3,7 +3,16 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const config = convict({
+export interface Configuration {
+  env: string
+  port: number
+  log: {
+    level: string
+  }
+  host?: string
+}
+
+const config = convict<Configuration>({
   env: {
     env: 'NODE_ENV',
     format: ['production', 'test', 'development'],
@@ -11,7 +20,8 @@ const config = convict({
   },
   host: {
     env: 'HOST',
-    format: String
+    format: String,
+    default: undefined
   },
   port: {
     env: 'PORT',
@@ -21,7 +31,8 @@ const config = convict({
   log: {
     level: {
       env: 'LOG_LEVEL',
-      format: ['debug', 'info', 'warn', 'error']
+      format: ['debug', 'info', 'warn', 'error'],
+      default: 'debug'
     }
   }
 })

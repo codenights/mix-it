@@ -10,12 +10,10 @@ interface Logger {
   error: LoggerFn
 }
 
-const logLevel = config.log.level ?? config.env === 'production' ? 'error' : 'debug'
-
 const options: LoggerOptions = {
   transports: [
     new transports.Console({
-      level: logLevel
+      level: config.log.level
     }),
     new transports.File({ filename: 'debug.log', level: 'debug' })
   ]
