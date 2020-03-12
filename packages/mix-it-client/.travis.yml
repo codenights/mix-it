@@ -3,12 +3,15 @@ node_js:
 - '12'
 cache:
   yarn: true
+  directories:
+    - ~/.cache/Cypress
 env:
 - LOG_LEVEL=warn
 jobs:
   include:
     - stage: Tests
       name: Unit tests
+      # TODO: with coverage
       script: yarn test:unit
     - name: Build
       script: yarn build
