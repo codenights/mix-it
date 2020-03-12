@@ -5,14 +5,13 @@ cache:
   yarn: true
 env:
 - LOG_LEVEL=warn
-script:
-- yarn test
-- yarn build
 jobs:
   include:
     - stage: Tests
       name: Unit tests
       script: yarn test:unit
+    - name: Build
+      script: yarn build
     - stage: Deploy to staging
       script: skip
       # Define an anchor (or alias) to reuse in another job
@@ -29,7 +28,7 @@ jobs:
     - stage: Test staging
       script:
         - curl http://mix-it-client.herokuapp.com
-        - yarn test:e2e
+        - yarn test:e2e --headless --url http://mix-it-client.herokuapp.com
     - stage: Deploy to production
       script: skip
       deploy:
