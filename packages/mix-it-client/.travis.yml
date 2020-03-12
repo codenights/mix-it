@@ -5,8 +5,6 @@ cache:
   yarn: true
   directories:
     - ~/.cache/Cypress
-env:
-- LOG_LEVEL=warn
 jobs:
   include:
     - stage: Tests
@@ -16,6 +14,8 @@ jobs:
     - name: Build
       script: yarn build
     - stage: Deploy to staging
+      env:
+        - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
       script: skip
       # Define an anchor (or alias) to reuse in another job
       deploy: &heroku
@@ -29,10 +29,14 @@ jobs:
         only:
           - staging
     - stage: Test staging
+      env:
+        - CYPRESS_HOST=https://mix-it-client-staging.herokuapp.com
       script:
-        - curl http://mix-it-client.herokuapp.com
-        - yarn test:e2e --headless --url http://mix-it-client.herokuapp.com
+        - curl https://mix-it-client.herokuapp.com
+        - yarn test:e2e --headless --url https://mix-it-client.herokuapp.com
     - stage: Deploy to production
+      env:
+        - VUE_APP_API=https://mix-it-back.herokuapp.com
       script: skip
       deploy:
         # Point to the heroku anchor
