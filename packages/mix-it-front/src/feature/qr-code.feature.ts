@@ -1,10 +1,10 @@
-import { ref } from '@vue/composition-api'
+import config from '@/config'
 
 export default function useQrCodeFeature() {
   const qrCodeSize = 150
 
   function generateQrCodeValue(partyId) {
-    return `http://localhost:8081/#/room/${partyId}`
+    return `${config.client}/#/room/${partyId}`
   }
 
   return { qrCodeSize, generateQrCodeValue }
