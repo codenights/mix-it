@@ -10,7 +10,7 @@ import './registerServiceWorker'
 import router from './router'
 
 const gauthOption = {
-  clientId: '298958821124-70r9qplggm5je4d3jhqt9n7j927v5n65.apps.googleusercontent.com',
+  clientId: '298958821124-bpn976c48gqth5prkho0jl8qtb7i88fa.apps.googleusercontent.com',
   scope: 'profile email',
   prompt: 'select_account'
 }
