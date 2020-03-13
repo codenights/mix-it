@@ -13,7 +13,8 @@ jobs:
       script: yarn test:unit
     - name: Build
       script: yarn build
-    - stage: Deploy to staging
+    - stage: Staging
+      name: Deploy
       env:
         - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
       script: skip
@@ -28,7 +29,7 @@ jobs:
       branches:
         only:
           - staging
-    - stage: Test staging
+    - name: Test
       env:
         - CYPRESS_HOST=https://mix-it-client-staging.herokuapp.com
       script:
