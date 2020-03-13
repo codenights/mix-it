@@ -1,17 +1,49 @@
 language: node_js
 node_js:
-- '12'
+  - '12'
 cache:
   yarn: true
-env:
-- LOG_LEVEL=warn
-script:
-- yarn test
-- yarn build
-deploy:
-  provider: heroku
-  api_key:
-    secure: t2rWEH+EQo5Pkd16y/cYTQJoeRMJTgDdDT/H16O+dDJqErF0ZzQ+Svlf5mQsYOP6kl5fhbSJGbZlDoi8tyiQ5m6x89zSvyiH5RHCQPEp++BD2Yi4lJ37A3WeQc19r6yP1EGysbRko54cOBZRcMAxd7aAjGZlkdL9lx20Ko9+YckkeBtfR5NsMH16HE4nXOfvP/MZl0Sk34cEvrpp0eemsdAmXgJB5t+HdEEYDvT4LNAwmM7Gu1LubQdH2el8sV0GMXCbyxkxIoU9MPP+syJn2htkDSKuSJBIJp8TrycOKvaR0o8iYhPj8d9Dz1xZ6jBRfcq1xYU4BIssI3+RmJNjwUH6KFdzXSeYLzTM6SPcfIFoznSgrat1XaJR8Xb3xUxa+TkNFh8M+0oei4iZ5yeSAhW4J7v/IMToh7dur9M3qodr2PuJhrKAZp6rGZPOBOwc43i/eN5uZqu4YPA01zO6x2ZGSkmRbbH1PfyTsKTCNq7uNJ6EdXOz7d4i8Le2zEDn1JwjW0sRy1Nxnxo51v/BFaKlR3EDAlV2YQyPGsOlgexvfOqoOCqu1vW0bG5PGWVgLGEtOun1/DRwcVL+lCzj94755pKbk1sRjGC5JMTuKzKE02MXmuukJx1H4pnTajMwqdtYQ+oLg0bxn96+PHg98pNT482QpiT+32X4Y3lhkfk=
-  app: mix-it-front
-  on:
-    repo: codenights/mix-it-front
+  directories:
+    - ~/.cache/Cypress
+jobs:
+  include:
+    - stage: Tests
+      name: Unit tests
+      # TODO: with coverage
+      script: yarn test:unit
+    - name: Build
+      script: yarn build
+    - stage: Staging
+      name: Deploy
+      env:
+        - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
+      script: skip
+      # Define an anchor (or alias) to reuse in another job
+      deploy: &heroku
+        provider: heroku
+        api_key:
+          secure: t2rWEH+EQo5Pkd16y/cYTQJoeRMJTgDdDT/H16O+dDJqErF0ZzQ+Svlf5mQsYOP6kl5fhbSJGbZlDoi8tyiQ5m6x89zSvyiH5RHCQPEp++BD2Yi4lJ37A3WeQc19r6yP1EGysbRko54cOBZRcMAxd7aAjGZlkdL9lx20Ko9+YckkeBtfR5NsMH16HE4nXOfvP/MZl0Sk34cEvrpp0eemsdAmXgJB5t+HdEEYDvT4LNAwmM7Gu1LubQdH2el8sV0GMXCbyxkxIoU9MPP+syJn2htkDSKuSJBIJp8TrycOKvaR0o8iYhPj8d9Dz1xZ6jBRfcq1xYU4BIssI3+RmJNjwUH6KFdzXSeYLzTM6SPcfIFoznSgrat1XaJR8Xb3xUxa+TkNFh8M+0oei4iZ5yeSAhW4J7v/IMToh7dur9M3qodr2PuJhrKAZp6rGZPOBOwc43i/eN5uZqu4YPA01zO6x2ZGSkmRbbH1PfyTsKTCNq7uNJ6EdXOz7d4i8Le2zEDn1JwjW0sRy1Nxnxo51v/BFaKlR3EDAlV2YQyPGsOlgexvfOqoOCqu1vW0bG5PGWVgLGEtOun1/DRwcVL+lCzj94755pKbk1sRjGC5JMTuKzKE02MXmuukJx1H4pnTajMwqdtYQ+oLg0bxn96+PHg98pNT482QpiT+32X4Y3lhkfk=
+        app: mix-it-front-staging
+        on:
+          repo: codenights/mix-it-front
+          branch: master
+    - name: Test
+      env:
+        - CYPRESS_HOST=https://mix-it-front-staging.herokuapp.com
+      script:
+        - curl https://mix-it-front.herokuapp.com
+        - yarn test:e2e --headless --url https://mix-it-front.herokuapp.com
+    - stage: Production
+      name: Deploy
+      env:
+        - VUE_APP_API=https://mix-it-back.herokuapp.com
+      script: skip
+      deploy:
+        # Point to the heroku anchor
+        <<: *heroku
+        app: mix-it-front
+        on:
+          repo: codenights/mix-it-front
+          condition: branch = master AND tag =~ ^v
+    - name: Test
+      script: 'curl http://mix-it-front.herokuapp.com'
