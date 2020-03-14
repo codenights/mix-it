@@ -16,7 +16,8 @@ jobs:
     - stage: Staging
       name: Deploy
       env:
-        - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
+        - VUE_APP_CLIENT=https://mix-it-client-staging.herokuapp.com
+        - VUE_APP_API=https://mix-it-back.herokuapp.com
       script: skip
       # Define an anchor (or alias) to reuse in another job
       deploy: &heroku
@@ -36,6 +37,7 @@ jobs:
     - stage: Production
       name: Deploy
       env:
+        - VUE_APP_CLIENT=https://mix-it-client.herokuapp.com
         - VUE_APP_API=https://mix-it-back.herokuapp.com
       script: skip
       deploy:
@@ -44,6 +46,6 @@ jobs:
         app: mix-it-front
         on:
           repo: codenights/mix-it-front
-          condition: branch = master AND tag =~ ^v
+          condition: (branch = master && tag =~ ^v)
     - name: Test
       script: 'curl http://mix-it-front.herokuapp.com'
