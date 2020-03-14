@@ -13,8 +13,8 @@ jobs:
       script: yarn test:unit
     - name: Build
       script: yarn build
-    - stage: Staging
-      name: Deploy
+    - stage: Deploy to staging
+      if: branch = master
       env:
         - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
       script: skip
@@ -27,14 +27,15 @@ jobs:
         on:
           repo: codenights/mix-it-client
           branch: master
-    - name: Test
+    - name: Test staging
+      if: branch = master
       env:
         - CYPRESS_HOST=https://mix-it-client-staging.herokuapp.com
       script:
         - curl https://mix-it-client.herokuapp.com
         - yarn test:e2e --headless --url https://mix-it-client.herokuapp.com
-    - stage: Production
-      name: Deploy
+    - stage: Deploy to production
+      if: branch = master AND tag =~ ^v
       env:
         - VUE_APP_API=https://mix-it-back.herokuapp.com
       script: skip
@@ -44,6 +45,6 @@ jobs:
         app: mix-it-client
         on:
           repo: codenights/mix-it-client
-          condition: branch = master AND tag =~ ^v
-    - name: Test
+    - name: Test production
+      if: branch = master AND tag =~ ^v
       script: 'curl http://mix-it-client.herokuapp.com'
