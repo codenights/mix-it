@@ -5,27 +5,25 @@
     <button type="button" @click="signIn">google signin</button>
     <button type="button" @click="signOut">google signout</button>
 <!--    <template v-if="isSignIn">-->
-      <button type="button" @click="redirectToRoom">Rejoindre un salon</button>
 <!--    </template>-->
+    <section class="join-room">
+      <input type="text" v-model="room" @keydown.enter="redirectToRoom" data-test="join-room">
+      {{ room }}
+    </section>
   </div>
 </template>
 
 <script>
-import { createComponent } from '@vue/composition-api'
+import { createComponent, ref } from '@vue/composition-api'
 import { useGoogleAuth } from '@/feature/google-auth.feature'
 import useHome from './home.feature'
 
 const Home = createComponent({
   name: 'Home',
   setup(props, context) {
-    const { isSignIn, signIn, signOut } = useGoogleAuth(context)
-    const { redirectToRoom, redirectToHost } = useHome(context)
     return {
-      isSignIn,
-      signIn,
-      signOut,
-      redirectToRoom,
-      redirectToHost
+      ...useGoogleAuth(context),
+      ...useHome(context)
     }
   }
 })
