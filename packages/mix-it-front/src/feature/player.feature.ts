@@ -3,6 +3,7 @@ import { ref } from '@vue/composition-api'
 export default function usePlayerFeature(context, playlist) {
   const player = ref({} as any)
   const player2 = ref(null)
+  const localPlaylist = ref(playlist)
   const videoId = ref<string>('')
   let interval: number
 
@@ -12,9 +13,15 @@ export default function usePlayerFeature(context, playlist) {
 
   function onPlay() {
     interval = setInterval(() => {
-      if (player.value.player.getCurrentTime() >= player.value.player.getDuration() - 10) {
+      if (
+        // @ts-ignore
+        player2.value.player.getPlayerState() !== 1 &&
+        player.value.player.getCurrentTime() >= player.value.player.getDuration() - 10
+      ) {
+        console.log('Playyyyyyyyy')
         // @ts-ignore
         player2.value.player.playVideo()
+        clearInterval(interval)
       }
     }, 1000)
   }
@@ -23,19 +30,19 @@ export default function usePlayerFeature(context, playlist) {
     clearInterval(interval)
   }
 
-  function onReady() {
-    if (player.value.player.playVideo) {
-      player.value.player.playVideo()
-    }
-  }
+  function onReady() {}
 
   function onEnded() {
     clearInterval(interval)
     // unshift playlist by socket
-    const [, second] = playlist
-    videoId.value = second
+    localPlaylist.value.splice(0, 1)
+    const [, value] = localPlaylist.value
+    console.log(localPlaylist)
+    console.log(value)
     // @ts-ignore
     player.value.player.stopVideo()
+    videoId.value = value
+    console.log(videoId.value)
   }
 
   return {

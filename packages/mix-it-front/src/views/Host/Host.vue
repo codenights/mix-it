@@ -7,7 +7,7 @@
           @ready="onReady1"
           @playing="onPlay1"
           @paused="onPause1"
-          @ended="onEnded(onEnded1, party.playlist)"
+          @ended="onEnded1"
           ref="player1"
         ></youtube>
       </div>
@@ -18,7 +18,7 @@
           @ready="onReady2"
           @playing="onPlay2"
           @paused="onPause2"
-          @ended="onEnded(onEnded2, party.playlist)"
+          @ended="onEnded2"
           ref="player2"
         ></youtube>
       </div>
@@ -105,13 +105,16 @@ const Host = createComponent({
     } = usePlayerFeature(context, party.playlist)
 
     watch(() => {
-      if (party && party.playlist) {
+      if (party && party.playlist && party.playlist.length) {
         const { playlist } = party
         const [first, second] = playlist
         firstVideoId.value = first
         secondVideoId.value = second
         setTimeout(() => {
-          player1.value.player.playVideo()
+          if (player1.value.player.getPlayerState() !== 1 && player2.value.player.getPlayerState() !== 1) {
+            console.log('Player 1 starteeeeeed')
+            player1.value.player.playVideo()
+          }
         }, 2000)
       }
     })
@@ -121,16 +124,14 @@ const Host = createComponent({
       await joinRoomAsHost(player1, player2, firstVideoId, secondVideoId)
       await fetchParty()
       onPlaylist()
-      linkPlayer1(player2.value)
-      linkPlayer2(player1.value)
-      if (party.playlist && party.playlist.length >= 2) {
-        const [first, second] = party.playlist
-        firstVideoId.value = first
-        secondVideoId.value = second
-        setTimeout(() => {
+
+      setTimeout(() => {
+        linkPlayer1(player2.value)
+        linkPlayer2(player1.value)
+        if (player1.value.player.getPlayerState() !== 3 && player2.value.player.getPlayerState() !== 3) {
           player1.value.player.playVideo()
-        }, 2000)
-      }
+        }
+      }, 2000)
     })
 
     onUnmounted(async () => {
@@ -153,15 +154,6 @@ const Host = createComponent({
       onEnded2,
       qrCodeSize,
       generateQrCodeValue
-    }
-  },
-  methods: {
-    onEnded(onEndedFn, playlist) {
-      const [first, ...rest] = playlist // Simulation of socket unshift
-      // eslint-disable-next-line no-param-reassign
-      playlist = rest
-      this.playlist = rest
-      onEndedFn()
     }
   }
 })
