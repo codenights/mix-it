@@ -12,6 +12,7 @@ interface OnPlaylistCallback {
 }
 
 export interface PartyService {
+  get(partyId: string): Promise<Party>
   join(partyId: string): Promise<void>
   leave(partyId: string): Promise<void>
   submitSong(songId: string): Promise<void>
@@ -28,20 +29,25 @@ class PartyServiceImpl implements PartyService {
     this.socket = socketio(`${baseURL}/parties`)
   }
 
-  join(partyId: string): Promise<void> {
-    return new Promise((resolve) => {
+  async get(partyId: string): Promise<Party> {
+    const { data } = await this.api.get<Party>(`/parties/${partyId}`)
+    return data
+  }
+
+  async join(partyId: string): Promise<void> {
+    return new Promise(resolve => {
       this.socket.emit('room:join', { partyId, clientType: 'client' }, resolve)
     })
   }
 
-  leave(partyId: string): Promise<void> {
-    return new Promise((resolve) => {
+  async leave(partyId: string): Promise<void> {
+    return new Promise(resolve => {
       this.socket.emit('room:leave', resolve)
     })
   }
 
-  submitSong(songId: string): Promise<void> {
-    return new Promise((resolve) => {
+  async submitSong(songId: string): Promise<void> {
+    return new Promise(resolve => {
       this.socket.emit('song:submit', songId, resolve)
     })
   }

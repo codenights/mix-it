@@ -1,13 +1,25 @@
-import { SetupContext, ref, Ref } from '@vue/composition-api'
+import { ref, Ref } from '@vue/composition-api'
+import VueRouter, { Route } from 'vue-router'
 
-export default function useHome(context: SetupContext) {
+import { PartyService } from '@/services'
+
+interface HomeFeatureOptions {
+  router: VueRouter
+  partyService: PartyService
+}
+
+export default function useHome({ router, partyService }: HomeFeatureOptions) {
   const room: Ref<string> = ref<string>('')
+  const error: Ref<Error> = ref<Error>()
 
-  function redirectToRoom() {
-    context.root.$router.push(`room/${room.value}`)
+  async function redirectToRoom(): Promise<void> {
+    try {
+      const party = await partyService.get(room.value)
+      await router.push(`/room/${party.id}`)
+    } catch (err) {
+      error.value = err
+    }
   }
-  function redirectToHost() {
-    context.root.$router.push('host')
-  }
-  return { room, redirectToRoom, redirectToHost }
+
+  return { error, room, redirectToRoom }
 }
