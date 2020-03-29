@@ -19,12 +19,10 @@ export default function useGoogleAuth() {
 
   async function signIn() {
     await googleService.signIn()
-    isSignIn.value = true
   }
 
   async function signOut() {
     await googleService.signOut()
-    isSignIn.value = false
   }
 
   return { isSignIn, signIn, signOut }
