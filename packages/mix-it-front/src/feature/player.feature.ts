@@ -18,7 +18,6 @@ export default function usePlayerFeature(context, playlist) {
         player2.value.player.getPlayerState() !== 1 &&
         player.value.player.getCurrentTime() >= player.value.player.getDuration() - 10
       ) {
-        console.log('Playyyyyyyyy')
         // @ts-ignore
         player2.value.player.playVideo()
         clearInterval(interval)
@@ -37,12 +36,9 @@ export default function usePlayerFeature(context, playlist) {
     // unshift playlist by socket
     localPlaylist.value.splice(0, 1)
     const [, value] = localPlaylist.value
-    console.log(localPlaylist)
-    console.log(value)
     // @ts-ignore
     player.value.player.stopVideo()
     videoId.value = value
-    console.log(videoId.value)
   }
 
   return {

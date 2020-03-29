@@ -112,7 +112,6 @@ const Host = createComponent({
         secondVideoId.value = second
         setTimeout(() => {
           if (player1.value.player.getPlayerState() !== 1 && player2.value.player.getPlayerState() !== 1) {
-            console.log('Player 1 starteeeeeed')
             player1.value.player.playVideo()
           }
         }, 2000)
