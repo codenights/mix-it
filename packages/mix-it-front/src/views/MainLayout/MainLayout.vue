@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 
-const MainLayout = createComponent({
+const MainLayout = defineComponent({
   name: 'MainLayout'
 })
 

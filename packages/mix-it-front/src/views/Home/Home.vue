@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import useGoogleAuth from '@/feature/google-auth.feature'
 import useHome from './home.feature'
 
-const Home = createComponent({
+const Home = defineComponent({
   name: 'Home',
   setup(props, context) {
     const { isSignIn, signIn, signOut } = useGoogleAuth(context)

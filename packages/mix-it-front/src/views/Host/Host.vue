@@ -68,20 +68,19 @@
 </template>
 
 <script>
-import { createComponent, onMounted, onUnmounted, watch } from '@vue/composition-api'
+import { defineComponent, onMounted, onUnmounted, watch } from '@vue/composition-api'
 import QrcodeVue from 'qrcode.vue'
-import { partyService } from '@/services'
 import usePlayerFeature from '@/feature/player.feature'
 import useQrCodeFeature from '@/feature/qr-code.feature'
 import useHost from './host.feature'
 
-const Host = createComponent({
+const Host = defineComponent({
   name: 'Host',
   components: {
     QrcodeVue
   },
   setup(props, context) {
-    const { party, fetchParty, joinRoomAsHost, join, leave, onPlaylist } = useHost(context)
+    const { party, fetchParty, joinRoomAsHost, leave, onPlaylist } = useHost(context)
 
     const { qrCodeSize, generateQrCodeValue } = useQrCodeFeature()
 
