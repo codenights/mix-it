@@ -1,4 +1,4 @@
-import { partyService } from '@/services'
+import { googleService, partyService } from '@/services'
 import { Party } from '@/models/party'
 
 export default function useHome(context) {
@@ -10,7 +10,7 @@ export default function useHome(context) {
   }
 
   async function createParty(): Promise<void> {
-    const user = await context.root.$gAuth.GoogleAuth.currentUser.get()
+    const user = await googleService.getCurrentGoogleUser()
     const party: Party = await partyService.create({ owner: user.getId() })
     redirectToHost(party.id)
   }

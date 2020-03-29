@@ -2,8 +2,8 @@
   <div>
     hello
     {{ isSignIn }}
-    <button type="button" @click="signIn">google signin</button>
-    <button type="button" @click="signOut">google signout</button>
+    <button type="button" @click="signIn">google sign-in</button>
+    <button type="button" @click="signOut">google sign-out</button>
     <template v-if="isSignIn">
       <button type="button" @click="createParty">Créer un salon</button>
     </template>

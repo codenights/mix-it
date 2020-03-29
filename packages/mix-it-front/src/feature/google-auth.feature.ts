@@ -1,21 +1,30 @@
+import { googleService } from '@/services'
 import { ref } from '@vue/composition-api'
 
-export default function useGoogleAuth(context) {
-  const isSignIn = ref(context.root.$gAuth.isAuthorized)
+export default function useGoogleAuth() {
+  const isSignIn = ref(false)
+  const googleSignInAPI = document.createElement('script')
+  googleSignInAPI.setAttribute('src', 'https://apis.google.com/js/api:client.js')
+  document.head.appendChild(googleSignInAPI)
+
+  async function init() {
+    await googleService.init()
+    const currentUser = await googleService.getCurrentUser()
+    currentUser.listen(async () => {
+      isSignIn.value = await googleService.isSignIn()
+    })
+  }
+
+  googleSignInAPI.onload = init
 
   async function signIn() {
-    try {
-      await context.root.$gAuth.signIn()
-      isSignIn.value = context.root.$gAuth.isAuthorized
-    } catch (error) {
-      /* eslint-disable no-console */
-      console.log(error)
-    }
+    await googleService.signIn()
+    isSignIn.value = true
   }
 
   async function signOut() {
-    await context.root.$gAuth.signOut()
-    isSignIn.value = context.root.$gAuth.isAuthorized
+    await googleService.signOut()
+    isSignIn.value = false
   }
 
   return { isSignIn, signIn, signOut }

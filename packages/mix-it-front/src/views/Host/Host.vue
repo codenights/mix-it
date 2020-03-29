@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, onUnmounted, watch } from '@vue/composition-api'
+import { defineComponent, onMounted, onUnmounted, watchEffect } from '@vue/composition-api'
 import QrcodeVue from 'qrcode.vue'
 import usePlayerFeature from '@/feature/player.feature'
 import useQrCodeFeature from '@/feature/qr-code.feature'
@@ -103,7 +103,7 @@ const Host = defineComponent({
       onEnded: onEnded2
     } = usePlayerFeature(context, party.playlist)
 
-    watch(() => {
+    watchEffect(() => {
       if (party && party.playlist && party.playlist.length) {
         const { playlist } = party
         const [first, second] = playlist
