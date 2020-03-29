@@ -2,10 +2,10 @@
   <div>
     hello
     {{ isSignIn }}
-    <button type="button" @click="signIn">google sign-in</button>
-    <button type="button" @click="signOut">google sign-out</button>
+    <button type="button" @click="signIn" data-test="btn-sign-in">google sign-in</button>
+    <button type="button" @click="signOut" data-test="btn-sign-out">google sign-out</button>
     <template v-if="isSignIn">
-      <button type="button" @click="createParty">Créer un salon</button>
+      <button type="button" @click="createParty" data-test="btn-create-party">Créer un salon</button>
     </template>
   </div>
 </template>
