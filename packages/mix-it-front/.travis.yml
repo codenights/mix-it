@@ -30,13 +30,15 @@ jobs:
           branch: master
     - stage: Test staging
       if: branch = master
+      build: skip
+      install: skip
       env:
         - CYPRESS_HOST=https://mix-it-front-staging.herokuapp.com
       script:
         - curl https://mix-it-front.herokuapp.com
         - yarn test:e2e --headless --url https://mix-it-front.herokuapp.com
     - stage: Deploy to production
-      if: branch = master AND tag =~ ^v
+      if: tag =~ ^v
       env:
         - VUE_APP_CLIENT=https://mix-it-client.herokuapp.com
         - VUE_APP_API=https://mix-it-back.herokuapp.com
@@ -48,5 +50,7 @@ jobs:
         on:
           repo: codenights/mix-it-front
     - stage: Test production
-      if: branch = master AND tag =~ ^v
+      if: tag =~ ^v
+      build: skip
+      install: skip
       script: 'curl http://mix-it-front.herokuapp.com'
