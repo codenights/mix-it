@@ -30,6 +30,7 @@ jobs:
     - name: Test staging
       if: branch = master
       env:
+        - CYPRESS_API=https://mix-it-back.herokuapp.com
         - CYPRESS_BASE_URL=https://mix-it-client-staging.herokuapp.com
       script:
         - curl https://mix-it-client.herokuapp.com
