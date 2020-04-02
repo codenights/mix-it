@@ -11,16 +11,16 @@ jobs:
       name: Unit tests
       # TODO: with coverage
       script: yarn test:unit
-    - name: Build
-      script: yarn build
+    - name: Lint
+      script: yarn lint
     - stage: Deploy to staging
       if: branch = master OR tag =~ ^v
       env:
         - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
-      script: skip
       # Define an anchor (or alias) to reuse in another job
       deploy: &heroku
         provider: heroku
+        cleanup: false
         api_key:
           secure: "J8kVz9C76xGrPDrsRIFlW8NRydsdwxyRM2gb+M240PqLyYMth83FRYE0nmcN0a31Pjye+PeZ8Q2AW3jWXjRkZATURtwN31W5qNO/8kaEAxUpGlDv2njp0WZiBXznjhx4nFNpx/9obAWE/LVCY90GY2PquBgAiNZpccGWnOEzwm+wnv9jXbkC6XV1mb/ijeywrhM8f/deibQC7zHnZSwact7zmiPS8RxXgeTuU1882NItbN8RSDmT+gVlQXSg3TWkWNc2wyyboLMd6VIctggvbntfzAi8oDT9CUt2nCBw+qaK3Ih/yDeLaG4itDcxnffV0DzeigCBEX1d39/2sXv427R14TNFHIjYX4STzYLbUAR1aRV1XsFUxHMZ1H+KqZtIa0G1LGCqtr2GstgV0W00t97V7cDcOn6TZi8NRY7/X5SntwltwHUHN1wwpeFh1kGOkiyrP6jQLgAj0mmtaMOq7BRzyX2uz7c/W4ZfCpY/cBpH1p5TfzkTRKbpoX5dXLpyWaM18VdAiknJjSaTt504YV9NrSysnM4i7YkQyoH+lhLYWivAqwQ9kpuUJKw2Q5oFLqPMslUmeIDQQJKomHDlEcfDjSQtH+xn2VXQ9eklEs1SjBdLKHNgy4URF98oV2O/cQaxV6n2foOpQAva0Q/VErrVqm10UEIBvH3lrz5NJPE="
         app: mix-it-client-staging
@@ -39,13 +39,10 @@ jobs:
       if: tag =~ ^v
       env:
         - VUE_APP_API=https://mix-it-back.herokuapp.com
-      script: skip
       deploy:
         # Point to the heroku anchor
         <<: *heroku
         app: mix-it-client
-        on:
-          repo: codenights/mix-it-client
     - stage: Test production
       if: tag =~ ^v
       script: 'curl http://mix-it-client.herokuapp.com'
