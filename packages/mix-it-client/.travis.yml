@@ -14,7 +14,7 @@ jobs:
     - name: Build
       script: yarn build
     - stage: Deploy to staging
-      if: branch = master
+      if: branch = master OR tag =~ ^v
       env:
         - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
       script: skip
@@ -28,7 +28,7 @@ jobs:
           repo: codenights/mix-it-client
           branch: master
     - stage: Test staging
-      if: branch = master
+      if: branch = master OR tag =~ ^v
       env:
         - CYPRESS_API=https://mix-it-back.herokuapp.com
         - CYPRESS_BASE_URL=https://mix-it-client-staging.herokuapp.com
