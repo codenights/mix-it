@@ -27,7 +27,7 @@ jobs:
         on:
           repo: codenights/mix-it-client
           branch: master
-    - name: Test staging
+    - stage: Test staging
       if: branch = master
       env:
         - CYPRESS_API=https://mix-it-back.herokuapp.com
@@ -46,6 +46,6 @@ jobs:
         app: mix-it-client
         on:
           repo: codenights/mix-it-client
-    - name: Test production
+    - stage: Test production
       if: tag =~ ^v
       script: 'curl http://mix-it-client.herokuapp.com'
