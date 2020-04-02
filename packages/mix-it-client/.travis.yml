@@ -17,6 +17,7 @@ jobs:
       if: branch = master OR tag =~ ^v
       env:
         - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
+      script: skip
       # Define an anchor (or alias) to reuse in another job
       deploy: &heroku
         provider: heroku
@@ -34,7 +35,7 @@ jobs:
         - CYPRESS_BASE_URL=https://mix-it-client-staging.herokuapp.com
       script:
         - curl https://mix-it-client.herokuapp.com
-        - yarn test:e2e --headless --url https://mix-it-client.herokuapp.com
+        - yarn test:e2e --headless --url https://mix-it-client-staging.herokuapp.com
     - stage: Deploy to production
       if: tag =~ ^v
       env:
