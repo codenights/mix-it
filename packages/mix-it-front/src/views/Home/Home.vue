@@ -18,7 +18,7 @@ import useHome from './home.feature'
 const Home = defineComponent({
   name: 'Home',
   setup(props, context) {
-    const { isSignIn, signIn, signOut } = useGoogleAuth(context)
+    const { isSignIn, signIn, signOut } = useGoogleAuth()
     const { createParty, redirectToRoom, redirectToHost } = useHome(context)
     return {
       createParty,
