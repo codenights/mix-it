@@ -19,14 +19,12 @@ const Home = defineComponent({
   name: 'Home',
   setup(props, context) {
     const { isSignIn, signIn, signOut } = useGoogleAuth()
-    const { createParty, redirectToRoom, redirectToHost } = useHome(context)
+    const { createParty } = useHome(context)
     return {
       createParty,
       isSignIn,
       signIn,
-      signOut,
-      redirectToRoom,
-      redirectToHost
+      signOut
     }
   }
 })

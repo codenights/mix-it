@@ -2,9 +2,6 @@ import { googleService, partyService } from '@/services'
 import { Party } from '@/models/party'
 
 export default function useHome(context) {
-  function redirectToRoom() {
-    context.root.$router.push('room/a')
-  }
   function redirectToHost(partyId: string) {
     context.root.$router.push(`host/${partyId}`)
   }
@@ -16,8 +13,6 @@ export default function useHome(context) {
   }
 
   return {
-    createParty,
-    redirectToRoom,
-    redirectToHost
+    createParty
   }
 }
