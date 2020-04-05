@@ -67,7 +67,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, onMounted, onUnmounted, watchEffect } from '@vue/composition-api'
 import QrcodeVue from 'qrcode.vue'
 import usePlayerFeature from '@/feature/player.feature'

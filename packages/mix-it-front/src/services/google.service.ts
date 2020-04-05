@@ -12,11 +12,7 @@ export interface GoogleService {
 }
 
 class GoogleServiceImpl implements GoogleService {
-  auth2: GoogleAuth
-
-  constructor() {
-    this.auth2 = null
-  }
+  private auth2: GoogleAuth = null
 
   init() {
     return new Promise(resolve => {

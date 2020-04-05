@@ -8,18 +8,25 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 import useGoogleAuth from '@/feature/google-auth.feature'
 import useHome from './home.feature'
 
 const Home = defineComponent({
   name: 'Home',
+
   setup(props, context) {
     const { isSignIn, signIn, signOut } = useGoogleAuth()
-    const { createParty } = useHome(context)
+    const { createParty } = useHome()
+
+    const handleCreateParty = async () => {
+      const { id } = await createParty()
+      await context.root.$router.push(`host/${id}`)
+    }
+
     return {
-      createParty,
+      createParty: handleCreateParty,
       isSignIn,
       signIn,
       signOut
