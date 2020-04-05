@@ -1,28 +1,41 @@
-import Vue from 'vue'
-import VueCompositionApi, { ref } from '@vue/composition-api'
-import { shallowMount, Wrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import { createTestVue } from '@/testHelper'
 import Home from '../Home.vue'
 
-Vue.use(VueCompositionApi)
+let mockSignIn
+let mockSignOut
+let mockCreateParty
+let mockIsSignIn
+
+jest.mock('@/feature/google-auth.feature', () => {
+  return () => ({
+    signIn: mockSignIn,
+    signOut: mockSignOut,
+    isSignIn: mockIsSignIn
+  })
+})
+
+jest.mock('@/views/Home/home.feature', () => {
+  return () => ({
+    createParty: mockCreateParty
+  })
+})
+
+beforeEach(() => {
+  mockSignIn = jest.fn()
+  mockSignOut = jest.fn()
+  mockCreateParty = jest.fn()
+  mockIsSignIn = true
+})
 
 describe('Home.vue', () => {
-  let wrapper
-  beforeEach(() => {
-    wrapper = shallowMount(Home, {
-      setup() {
-        return {
-          createParty: jest.fn(),
-          isSignIn: false,
-          signIn: jest.fn(),
-          signOut: jest.fn(),
-          redirectToRoom: jest.fn(),
-          redirectToHost: jest.fn()
-        }
-      }
-    })
-  })
   describe('default', () => {
     it('should create', () => {
+      // Given
+      const wrapper = mount(Home, {
+        localVue: createTestVue()
+      })
+      // Then
       expect(wrapper.exists()).toBe(true)
     })
   })
@@ -31,8 +44,8 @@ describe('Home.vue', () => {
     describe('When the user is signed in', () => {
       it('should display the button to create party', () => {
         // Given
-        wrapper.setData({
-          isSignIn: true
+        const wrapper = mount(Home, {
+          localVue: createTestVue()
         })
         const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
         // Then
@@ -42,6 +55,10 @@ describe('Home.vue', () => {
     describe('When the user is not signed in', () => {
       it('should display the button to create party', () => {
         // Given
+        mockIsSignIn = false
+        const wrapper = mount(Home, {
+          localVue: createTestVue()
+        })
         const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
         // Then
         expect(btnCreateParty.exists()).toBe(false)
@@ -53,22 +70,28 @@ describe('Home.vue', () => {
     describe('@click btn sign in', () => {
       it('should call method signIn', () => {
         // Given
+        const wrapper = mount(Home, {
+          localVue: createTestVue()
+        })
         const btnSignIn = wrapper.find('[data-test=btn-sign-in]')
         // When
         btnSignIn.trigger('click')
         // Then
-        expect(wrapper.vm.signIn).toHaveBeenCalled()
+        return expect(mockSignIn).toHaveBeenCalled()
       })
     })
 
     describe('@click btn sign out', () => {
       it('should call method signOut', () => {
         // Given
+        const wrapper = mount(Home, {
+          localVue: createTestVue()
+        })
         const btnSigOut = wrapper.find('[data-test=btn-sign-out]')
         // When
         btnSigOut.trigger('click')
         // Then
-        expect(wrapper.vm.signOut).toHaveBeenCalled()
+        expect(mockSignOut).toHaveBeenCalled()
       })
     })
 
@@ -76,12 +99,15 @@ describe('Home.vue', () => {
       describe('When the user is signed in', () => {
         it('should call method createParty', () => {
           // Given
-          wrapper.vm.isSignIn = true
+          mockIsSignIn = true
+          const wrapper = mount(Home, {
+            localVue: createTestVue()
+          })
           const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
           // When
           btnCreateParty.trigger('click')
           // Then
-          expect(wrapper.vm.createParty).toHaveBeenCalled()
+          expect(mockCreateParty).toHaveBeenCalled()
         })
       })
     })

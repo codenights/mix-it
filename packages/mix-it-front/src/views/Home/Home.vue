@@ -1,7 +1,5 @@
 <template>
   <div>
-    hello
-    {{ isSignIn }}
     <button type="button" @click="signIn" data-test="btn-sign-in">google sign-in</button>
     <button type="button" @click="signOut" data-test="btn-sign-out">google sign-out</button>
     <template v-if="isSignIn">
