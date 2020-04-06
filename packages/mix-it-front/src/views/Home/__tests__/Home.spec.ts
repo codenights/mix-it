@@ -1,5 +1,4 @@
-import VueRouter from 'vue-router'
-import { mount, Wrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createTestVue } from '@/testHelper'
 import Home from '../Home.vue'
 
@@ -32,19 +31,12 @@ beforeEach(() => {
 })
 
 describe('Home.vue', () => {
-  let wrapper: Wrapper<Home>
-
-  beforeEach(() => {
-    wrapper = mount(Home, {
-      localVue,
-      mocks: {
-        $router: { push: mockPushStub }
-      }
-    })
-  })
-
   describe('default', () => {
     it('should create', () => {
+      // Given
+      const wrapper = mount(Home, {
+        localVue
+      })
       // Then
       expect(wrapper.exists()).toBe(true)
     })
@@ -54,6 +46,9 @@ describe('Home.vue', () => {
     describe('When the user is signed in', () => {
       it('should display the button to create party', () => {
         // Given
+        const wrapper = mount(Home, {
+          localVue
+        })
         const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
         // Then
         expect(btnCreateParty.exists()).toBe(true)
@@ -63,7 +58,7 @@ describe('Home.vue', () => {
       it('should display the button to create party', () => {
         // Given
         mockIsSignIn = false
-        wrapper = mount(Home, {
+        const wrapper = mount(Home, {
           localVue: createTestVue()
         })
         const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
@@ -77,6 +72,9 @@ describe('Home.vue', () => {
     describe('@click btn sign in', () => {
       it('should call method signIn', () => {
         // Given
+        const wrapper = mount(Home, {
+          localVue
+        })
         const btnSignIn = wrapper.find('[data-test=btn-sign-in]')
         // When
         btnSignIn.trigger('click')
@@ -88,6 +86,9 @@ describe('Home.vue', () => {
     describe('@click btn sign out', () => {
       it('should call method signOut', () => {
         // Given
+        const wrapper = mount(Home, {
+          localVue
+        })
         const btnSigOut = wrapper.find('[data-test=btn-sign-out]')
         // When
         btnSigOut.trigger('click')
@@ -100,6 +101,12 @@ describe('Home.vue', () => {
       describe('When the user is signed in', () => {
         it('should call method createParty', async () => {
           // Given
+          const wrapper = mount(Home, {
+            localVue,
+            mocks: {
+              $router: { push: mockPushStub }
+            }
+          })
           const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
           // When
           btnCreateParty.trigger('click')
