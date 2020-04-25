@@ -1,5 +1,14 @@
 <template>
   <div class="room__container">
+    <div class="playlist__container" data-test="playlist-container">
+      <strong class="container__title">File d'attente</strong>
+      <ul class="song-list">
+        <li v-for="song in party.playlist" :key="song" class="song-item">
+          <span class="song-picture"></span>
+          <span class="song-title">{{ song }}</span>
+        </li>
+      </ul>
+    </div>
     <div class="players__container" data-test="players-container">
       <div class="player">
         <youtube
@@ -22,12 +31,6 @@
           ref="player2"
         ></youtube>
       </div>
-    </div>
-    <div class="playlist__container" data-test="playlist-container">
-      <strong class="container__title">File d'attente</strong>
-      <ul>
-        <li v-for="song in party.playlist" :key="song">{{ song }}</li>
-      </ul>
     </div>
     <div class="users__container" data-test="users-container">
       <div class="users__list__container">
@@ -170,12 +173,16 @@ export default Host
 .players__container {
   width: 60%;
   height: 100%;
-  padding: 10px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   flex: 1;
+  background-color: #eef8ff;
+  border-radius: 1rem;
+  margin: 0 4rem;
+
   .player {
     width: 100%;
     height: 50%;
@@ -188,12 +195,37 @@ export default Host
 .playlist__container {
   height: 100%;
   width: 20%;
+  background-color: #eef8ff;
+  border-radius: 1rem;
+  padding: 1rem;
+  .song-list {
+    list-style: none;
+    padding: 0;
+    .song-item {
+      display: flex;
+      height: 4rem;
+      margin: 1rem 0;
+      border-radius: 1rem;
+      border: 1px solid lightgray;
+      .song-picture {
+        width: 25%;
+        border-radius: 1rem;
+        background-image: url('https://picsum.photos/64/64');
+      }
+      .song-title {
+        padding: 0.5rem;
+      }
+    }
+  }
 }
 .users__container {
   height: 100%;
   width: 20%;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
+  background-color: #eef8ff;
+  border-radius: 1rem;
   .users__list__container {
     display: flex;
     flex-direction: column;
@@ -204,8 +236,8 @@ export default Host
       align-items: center;
     }
     .users__list__img {
-      width: 32px;
-      height: 32px;
+      width: 2rem;
+      height: 2rem;
       background-image: url('../../assets/user.jpg');
       background-size: contain;
       display: block;

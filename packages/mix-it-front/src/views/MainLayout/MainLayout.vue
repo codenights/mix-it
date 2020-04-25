@@ -17,8 +17,7 @@ export default MainLayout
 <style lang="scss" scoped>
 .main-content {
   position: relative;
-  background: linear-gradient(14.46deg, #303757 22.91%, #7076b2 65.88%, #c692ca 100.49%);
-  height: 100vh;
+  height: calc(100vh - 4rem);
   width: 100%;
 }
 </style>
