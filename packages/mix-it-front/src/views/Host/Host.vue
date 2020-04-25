@@ -95,7 +95,7 @@ const Host = defineComponent({
       onPlay: onPlay1,
       onPause: onPause1,
       onEnded: onEnded1
-    } = usePlayerFeature(context, party.playlist)
+    } = usePlayerFeature(party.playlist)
     const {
       player: player2,
       videoId: secondVideoId,
@@ -104,7 +104,7 @@ const Host = defineComponent({
       onPlay: onPlay2,
       onPause: onPause2,
       onEnded: onEnded2
-    } = usePlayerFeature(context, party.playlist)
+    } = usePlayerFeature(party.playlist)
 
     watchEffect(() => {
       if (party && party.playlist && party.playlist.length) {

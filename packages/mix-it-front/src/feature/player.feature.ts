@@ -1,6 +1,6 @@
 import { ref } from '@vue/composition-api'
 
-export default function usePlayerFeature(context, playlist) {
+export default function usePlayerFeature(playlist) {
   const player = ref({} as any)
   const player2 = ref(null)
   const localPlaylist = ref(playlist)

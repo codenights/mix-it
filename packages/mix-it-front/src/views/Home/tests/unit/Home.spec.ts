@@ -1,4 +1,5 @@
-import { mount } from '@vue/test-utils'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { shallowMount } from '@vue/test-utils'
 import { createTestVue } from '@/testHelper'
 import Home from '../../Home.vue'
 
@@ -9,19 +10,15 @@ const mockPushStub = jest.fn()
 
 let mockIsSignIn
 
-jest.mock('@/feature/google-auth.feature', () => {
-  return () => ({
-    signIn: mockSignIn,
-    signOut: mockSignOut,
-    isSignIn: mockIsSignIn
-  })
-})
+jest.mock('@/feature/google-auth.feature', () => () => ({
+  signIn: mockSignIn,
+  signOut: mockSignOut,
+  isSignIn: mockIsSignIn
+}))
 
-jest.mock('@/views/Home/home.feature', () => {
-  return () => ({
-    createParty: mockCreateParty
-  })
-})
+jest.mock('@/views/Home/home.feature', () => () => ({
+  createParty: mockCreateParty
+}))
 
 const localVue = createTestVue()
 
@@ -34,7 +31,7 @@ describe('Home.vue', () => {
   describe('default', () => {
     it('should create', () => {
       // Given
-      const wrapper = mount(Home, {
+      const wrapper = shallowMount(Home, {
         localVue
       })
       // Then
@@ -46,7 +43,7 @@ describe('Home.vue', () => {
     describe('When the user is signed in', () => {
       it('should display the button to create party', () => {
         // Given
-        const wrapper = mount(Home, {
+        const wrapper = shallowMount(Home, {
           localVue
         })
         const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
@@ -58,7 +55,7 @@ describe('Home.vue', () => {
       it('should display the button to create party', () => {
         // Given
         mockIsSignIn = false
-        const wrapper = mount(Home, {
+        const wrapper = shallowMount(Home, {
           localVue: createTestVue()
         })
         const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
@@ -72,7 +69,7 @@ describe('Home.vue', () => {
     describe('@click btn sign in', () => {
       it('should call method signIn', () => {
         // Given
-        const wrapper = mount(Home, {
+        const wrapper = shallowMount(Home, {
           localVue
         })
         const btnSignIn = wrapper.find('[data-test=btn-sign-in]')
@@ -86,7 +83,7 @@ describe('Home.vue', () => {
     describe('@click btn sign out', () => {
       it('should call method signOut', () => {
         // Given
-        const wrapper = mount(Home, {
+        const wrapper = shallowMount(Home, {
           localVue
         })
         const btnSigOut = wrapper.find('[data-test=btn-sign-out]')
@@ -101,7 +98,7 @@ describe('Home.vue', () => {
       describe('When the user is signed in', () => {
         it('should call method createParty', async () => {
           // Given
-          const wrapper = mount(Home, {
+          const wrapper = shallowMount(Home, {
             localVue,
             mocks: {
               $router: { push: mockPushStub }
