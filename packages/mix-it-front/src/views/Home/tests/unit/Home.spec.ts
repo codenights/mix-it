@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { createTestVue } from '@/testHelper'
-import Home from '../Home.vue'
+import Home from '../../Home.vue'
 
 const mockSignIn = jest.fn()
 const mockSignOut = jest.fn()
