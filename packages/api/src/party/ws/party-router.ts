@@ -52,6 +52,12 @@ export function createPartyNamespace(server: Server): Namespace {
           setUp(socket)
         })
 
+        socket.on('playlist:unshift', async () => {
+          const party: Party = await partyRepository.unshiftPlaylist(partyId)
+          logger.info(`Socket ${socket.id} unshift the playlist, new value:  ${party.playlist.join(',')}`)
+          room().emit('playlist', party.playlist)
+        })
+
         // Acknowledge the room was joined
         onRoomJoined?.()
       })

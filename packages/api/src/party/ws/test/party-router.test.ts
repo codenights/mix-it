@@ -77,4 +77,28 @@ describe('Integration | Socket | Party ', () => {
       socket.emit('song:submit', 'abc')
     })
   })
+
+  describe('playlist:unshift', () => {
+    let socket: SocketIOClient.Socket
+    let party: Party
+
+    beforeEach(async done => {
+      socket = client.connect(`http://localhost:${port}/parties`)
+      party = await createPartyRepository().create({
+        playlist: ['abc', 'def']
+      })
+      socket.on('connect', () => {
+        socket.emit('room:join', { clientType: 'host', partyId: party.id }, done)
+      })
+    })
+
+    it('emits a "playlist" event', done => {
+      expect.assertions(1)
+      socket.on('playlist', (playlist: string[]) => {
+        expect(playlist).toStrictEqual(['def'])
+        done()
+      })
+      socket.emit('playlist:unshift')
+    })
+  })
 })

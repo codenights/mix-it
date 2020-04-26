@@ -14,6 +14,7 @@ export interface PartyRepository {
   create(party: Partial<Party>): Promise<Party>
   get(id: string): Promise<Party | null>
   addSong(id: string, song: string): Promise<Party>
+  unshiftPlaylist(id: string): Promise<Party>
   removeAll(): Promise<void>
 }
 
@@ -56,6 +57,27 @@ class NedbPartyRepository implements PartyRepository {
         { _id: id },
         {
           $addToSet: { playlist: song }
+        },
+        {},
+        (updateError: Error) => {
+          if (updateError) return reject(updateError)
+
+          this.db.findOne({ _id: id }, (findOneError: Error, doc: PartyModel) => {
+            if (findOneError) return reject(findOneError)
+            return resolve(fromInfra(doc))
+          })
+        }
+      )
+    })
+  }
+
+  async unshiftPlaylist(id: string): Promise<Party> {
+    logger.debug(`Shift song to the party ${id}`)
+    return new Promise((resolve, reject) => {
+      this.db.update(
+        { _id: id },
+        {
+          $pop: { playlist: -1 }
         },
         {},
         (updateError: Error) => {

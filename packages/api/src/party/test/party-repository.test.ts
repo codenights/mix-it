@@ -34,4 +34,17 @@ describe('Integration | Repository | Party', () => {
       expect(actual).toStrictEqual(expected)
     })
   })
+
+  describe('#unshiftPlaylist', () => {
+    it('gets a party', async () => {
+      const expected = await partyRepository.create({
+        playlist: ['abc', 'def']
+      })
+      const actual = await partyRepository.unshiftPlaylist(expected.id)
+      expect(actual).toStrictEqual({
+        id: expected.id,
+        playlist: ['def']
+      })
+    })
+  })
 })
