@@ -17,6 +17,7 @@ export interface PartyService {
   join(partyId: string): Promise<void>
   leave(partyId: string): Promise<void>
   onPlaylist(cb: OnPlaylistCallback): void
+  unshiftPlaylist(partyId: string): Promise<void>
 }
 
 class PartyServiceImpl implements PartyService {
@@ -48,6 +49,12 @@ class PartyServiceImpl implements PartyService {
   leave(partyId: string): Promise<void> {
     return new Promise(resolve => {
       this.socket.emit('room:leave', resolve)
+    })
+  }
+
+  unshiftPlaylist(partyId: string): Promise<void> {
+    return new Promise(resolve => {
+      this.socket.emit('playlist:unshift', resolve)
     })
   }
 

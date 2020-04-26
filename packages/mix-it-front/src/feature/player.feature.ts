@@ -1,10 +1,12 @@
 import { ref } from '@vue/composition-api'
+import { partyService } from '@/services'
 
-export default function usePlayerFeature(playlist) {
+export default function usePlayerFeature(partyId) {
   const player = ref({} as any)
   const player2 = ref(null)
-  const localPlaylist = ref(playlist)
+  const localPartyId = partyId
   const videoId = ref<string>('')
+  const nextVideoId = ref<string>('')
   let interval: number
 
   function linkPlayer(refPlayer2) {
@@ -12,15 +14,12 @@ export default function usePlayerFeature(playlist) {
   }
 
   function onPlay() {
-    interval = setInterval(() => {
-      if (
-        // @ts-ignore
-        player2.value.player.getPlayerState() !== 1 &&
-        player.value.player.getCurrentTime() >= player.value.player.getDuration() - 10
-      ) {
+    interval = setInterval(async () => {
+      if (player.value.player.getCurrentTime() >= player.value.player.getDuration() - 10) {
+        clearInterval(interval)
         // @ts-ignore
         player2.value.player.playVideo()
-        clearInterval(interval)
+        await partyService.unshiftPlaylist(localPartyId)
       }
     }, 1000)
   }
@@ -29,25 +28,19 @@ export default function usePlayerFeature(playlist) {
     clearInterval(interval)
   }
 
-  function onReady() {}
-
   function onEnded() {
     clearInterval(interval)
-    // unshift playlist by socket
-    localPlaylist.value.splice(0, 1)
-    const [, value] = localPlaylist.value
-    // @ts-ignore
+    videoId.value = nextVideoId.value
     player.value.player.stopVideo()
-    videoId.value = value
   }
 
   return {
     player,
     videoId,
     linkPlayer,
+    nextVideoId,
     onPlay,
     onPause,
-    onEnded,
-    onReady
+    onEnded
   }
 }

@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { shallowMount } from '@vue/test-utils'
 import { createTestVue } from '@/testHelper'
-import { ref } from '@vue/composition-api'
 
 import Host from '../../Host.vue'
 
@@ -28,6 +27,7 @@ jest.mock('@/views/Host/host.feature', () => () => ({
 jest.mock('@/feature/player.feature', () => () => ({
   player: {},
   videoId: '',
+  nextVideoId: '',
   linkPlayer: mockLinkPlayer,
   onReady: mockOnReady,
   onPlay: mockOnPlay,
@@ -46,12 +46,24 @@ describe('Host.vue', () => {
   beforeEach(() => {
     wrapper = shallowMount(Host, {
       localVue,
-      stubs: ['qrcode-vue', 'youtube']
+      stubs: {
+        'qrcode-vue': '<div data-test="qrcode-vue"></div>',
+        youtube: '<div data-test="youtube-player"></div>'
+      }
     })
   })
   describe('default', () => {
     it('should create', () => {
       expect(wrapper.exists()).toBe(true)
+    })
+  })
+
+  describe('display', () => {
+    it('should display two youtube players', () => {
+      // Given
+      const youtubePlayers = wrapper.findAll('[data-test=youtube-player]')
+      // Then
+      expect(youtubePlayers).toHaveLength(2)
     })
   })
 })

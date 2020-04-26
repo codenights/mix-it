@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { shallowMount } from '@vue/test-utils'
 import MainLayout from '../../MainLayout.vue'
 

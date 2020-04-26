@@ -12,19 +12,18 @@
     <div class="players__container" data-test="players-container">
       <div class="player">
         <youtube
+          id="player1"
           :videoId="firstVideoId"
-          @ready="onReady1"
           @playing="onPlay1"
           @paused="onPause1"
           @ended="onEnded1"
           ref="player1"
         ></youtube>
       </div>
-      {{ firstVideoId }} {{ secondVideoId }}
       <div class="player">
         <youtube
+          id="player2"
           :videoId="secondVideoId"
-          @ready="onReady2"
           @playing="onPlay2"
           @paused="onPause2"
           @ended="onEnded2"
@@ -91,32 +90,49 @@ const Host = defineComponent({
       player: player1,
       videoId: firstVideoId,
       linkPlayer: linkPlayer1,
-      onReady: onReady1,
+      nextVideoId: firstNextVideoId,
       onPlay: onPlay1,
       onPause: onPause1,
       onEnded: onEnded1
-    } = usePlayerFeature(party.playlist)
+    } = usePlayerFeature(party)
     const {
       player: player2,
       videoId: secondVideoId,
       linkPlayer: linkPlayer2,
-      onReady: onReady2,
+      nextVideoId: secondNextVideoId,
       onPlay: onPlay2,
       onPause: onPause2,
       onEnded: onEnded2
-    } = usePlayerFeature(party.playlist)
+    } = usePlayerFeature(party)
 
-    watchEffect(() => {
+    const stopEffect = watchEffect(() => {
       if (party && party.playlist && party.playlist.length) {
         const { playlist } = party
         const [first, second] = playlist
-        firstVideoId.value = first
-        secondVideoId.value = second
-        setTimeout(() => {
-          if (player1.value.player.getPlayerState() !== 1 && player2.value.player.getPlayerState() !== 1) {
+        if (!firstVideoId.value && !secondVideoId.value) {
+          firstVideoId.value = first
+          secondVideoId.value = second
+          setTimeout(() => {
             player1.value.player.playVideo()
-          }
-        }, 2000)
+            linkPlayer1(player2.value)
+            linkPlayer2(player1.value)
+            stopEffect()
+          }, 2000)
+        }
+      }
+    })
+
+    watchEffect(() => {
+      const { playlist } = party
+      const [, second] = playlist
+      if (second !== firstNextVideoId.value && player1.value.player && player1.value.player.getPlayerState() === 1) {
+        firstNextVideoId.value = second
+      } else if (
+        second !== secondNextVideoId.value &&
+        player2.value.player &&
+        player2.value.player.getPlayerState() === 1
+      ) {
+        secondNextVideoId.value = second
       }
     })
 
@@ -125,14 +141,6 @@ const Host = defineComponent({
       await joinRoomAsHost(player1, player2, firstVideoId, secondVideoId)
       await fetchParty()
       onPlaylist()
-
-      setTimeout(() => {
-        linkPlayer1(player2.value)
-        linkPlayer2(player1.value)
-        if (player1.value.player.getPlayerState() !== 3 && player2.value.player.getPlayerState() !== 3) {
-          player1.value.player.playVideo()
-        }
-      }, 2000)
     })
 
     onUnmounted(async () => {
@@ -149,8 +157,6 @@ const Host = defineComponent({
       onPlay2,
       onPause1,
       onPause2,
-      onReady1,
-      onReady2,
       onEnded1,
       onEnded2,
       qrCodeSize,
