@@ -126,13 +126,25 @@ const Host = defineComponent({
       const { playlist } = party
       const [, second] = playlist
       if (second !== firstNextVideoId.value && player1.value.player && player1.value.player.getPlayerState() === 1) {
-        firstNextVideoId.value = second
+        if (!firstVideoId.value) {
+          firstVideoId.value = second
+        } else if (!secondVideoId.value) {
+          secondVideoId.value = second
+        } else {
+          firstNextVideoId.value = second
+        }
       } else if (
         second !== secondNextVideoId.value &&
         player2.value.player &&
         player2.value.player.getPlayerState() === 1
       ) {
-        secondNextVideoId.value = second
+        if (!secondVideoId.value) {
+          secondVideoId.value = second
+        } else if (!firstVideoId.value) {
+          firstVideoId.value = second
+        } else {
+          secondNextVideoId.value = second
+        }
       }
     })
 
