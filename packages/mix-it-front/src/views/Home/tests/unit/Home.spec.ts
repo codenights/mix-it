@@ -52,7 +52,7 @@ describe('Home.vue', () => {
       })
     })
     describe('When the user is not signed in', () => {
-      it('should display the button to create party', () => {
+      it('should not display the button to create party', () => {
         // Given
         mockIsSignIn = false
         const wrapper = shallowMount(Home, {

@@ -31,7 +31,6 @@ jobs:
     - stage: Test staging
       if: branch = master
       build: skip
-      install: skip
       env:
         - CYPRESS_HOST=https://mix-it-front-staging.herokuapp.com
       script:
