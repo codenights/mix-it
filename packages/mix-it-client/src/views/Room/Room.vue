@@ -3,9 +3,10 @@
     <div>
       <h1>{{ roomId }}</h1>
       <form @submit.prevent="submitSong(songId)">
-        <label for="song-id">{{ songId }}</label>
+        <label for="song-id">Id video: </label>
         <input type="text" id="song-id" v-model="songId" />
         <button type="submit">Envoyer</button>
+        <button type="button" @click="songId = ''">Clear</button>
       </form>
     </div>
   </div>
