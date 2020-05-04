@@ -76,6 +76,37 @@ describe('Integration | Socket | Party ', () => {
       })
       socket.emit('song:submit', 'abc')
     })
+
+    describe('With mobile URL', () => {
+      it('emits a "playlist" event', done => {
+        expect.assertions(1)
+        socket.on('playlist', (playlist: string[]) => {
+          expect(playlist).toStrictEqual(['abc'])
+          done()
+        })
+        socket.emit('song:submit', 'https://youtu.be/abc')
+      })
+    })
+    describe('With desktop URL', () => {
+      it('emits a "playlist" event', done => {
+        expect.assertions(1)
+        socket.on('playlist', (playlist: string[]) => {
+          expect(playlist).toStrictEqual(['abc'])
+          done()
+        })
+        socket.emit('song:submit', 'https://www.youtube.com/watch?v=abc')
+      })
+    })
+    describe('With desktop URL and params', () => {
+      it('emits a "playlist" event', done => {
+        expect.assertions(1)
+        socket.on('playlist', (playlist: string[]) => {
+          expect(playlist).toStrictEqual(['abc'])
+          done()
+        })
+        socket.emit('song:submit', 'https://www.youtube.com/watch?v=abc&s=2')
+      })
+    })
   })
 
   describe('playlist:unshift', () => {
