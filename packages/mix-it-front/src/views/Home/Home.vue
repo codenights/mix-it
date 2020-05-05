@@ -29,9 +29,9 @@ const Home = defineComponent({
       createParty: handleCreateParty,
       isSignIn,
       signIn,
-      signOut
+      signOut,
     }
-  }
+  },
 })
 export default Home
 </script>

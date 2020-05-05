@@ -10,18 +10,18 @@ const config = convict<Configuration>({
   env: {
     env: 'NODE_ENV',
     format: ['development', 'test', 'production'],
-    default: 'development'
+    default: 'development',
   },
   client: {
     env: 'VUE_APP_CLIENT',
     format: String,
-    default: 'http://localhost:8081'
+    default: 'http://localhost:8081',
   },
   api: {
     env: 'VUE_APP_API',
     format: String,
-    default: 'http://localhost:3000'
-  }
+    default: 'http://localhost:3000',
+  },
 })
 
 config.validate()

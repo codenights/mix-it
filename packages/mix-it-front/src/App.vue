@@ -13,7 +13,7 @@ import MainLayout from './views/MainLayout/MainLayout.vue'
 
 const App = defineComponent({
   name: 'App',
-  components: { MainLayout }
+  components: { MainLayout },
 })
 
 export default App

@@ -35,19 +35,19 @@ class PartyServiceImpl implements PartyService {
   }
 
   async join(partyId: string): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.socket.emit('room:join', { partyId, clientType: 'client' }, resolve)
     })
   }
 
   async leave(partyId: string): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.socket.emit('room:leave', resolve)
     })
   }
 
   async submitSong(songId: string): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.socket.emit('song:submit', songId, resolve)
     })
   }

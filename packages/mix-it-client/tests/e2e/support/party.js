@@ -5,5 +5,5 @@ Cypress.Commands.add('createParty', (data = {}) => {
     method: 'POST',
     url: `${api()}/parties`,
     data
-  }).then(res => res.body)
+  }).then((res) => res.body)
 })

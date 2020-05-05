@@ -7,7 +7,7 @@ describe('MainLayout.vue', () => {
   let wrapper
   beforeEach(() => {
     wrapper = shallowMount(MainLayout, {
-      stubs: ['router-view']
+      stubs: ['router-view'],
     })
   })
   describe('default', () => {

@@ -22,7 +22,7 @@ describe('Home feature', () => {
     describe('The party exists', () => {
       beforeEach(async () => {
         partyService = mock<PartyService>({
-          get: jest.fn(async id => ({ id, playlist: [], owner: '' }))
+          get: jest.fn(async (id) => ({ id, playlist: [], owner: '' }))
         })
         const { room, redirectToRoom } = useHome({ router, partyService })
         room.value = 'id'

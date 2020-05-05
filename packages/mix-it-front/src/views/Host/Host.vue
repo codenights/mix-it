@@ -79,7 +79,7 @@ import useHost from './host.feature'
 const Host = defineComponent({
   name: 'Host',
   components: {
-    QrcodeVue
+    QrcodeVue,
   },
   setup(props, context) {
     const { party, fetchParty, joinRoomAsHost, leave, onPlaylist } = useHost(context)
@@ -93,7 +93,7 @@ const Host = defineComponent({
       nextVideoId: firstNextVideoId,
       onPlay: onPlay1,
       onPause: onPause1,
-      onEnded: onEnded1
+      onEnded: onEnded1,
     } = usePlayerFeature(party)
     const {
       player: player2,
@@ -102,7 +102,7 @@ const Host = defineComponent({
       nextVideoId: secondNextVideoId,
       onPlay: onPlay2,
       onPause: onPause2,
-      onEnded: onEnded2
+      onEnded: onEnded2,
     } = usePlayerFeature(party)
 
     const stopEffect = watchEffect(() => {
@@ -172,9 +172,9 @@ const Host = defineComponent({
       onEnded1,
       onEnded2,
       qrCodeSize,
-      generateQrCodeValue
+      generateQrCodeValue,
     }
-  }
+  },
 })
 export default Host
 </script>

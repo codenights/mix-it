@@ -22,7 +22,7 @@ jest.mock('@/views/Host/host.feature', () => () => ({
   fetchParty: mockFetchParty,
   joinRoomAsHost: mockJoinRoomAsHost,
   leave: mockLeave,
-  onPlaylist: mockOnPlaylist
+  onPlaylist: mockOnPlaylist,
 }))
 jest.mock('@/feature/player.feature', () => () => ({
   player: {},
@@ -32,11 +32,11 @@ jest.mock('@/feature/player.feature', () => () => ({
   onReady: mockOnReady,
   onPlay: mockOnPlay,
   onPause: mockOnPause,
-  onEnded: mockOnEnded
+  onEnded: mockOnEnded,
 }))
 jest.mock('@/feature/qr-code.feature', () => () => ({
   qrCodeSize: 150,
-  generateQrCodeValue: mockGenerateQrCodeValue
+  generateQrCodeValue: mockGenerateQrCodeValue,
 }))
 
 const localVue = createTestVue()
@@ -48,8 +48,8 @@ describe('Host.vue', () => {
       localVue,
       stubs: {
         'qrcode-vue': '<div data-test="qrcode-vue"></div>',
-        youtube: '<div data-test="youtube-player"></div>'
-      }
+        youtube: '<div data-test="youtube-player"></div>',
+      },
     })
   })
   describe('default', () => {

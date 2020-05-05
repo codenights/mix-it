@@ -10,7 +10,7 @@ module.exports = {
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-param-reassign': ['error', { props: false }],
-    'arrow-parens': ['error', 'as-needed']
+    'arrow-parens': 'off'
   },
   parserOptions: {
     parser: '@typescript-eslint/parser'

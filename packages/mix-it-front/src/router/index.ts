@@ -14,19 +14,19 @@ const routes = [
       {
         path: '',
         name: 'home',
-        component: Home
+        component: Home,
       },
       {
         path: 'host/:partyId',
         name: 'host',
-        component: Host
-      }
-    ]
-  }
+        component: Host,
+      },
+    ],
+  },
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
 })
 
 export default router

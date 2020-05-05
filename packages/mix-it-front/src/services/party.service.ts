@@ -41,19 +41,19 @@ class PartyServiceImpl implements PartyService {
   }
 
   join(partyId: string): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.socket.emit('room:join', { partyId, clientType: 'host' }, resolve)
     })
   }
 
   leave(partyId: string): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.socket.emit('room:leave', resolve)
     })
   }
 
   unshiftPlaylist(partyId: string): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.socket.emit('playlist:unshift', resolve)
     })
   }
