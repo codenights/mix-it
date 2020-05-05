@@ -23,26 +23,13 @@ jobs:
       deploy: &heroku-front
         provider: heroku
         api_key:
-          secure: 'J8kVz9C76xGrPDrsRIFlW8NRydsdwxyRM2gb+M240PqLyYMth83FRYE0nmcN0a31Pjye+PeZ8Q2AW3jWXjRkZATURtwN31W5qNO/8kaEAxUpGlDv2njp0WZiBXznjhx4nFNpx/9obAWE/LVCY90GY2PquBgAiNZpccGWnOEzwm+wnv9jXbkC6XV1mb/ijeywrhM8f/deibQC7zHnZSwact7zmiPS8RxXgeTuU1882NItbN8RSDmT+gVlQXSg3TWkWNc2wyyboLMd6VIctggvbntfzAi8oDT9CUt2nCBw+qaK3Ih/yDeLaG4itDcxnffV0DzeigCBEX1d39/2sXv427R14TNFHIjYX4STzYLbUAR1aRV1XsFUxHMZ1H+KqZtIa0G1LGCqtr2GstgV0W00t97V7cDcOn6TZi8NRY7/X5SntwltwHUHN1wwpeFh1kGOkiyrP6jQLgAj0mmtaMOq7BRzyX2uz7c/W4ZfCpY/cBpH1p5TfzkTRKbpoX5dXLpyWaM18VdAiknJjSaTt504YV9NrSysnM4i7YkQyoH+lhLYWivAqwQ9kpuUJKw2Q5oFLqPMslUmeIDQQJKomHDlEcfDjSQtH+xn2VXQ9eklEs1SjBdLKHNgy4URF98oV2O/cQaxV6n2foOpQAva0Q/VErrVqm10UEIBvH3lrz5NJPE='
+          secure: t2rWEH+EQo5Pkd16y/cYTQJoeRMJTgDdDT/H16O+dDJqErF0ZzQ+Svlf5mQsYOP6kl5fhbSJGbZlDoi8tyiQ5m6x89zSvyiH5RHCQPEp++BD2Yi4lJ37A3WeQc19r6yP1EGysbRko54cOBZRcMAxd7aAjGZlkdL9lx20Ko9+YckkeBtfR5NsMH16HE4nXOfvP/MZl0Sk34cEvrpp0eemsdAmXgJB5t+HdEEYDvT4LNAwmM7Gu1LubQdH2el8sV0GMXCbyxkxIoU9MPP+syJn2htkDSKuSJBIJp8TrycOKvaR0o8iYhPj8d9Dz1xZ6jBRfcq1xYU4BIssI3+RmJNjwUH6KFdzXSeYLzTM6SPcfIFoznSgrat1XaJR8Xb3xUxa+TkNFh8M+0oei4iZ5yeSAhW4J7v/IMToh7dur9M3qodr2PuJhrKAZp6rGZPOBOwc43i/eN5uZqu4YPA01zO6x2ZGSkmRbbH1PfyTsKTCNq7uNJ6EdXOz7d4i8Le2zEDn1JwjW0sRy1Nxnxo51v/BFaKlR3EDAlV2YQyPGsOlgexvfOqoOCqu1vW0bG5PGWVgLGEtOun1/DRwcVL+lCzj94755pKbk1sRjGC5JMTuKzKE02MXmuukJx1H4pnTajMwqdtYQ+oLg0bxn96+PHg98pNT482QpiT+32X4Y3lhkfk=
         app: mix-it-front-staging
         on:
           repo: codenights/mix-it
           branch: master
-    - stage: Deploy to staging client
-      if: branch = master
-      env:
-        - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
-      script: skip
-      # Define an anchor (or alias) to reuse in another job
-      deploy: &heroku-client
-        provider: heroku
-        api_key:
-          secure: t2rWEH+EQo5Pkd16y/cYTQJoeRMJTgDdDT/H16O+dDJqErF0ZzQ+Svlf5mQsYOP6kl5fhbSJGbZlDoi8tyiQ5m6x89zSvyiH5RHCQPEp++BD2Yi4lJ37A3WeQc19r6yP1EGysbRko54cOBZRcMAxd7aAjGZlkdL9lx20Ko9+YckkeBtfR5NsMH16HE4nXOfvP/MZl0Sk34cEvrpp0eemsdAmXgJB5t+HdEEYDvT4LNAwmM7Gu1LubQdH2el8sV0GMXCbyxkxIoU9MPP+syJn2htkDSKuSJBIJp8TrycOKvaR0o8iYhPj8d9Dz1xZ6jBRfcq1xYU4BIssI3+RmJNjwUH6KFdzXSeYLzTM6SPcfIFoznSgrat1XaJR8Xb3xUxa+TkNFh8M+0oei4iZ5yeSAhW4J7v/IMToh7dur9M3qodr2PuJhrKAZp6rGZPOBOwc43i/eN5uZqu4YPA01zO6x2ZGSkmRbbH1PfyTsKTCNq7uNJ6EdXOz7d4i8Le2zEDn1JwjW0sRy1Nxnxo51v/BFaKlR3EDAlV2YQyPGsOlgexvfOqoOCqu1vW0bG5PGWVgLGEtOun1/DRwcVL+lCzj94755pKbk1sRjGC5JMTuKzKE02MXmuukJx1H4pnTajMwqdtYQ+oLg0bxn96+PHg98pNT482QpiT+32X4Y3lhkfk=
-        app: mix-it-client-staging
-        on:
-          repo: codenights/mix-it
-          branch: master
-    - stage: Test staging
+
+    - stage: Test staging front
       if: branch = master
       build: skip
       env:
@@ -50,12 +37,35 @@ jobs:
       script:
         - curl https://mix-it-front.herokuapp.com
         - yarn test:e2e --headless --url https://mix-it-front.herokuapp.com
+    - stage: Deploy to staging client
+      if: branch = init_mono_repo
+      env:
+        - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
+      script: skip
+      # Define an anchor (or alias) to reuse in another job
+      deploy: &heroku-client
+        provider: heroku
+        script: 'cd packages/mix-it-client'
+        api_key:
+          secure: 'J8kVz9C76xGrPDrsRIFlW8NRydsdwxyRM2gb+M240PqLyYMth83FRYE0nmcN0a31Pjye+PeZ8Q2AW3jWXjRkZATURtwN31W5qNO/8kaEAxUpGlDv2njp0WZiBXznjhx4nFNpx/9obAWE/LVCY90GY2PquBgAiNZpccGWnOEzwm+wnv9jXbkC6XV1mb/ijeywrhM8f/deibQC7zHnZSwact7zmiPS8RxXgeTuU1882NItbN8RSDmT+gVlQXSg3TWkWNc2wyyboLMd6VIctggvbntfzAi8oDT9CUt2nCBw+qaK3Ih/yDeLaG4itDcxnffV0DzeigCBEX1d39/2sXv427R14TNFHIjYX4STzYLbUAR1aRV1XsFUxHMZ1H+KqZtIa0G1LGCqtr2GstgV0W00t97V7cDcOn6TZi8NRY7/X5SntwltwHUHN1wwpeFh1kGOkiyrP6jQLgAj0mmtaMOq7BRzyX2uz7c/W4ZfCpY/cBpH1p5TfzkTRKbpoX5dXLpyWaM18VdAiknJjSaTt504YV9NrSysnM4i7YkQyoH+lhLYWivAqwQ9kpuUJKw2Q5oFLqPMslUmeIDQQJKomHDlEcfDjSQtH+xn2VXQ9eklEs1SjBdLKHNgy4URF98oV2O/cQaxV6n2foOpQAva0Q/VErrVqm10UEIBvH3lrz5NJPE='
+        app: mix-it-client-staging
+        on:
+          repo: codenights/mix-it
+          branch: init_mono_repo
+    - stage: Test staging client
+      if: branch = init_mono_repo
+      build: skip
+      env:
+        - CYPRESS_HOST=https://mix-it-client-staging.herokuapp.com
+      script:
+        - curl https://mix-it-client.herokuapp.com
+        - yarn test:e2e --headless --url https://mix-it-client.herokuapp.com
     - stage: Deploy front to production
       if: tag =~ ^v
       env:
         - VUE_APP_CLIENT=https://mix-it-client.herokuapp.com
         - VUE_APP_API=https://mix-it-back.herokuapp.com
-      script: 'cd packages/mix-it-client'
+      script: skip
       deploy:
         # Point to the heroku anchor
         <<: *heroku-front
@@ -66,7 +76,7 @@ jobs:
       if: tag =~ ^v
       env:
         - VUE_APP_API=https://mix-it-back.herokuapp.com
-      script: 'cd packages/mix-it-client'
+      script: skip
       deploy:
         # Point to the heroku anchor
         <<: *heroku-client
