@@ -6355,13 +6355,6 @@ from2@^2.1.0:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
 
-front@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/front/-/front-0.0.1.tgz#39f5638ffd56890c120633d8ea389d47011d41d3"
-  integrity sha1-OfVjj/1WiQwSBjPY6jidRwEdQdM=
-  dependencies:
-    under ""
-
 fs-extra@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-5.0.0.tgz#414d0110cdd06705734d055652c5411260c31abd"
@@ -9475,7 +9468,6 @@ mississippi@^3.0.0:
     axios "^0.19.0"
     convict "^5.2.0"
     core-js "^3.4.3"
-    front "^0.0.1"
     register-service-worker "^1.6.2"
     socket.io-client "^2.3.0"
     vue "^2.6.10"
@@ -9491,13 +9483,10 @@ mississippi@^3.0.0:
   dependencies:
     "@types/gapi" "0.0.39"
     "@types/gapi.auth2" "^0.0.51"
-    "@typescript-eslint/eslint-plugin" "^2.25.0"
-    "@typescript-eslint/parser" "^2.25.0"
     "@vue/composition-api" "^0.5.0"
     axios "^0.19.0"
     convict "^5.2.0"
     core-js "^3.4.3"
-    front "^0.0.1"
     googleapis "^48.0.0"
     qrcode.vue "^1.7.0"
     register-service-worker "^1.6.2"
@@ -13340,11 +13329,6 @@ umask@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/umask/-/umask-1.1.0.tgz#f29cebf01df517912bb58ff9c4e50fde8e33320d"
   integrity sha1-8pzr8B31F5ErtY/5xOUP3o4zMg0=
-
-under@:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/under/-/under-0.2.0.tgz#484bf543a0bb032671893dd6e350e23039688040"
-  integrity sha1-SEv1Q6C7AyZxiT3W41DiMDlogEA=
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
