@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import { createComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref } from '@vue/composition-api'
 import useRoom from '@/views/Room/room.feature'
 
-const Room = createComponent({
+const Room = defineComponent({
   name: 'Room',
   setup(props, context) {
     const songId = ref('')
