@@ -1,16 +1,10 @@
 <template>
-  <div>
-    <div id="nav" data-test="navbar">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <div class="main-content">
-      <router-view></router-view>
-    </div>
+  <div class="main-content">
+    <router-view></router-view>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 
 const MainLayout = defineComponent({
