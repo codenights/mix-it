@@ -7,7 +7,7 @@
     "packages/**"
   ],
   "scripts": {
-    "build": "lerna run build",
+    "build": "lerna --scope ${PACKAGES_DIR} run build -- --dest ../../dist",
     "client": "yarn workspace mix-it-client",
     "front": "yarn workspace mix-it-front",
     "test:front": "yarn client test && yarn front test"
