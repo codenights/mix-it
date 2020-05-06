@@ -13,7 +13,7 @@ jobs:
   - name: Build
     script: lerna run build
   - stage: Staging front
-    if: branch = init_mono_repo
+    if: branch = master
     env:
     - VUE_APP_CLIENT=https://mix-it-client-staging.herokuapp.com
     - VUE_APP_API=https://mix-it-back.herokuapp.com
@@ -25,9 +25,9 @@ jobs:
       app: mix-it-front-staging
       on:
         repo: codenights/mix-it
-        branch: init_mono_repo
+        branch: master
   - stage: Staging client
-    if: branch = init_mono_repo
+    if: branch = master
     env:
       - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
     script: skip
@@ -39,23 +39,23 @@ jobs:
       app: mix-it-client-staging
       on:
         repo: codenights/mix-it
-        branch: init_mono_repo
+        branch: master
 
   - stage: Test staging
     name: Test staging front
-    if: branch = init_mono_repo
+    if: branch = master
     env:
       - CYPRESS_HOST=https://mix-it-front-staging.herokuapp.com
     script:
       - curl https://mix-it-front.herokuapp.com
-      - yarn test:e2e --headless --url https://mix-it-front.herokuapp.com
+      - lerna --scope mix-it-front run test:e2e -- --headless --url https://mix-it-front-staging.herokuapp.com
   - name: Test staging client
-    if: branch = init_mono_repo
+    if: branch = master
     env:
     - CYPRESS_HOST=https://mix-it-client-staging.herokuapp.com
     script:
     - curl https://mix-it-client.herokuapp.com
-    - yarn test:e2e --headless --url https://mix-it-client.herokuapp.com
+    - lerna --scope mix-it-client run test:e2e -- --headless --url https://mix-it-client-staging.herokuapp.com
   - stage: Deploy front to production
     if: tag =~ ^v
     env:
