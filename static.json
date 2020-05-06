@@ -1,5 +1,5 @@
 {
-  "root": "packages/mix-it-front/dist",
+  "root": "packages/${PACKAGES_DIR}/dist",
   "clean_urls": true,
   "routes": {
     "/**": "index.html"
