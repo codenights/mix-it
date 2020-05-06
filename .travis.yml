@@ -44,7 +44,6 @@ jobs:
   - stage: Test staging
   - name: Test staging front
     if: branch = init_mono_repo
-    build: skip
     env:
       - CYPRESS_HOST=https://mix-it-front-staging.herokuapp.com
     script:
@@ -52,13 +51,11 @@ jobs:
       - yarn test:e2e --headless --url https://mix-it-front.herokuapp.com
   - name: Test staging client
     if: branch = init_mono_repo
-    build: skip
     env:
     - CYPRESS_HOST=https://mix-it-client-staging.herokuapp.com
     script:
     - curl https://mix-it-client.herokuapp.com
     - yarn test:e2e --headless --url https://mix-it-client.herokuapp.com
-    -
   - stage: Deploy front to production
     if: tag =~ ^v
     env:
