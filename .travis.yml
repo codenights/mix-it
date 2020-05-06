@@ -13,7 +13,7 @@ jobs:
   - name: Build
     script: lerna run build
   - stage: Deploy to staging front
-    if: branch = master
+    if: branch = init_mono_repo
     env:
     - VUE_APP_CLIENT=https://mix-it-client-staging.herokuapp.com
     - VUE_APP_API=https://mix-it-back.herokuapp.com
@@ -25,9 +25,9 @@ jobs:
       app: mix-it-front-staging
       on:
         repo: codenights/mix-it
-        branch: master
+        branch: init_mono_repo
   - stage: Test staging front
-    if: branch = master
+    if: branch = init_mono_repo
     build: skip
     env:
     - CYPRESS_HOST=https://mix-it-front-staging.herokuapp.com
@@ -37,7 +37,6 @@ jobs:
   - stage: Deploy to staging client
     if: branch = init_mono_repo
     env:
-      - PACKAGE_DIR=packages/client
       - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
     script: skip
     deploy:
