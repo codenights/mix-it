@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="nav">
-      Mix-it
+      Mix-it Front Lerna
     </nav>
     <main-layout></main-layout>
   </div>
