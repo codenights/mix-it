@@ -12,8 +12,7 @@ jobs:
     script: lerna run test
   - name: Build
     script: lerna run build
-  - stage: Deploy to staging
-  - name: Staging front
+  - stage: Staging front
     if: branch = init_mono_repo
     env:
     - VUE_APP_CLIENT=https://mix-it-client-staging.herokuapp.com
@@ -27,7 +26,7 @@ jobs:
       on:
         repo: codenights/mix-it
         branch: init_mono_repo
-  - name: Staging client
+  - stage: Staging client
     if: branch = init_mono_repo
     env:
       - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
