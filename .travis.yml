@@ -42,7 +42,7 @@ jobs:
         branch: init_mono_repo
 
   - stage: Test staging
-  - name: Test staging front
+    name: Test staging front
     if: branch = init_mono_repo
     env:
       - CYPRESS_HOST=https://mix-it-front-staging.herokuapp.com
