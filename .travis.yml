@@ -1,0 +1,98 @@
+language: node_js
+node_js:
+- '12'
+cache:
+  yarn: true
+  directories:
+  - "~/.cache/Cypress"
+jobs:
+  include:
+  # Job de test
+  - stage: Tests
+    name: Unit tests
+    script: lerna run test
+  - name: Build
+    script: lerna run build
+
+  # Mise en staging des fronts
+  - stage: Staging front
+    if: branch = master
+    env:
+    - VUE_APP_CLIENT=https://mix-it-client-staging.herokuapp.com
+    - VUE_APP_API=https://mix-it-back.herokuapp.com
+    script: skip
+    deploy:
+      provider: heroku
+      api_key: &1
+        secure: bLxqUuUdrfFppdsQDNqdF2M+MNEH9F9KLWVPIX4WHNyopbwukvsMAE9tdpWqOKXa09xe23mCQRXCifPANSXjkUbwOWi8pG66PECUQqrpdwCkdNd0CR9oK2oZg1q0eKwq0wxXgJAeTbZvtPxL44c1ac376eoKmhsGnNSbfJL11FM65wbXgi1+P4whU8SVvCIvGqWEikyYc39BjcdzKVXsJcVNvGcZSEQkA3vZTEKDtlzXfUeQgIo3cEhPiqWfPnUe52Cd7FyP5yi0SCpzLZ2OE22hrDItEnjtfR5q6m2/ovQ3WW74RmLVeQp0j9WqJrpCRTtbVOvdfsBfiDSnHO1PvVZs0nmGlRmUDAI+JNC9YmqgZfPZ3SIpRvYJP6DtHcs/29+3H+GHnzKgmUq/qajA+p4CMqjPhxnaDQwUUNqvXrxqWhQlrm98T4gFk05frrKyDYOPg356lsWEpsLO6BrLKw9YYkt/Np6zhAnLMfhO+dK/lW3ZNTAgRCzDVWftP5Amg7ibiSg3BuBdOU+raBVvcrX2wgegpjNt/HFlcQQlawUTSskBIBC1mzVOf2Q2I+RXo3D0QmVKY3+W0LZBcr3qtUHZYzCUojhXLubosSfaj81grC1Lobpp4k2GpWuPtmrOq0HiNf0H/1SWXevFDHT355uSydlwp6YsHTKSuSDDzIg=
+      app: mix-it-front-staging
+      on:
+        repo: codenights/mix-it
+        branch: master
+  - stage: Staging client
+    if: branch = master
+    env:
+      - VUE_APP_API=https://mix-it-back-staging.herokuapp.com
+    script: skip
+    deploy:
+      provider: heroku
+      script: cd packages/mix-it-client
+      api_key: &2
+        secure: bLxqUuUdrfFppdsQDNqdF2M+MNEH9F9KLWVPIX4WHNyopbwukvsMAE9tdpWqOKXa09xe23mCQRXCifPANSXjkUbwOWi8pG66PECUQqrpdwCkdNd0CR9oK2oZg1q0eKwq0wxXgJAeTbZvtPxL44c1ac376eoKmhsGnNSbfJL11FM65wbXgi1+P4whU8SVvCIvGqWEikyYc39BjcdzKVXsJcVNvGcZSEQkA3vZTEKDtlzXfUeQgIo3cEhPiqWfPnUe52Cd7FyP5yi0SCpzLZ2OE22hrDItEnjtfR5q6m2/ovQ3WW74RmLVeQp0j9WqJrpCRTtbVOvdfsBfiDSnHO1PvVZs0nmGlRmUDAI+JNC9YmqgZfPZ3SIpRvYJP6DtHcs/29+3H+GHnzKgmUq/qajA+p4CMqjPhxnaDQwUUNqvXrxqWhQlrm98T4gFk05frrKyDYOPg356lsWEpsLO6BrLKw9YYkt/Np6zhAnLMfhO+dK/lW3ZNTAgRCzDVWftP5Amg7ibiSg3BuBdOU+raBVvcrX2wgegpjNt/HFlcQQlawUTSskBIBC1mzVOf2Q2I+RXo3D0QmVKY3+W0LZBcr3qtUHZYzCUojhXLubosSfaj81grC1Lobpp4k2GpWuPtmrOq0HiNf0H/1SWXevFDHT355uSydlwp6YsHTKSuSDDzIg=
+      app: mix-it-client-staging
+      on:
+        repo: codenights/mix-it
+        branch: master
+
+  # Test des déploiements en staging des fronts
+  - stage: Test staging
+    name: Test staging front
+    if: branch = master
+    env:
+      - CYPRESS_HOST=https://mix-it-front-staging.herokuapp.com
+    script:
+      - curl https://mix-it-front.herokuapp.com
+      - lerna --scope mix-it-front run test:e2e -- --headless --url https://mix-it-front-staging.herokuapp.com
+  - name: Test staging client
+    if: branch = master
+    env:
+    - CYPRESS_HOST=https://mix-it-client-staging.herokuapp.com
+    script:
+    - curl https://mix-it-client.herokuapp.com
+    - lerna --scope mix-it-client run test:e2e -- --headless --url https://mix-it-client-staging.herokuapp.com
+
+  # Déploiement en prod
+  - stage: Deploy front to production
+    if: tag =~ ^v
+    env:
+    - VUE_APP_CLIENT=https://mix-it-client.herokuapp.com
+    - VUE_APP_API=https://mix-it-back.herokuapp.com
+    script: skip
+    deploy:
+      provider: heroku
+      api_key: *1
+      app: mix-it-front
+      on:
+        repo: codenights/mix-it
+  - stage: Deploy client to production
+    if: tag =~ ^v
+    env:
+    - VUE_APP_API=https://mix-it-back.herokuapp.com
+    script: skip
+    deploy:
+      provider: heroku
+      api_key: *2
+      app: mix-it-client
+      on:
+        repo: codenights/mix-it
+
+  # Test des déploiements en production
+  - stage: Test production Front
+    if: tag =~ ^v
+    build: skip
+    script: curl http://mix-it-front.herokuapp.com
+  - name: Test production Client
+    if: tag =~ ^v
+    build: skip
+    script:
+     - curl http://mix-it-front.herokuapp.com
