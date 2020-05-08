@@ -7,11 +7,14 @@ cache:
   - "~/.cache/Cypress"
 jobs:
   include:
+  # Job de test
   - stage: Tests
     name: Unit tests
     script: lerna run test
   - name: Build
     script: lerna run build
+
+  # Mise en staging des fronts
   - stage: Staging front
     if: branch = master
     env:
@@ -41,6 +44,7 @@ jobs:
         repo: codenights/mix-it
         branch: master
 
+  # Test des déploiements en staging des fronts
   - stage: Test staging
     name: Test staging front
     if: branch = master
@@ -56,6 +60,8 @@ jobs:
     script:
     - curl https://mix-it-client.herokuapp.com
     - lerna --scope mix-it-client run test:e2e -- --headless --url https://mix-it-client-staging.herokuapp.com
+
+  # Déploiement en prod
   - stage: Deploy front to production
     if: tag =~ ^v
     env:
@@ -75,13 +81,18 @@ jobs:
     script: skip
     deploy:
       provider: heroku
-      script: cd packages/mix-it-client
       api_key: *2
       app: mix-it-client
       on:
         repo: codenights/mix-it
-  - stage: Test production
+
+  # Test des déploiements en production
+  - stage: Test production Front
     if: tag =~ ^v
     build: skip
-    install: skip
     script: curl http://mix-it-front.herokuapp.com
+  - name: Test production Client
+    if: tag =~ ^v
+    build: skip
+    script:
+     - curl http://mix-it-front.herokuapp.com
