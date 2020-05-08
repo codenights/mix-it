@@ -1,7 +1,7 @@
 import { ref, Ref } from '@vue/composition-api'
 import VueRouter, { Route } from 'vue-router'
 
-import { PartyService } from '@/services'
+import { PartyService } from '../../services'
 
 interface HomeFeatureOptions {
   router: VueRouter

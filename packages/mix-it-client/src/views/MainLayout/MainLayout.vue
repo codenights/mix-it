@@ -15,28 +15,12 @@ export default MainLayout
 </script>
 
 <style lang="scss" scoped>
-$navbar-height: 64px;
+@import '../../../../core/src/styles/variables';
 
 .main-content {
   position: relative;
-  background: linear-gradient(14.46deg, #303757 22.91%, #7076b2 65.88%, #c692ca 100.49%);
   height: calc(100vh - #{$navbar-height});
   margin-top: $navbar-height;
   width: 100%;
-}
-#nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: $navbar-height;
-  background-color: #42b983;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>

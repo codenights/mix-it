@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <nav class="nav">
-      Mix-it Client Lerna
-    </nav>
+    <nav class="nav">Mix it</nav>
     <main-layout></main-layout>
   </div>
 </template>
@@ -20,20 +18,26 @@ export default App
 </script>
 
 <style lang="scss">
+@import '../../core/src/styles/main';
+
 body {
-  margin: 0;
+  background-color: $color-primary;
 }
+
 .nav {
-  height: 4rem;
-  padding: 1rem;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(14.46deg, #b3e5fc 22.91%, #bbdefb 65.88%, #81d4fa 100.49%);
-}
-* {
-  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $navbar-height;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>
