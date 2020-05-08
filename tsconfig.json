@@ -9,13 +9,15 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+    "rootDir": ".",
+    "types": ["webpack-env", "jest", "gapi", "gapi.auth2"],
     "baseUrl": ".",
-    "types": ["webpack-env", "jest"],
     "paths": {
-      "@/*": ["src/*"]
+      "@core/*": ["packages/core/src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
