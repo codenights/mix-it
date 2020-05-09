@@ -11,8 +11,8 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 
-import { useGoogleAuth } from '@/feature/google-auth.feature'
-import { partyService } from '@/services'
+import { useGoogleAuth } from '@client/feature/google-auth.feature'
+import { partyService } from '@client/services'
 import useHome from './home.feature'
 
 const Home = defineComponent({

@@ -14,7 +14,7 @@
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api'
-import useRoom from '@/views/Room/room.feature'
+import useRoom from '@client/views/Room/room.feature'
 
 const Room = defineComponent({
   name: 'Room',

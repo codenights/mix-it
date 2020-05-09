@@ -1,4 +1,4 @@
-import { googleService } from '@/services'
+import { googleService } from '@front/services'
 import { ref } from '@vue/composition-api'
 
 export default function useGoogleAuth() {

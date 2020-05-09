@@ -1,6 +1,6 @@
-import HostService from '@/services/host.service'
-import { createPartyService } from '@/services/party.service'
-import config from '@/config'
+import HostService from '@client/services/host.service'
+import { createPartyService } from '@client/services/party.service'
+import config from '@client/config'
 
 export const hostService = new HostService({ hostApi: config.api })
 export const partyService = createPartyService({ baseURL: config.api })

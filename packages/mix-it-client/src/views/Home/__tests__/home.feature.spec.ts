@@ -1,11 +1,10 @@
 import VueCompositionAPI from '@vue/composition-api'
+import { mock } from 'jest-mock-extended'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import { mock } from 'jest-mock-extended'
-import useHome from '@/views/Home/home.feature'
-import { PartyService } from '@/services/party.service'
-import { Party } from '@/models'
+import useHome from '@client/views/Home/home.feature'
+import { PartyService } from '@client/services/party.service'
 
 Vue.use(VueCompositionAPI)
 

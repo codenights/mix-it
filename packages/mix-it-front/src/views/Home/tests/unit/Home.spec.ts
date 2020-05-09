@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { shallowMount } from '@vue/test-utils'
-import { createTestVue } from '@/testHelper'
+import { createTestVue } from '@front/testHelper'
 import Home from '../../Home.vue'
 
 const mockSignIn = jest.fn()
@@ -10,13 +10,13 @@ const mockPushStub = jest.fn()
 
 let mockIsSignIn
 
-jest.mock('@/feature/google-auth.feature', () => () => ({
+jest.mock('@front/feature/google-auth.feature', () => () => ({
   signIn: mockSignIn,
   signOut: mockSignOut,
   isSignIn: mockIsSignIn,
 }))
 
-jest.mock('@/views/Home/home.feature', () => () => ({
+jest.mock('@front/views/Home/home.feature', () => () => ({
   createParty: mockCreateParty,
 }))
 

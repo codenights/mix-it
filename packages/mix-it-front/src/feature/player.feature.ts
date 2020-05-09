@@ -1,5 +1,5 @@
 import { ref } from '@vue/composition-api'
-import { partyService } from '@/services'
+import { partyService } from '@front/services'
 
 export default function usePlayerFeature(partyId) {
   const player = ref({} as any)

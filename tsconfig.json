@@ -11,9 +11,11 @@
     "sourceMap": true,
     "rootDir": ".",
     "types": ["webpack-env", "jest", "gapi", "gapi.auth2"],
-    "baseUrl": ".",
+    "baseUrl": "packages",
     "paths": {
-      "@core/*": ["packages/core/src/*"]
+      "@core/*": ["core/src/*"],
+      "@client/*": ["mix-it-client/src/*"],
+      "@front/*": ["mix-it-front/src/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

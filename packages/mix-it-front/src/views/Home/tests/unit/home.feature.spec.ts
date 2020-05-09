@@ -1,9 +1,9 @@
-import useHome from '@/views/Home/home.feature'
+import useHome from '@front/views/Home/home.feature'
 
 const mockGetCurrentGoogleUser = jest.fn().mockReturnValue({ getId: () => 2 })
 const mockCreateParty = jest.fn().mockReturnValue({ getId: () => 2 })
 
-jest.mock('@/services', () => ({
+jest.mock('@front/services', () => ({
   googleService: {
     getCurrentGoogleUser: () => mockGetCurrentGoogleUser(),
   },
