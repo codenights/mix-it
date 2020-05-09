@@ -8,7 +8,7 @@
 import { defineComponent } from '@vue/composition-api'
 
 const MainLayout = defineComponent({
-  name: 'MainLayout',
+  name: 'MainLayout'
 })
 
 export default MainLayout

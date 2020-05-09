@@ -18,6 +18,5 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .input {
-
 }
 </style>

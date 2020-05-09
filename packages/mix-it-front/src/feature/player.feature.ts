@@ -41,6 +41,6 @@ export default function usePlayerFeature(partyId) {
     nextVideoId,
     onPlay,
     onPause,
-    onEnded,
+    onEnded
   }
 }

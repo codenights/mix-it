@@ -9,7 +9,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "rootDir": ".",
     "types": ["webpack-env", "jest", "gapi", "gapi.auth2"],
     "baseUrl": "packages",
     "paths": {

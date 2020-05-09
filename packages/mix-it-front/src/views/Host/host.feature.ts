@@ -8,7 +8,7 @@ export default function useHost(context) {
   const party = reactive({
     id: partyId,
     playlist: [],
-    owner: '',
+    owner: ''
   })
 
   async function fetchParty(): Promise<void> {
@@ -63,6 +63,6 @@ export default function useHost(context) {
     join,
     joinRoomAsHost,
     leave,
-    onPlaylist,
+    onPlaylist
   }
 }
