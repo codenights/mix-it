@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api'
 import useRoom from '@client/views/Room/room.feature'
 
@@ -26,12 +26,6 @@ const Room = defineComponent({
       roomId,
       songId,
       submitSong
-    }
-  },
-  sockets: {
-    connect() {
-      // eslint-disable-next-line
-      console.log('Client connected')
     }
   }
 })
