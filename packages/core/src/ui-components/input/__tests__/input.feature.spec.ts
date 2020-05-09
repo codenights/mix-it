@@ -1,1 +1,5 @@
-describe.skip('Input feature', () => {})
+describe('Input feature', () => {
+  it('should work', () => {
+    expect(true).toBe(true)
+  })
+})

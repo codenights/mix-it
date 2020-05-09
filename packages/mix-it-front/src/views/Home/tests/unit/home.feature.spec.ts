@@ -5,11 +5,11 @@ const mockCreateParty = jest.fn().mockReturnValue({ getId: () => 2 })
 
 jest.mock('@front/services', () => ({
   googleService: {
-    getCurrentGoogleUser: () => mockGetCurrentGoogleUser(),
+    getCurrentGoogleUser: () => mockGetCurrentGoogleUser()
   },
   partyService: {
-    create: () => mockCreateParty(),
-  },
+    create: () => mockCreateParty()
+  }
 }))
 
 describe('HomeFeature', () => {

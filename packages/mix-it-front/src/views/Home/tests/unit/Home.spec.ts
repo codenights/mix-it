@@ -13,11 +13,11 @@ let mockIsSignIn
 jest.mock('@front/feature/google-auth.feature', () => () => ({
   signIn: mockSignIn,
   signOut: mockSignOut,
-  isSignIn: mockIsSignIn,
+  isSignIn: mockIsSignIn
 }))
 
 jest.mock('@front/views/Home/home.feature', () => () => ({
-  createParty: mockCreateParty,
+  createParty: mockCreateParty
 }))
 
 const localVue = createTestVue()
@@ -32,7 +32,7 @@ describe('Home.vue', () => {
     it('should create', () => {
       // Given
       const wrapper = shallowMount(Home, {
-        localVue,
+        localVue
       })
       // Then
       expect(wrapper.exists()).toBe(true)
@@ -44,7 +44,7 @@ describe('Home.vue', () => {
       it('should display the button to create party', () => {
         // Given
         const wrapper = shallowMount(Home, {
-          localVue,
+          localVue
         })
         const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
         // Then
@@ -56,7 +56,7 @@ describe('Home.vue', () => {
         // Given
         mockIsSignIn = false
         const wrapper = shallowMount(Home, {
-          localVue: createTestVue(),
+          localVue: createTestVue()
         })
         const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
         // Then
@@ -70,7 +70,7 @@ describe('Home.vue', () => {
       it('should call method signIn', () => {
         // Given
         const wrapper = shallowMount(Home, {
-          localVue,
+          localVue
         })
         const btnSignIn = wrapper.find('[data-test=btn-sign-in]')
         // When
@@ -84,7 +84,7 @@ describe('Home.vue', () => {
       it('should call method signOut', () => {
         // Given
         const wrapper = shallowMount(Home, {
-          localVue,
+          localVue
         })
         const btnSigOut = wrapper.find('[data-test=btn-sign-out]')
         // When
@@ -101,8 +101,8 @@ describe('Home.vue', () => {
           const wrapper = shallowMount(Home, {
             localVue,
             mocks: {
-              $router: { push: mockPushStub },
-            },
+              $router: { push: mockPushStub }
+            }
           })
           const btnCreateParty = wrapper.find('[data-test=btn-create-party]')
           // When
