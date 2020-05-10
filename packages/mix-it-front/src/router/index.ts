@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import Home from '@front/views/Home/Home.vue'
 import MainLayout from '@front/views/MainLayout/MainLayout.vue'
 import Host from '@front/views/Host/Host.vue'

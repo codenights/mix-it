@@ -1,5 +1,6 @@
-import { googleService } from '@front/services'
 import { ref } from '@vue/composition-api'
+
+import { googleService } from '@front/services'
 
 export default function useGoogleAuth() {
   const isSignIn = ref(false)

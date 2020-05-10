@@ -1,4 +1,5 @@
 import { ref } from '@vue/composition-api'
+
 import { partyService } from '@front/services'
 
 export default function usePlayerFeature(partyId) {

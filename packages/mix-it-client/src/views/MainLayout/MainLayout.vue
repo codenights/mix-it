@@ -15,7 +15,7 @@ export default MainLayout
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../core/src/styles/variables';
+@import '~mix-it-core/src/styles/variables';
 
 .main-content {
   position: relative;

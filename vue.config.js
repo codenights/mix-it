@@ -10,7 +10,7 @@ function root(...args) {
 module.exports = {
   configureWebpack: (config) => {
     config.resolve = {
-      extensions: ['.js', '.ts', '.vue'],
+      extensions: ['.js', '.ts', '.vue', '.scss'],
       alias: {
         '@core': root('packages/core/src'),
         '@client': root('packages/mix-it-client/src'),
