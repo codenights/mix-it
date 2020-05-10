@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { shallowMount } from '@vue/test-utils'
-import { createTestVue } from '@/testHelper'
+import { createTestVue } from '@front/testHelper'
 
 import Host from '../../Host.vue'
 
@@ -17,14 +17,14 @@ const mockOnPlaylist = jest.fn()
 
 const mockGenerateQrCodeValue = jest.fn().mockReturnValue('url qr-code')
 
-jest.mock('@/views/Host/host.feature', () => () => ({
+jest.mock('@front/views/Host/host.feature', () => () => ({
   party: { playlist: [] },
   fetchParty: mockFetchParty,
   joinRoomAsHost: mockJoinRoomAsHost,
   leave: mockLeave,
-  onPlaylist: mockOnPlaylist,
+  onPlaylist: mockOnPlaylist
 }))
-jest.mock('@/feature/player.feature', () => () => ({
+jest.mock('@front/feature/player.feature', () => () => ({
   player: {},
   videoId: '',
   nextVideoId: '',
@@ -32,11 +32,11 @@ jest.mock('@/feature/player.feature', () => () => ({
   onReady: mockOnReady,
   onPlay: mockOnPlay,
   onPause: mockOnPause,
-  onEnded: mockOnEnded,
+  onEnded: mockOnEnded
 }))
-jest.mock('@/feature/qr-code.feature', () => () => ({
+jest.mock('@front/feature/qr-code.feature', () => () => ({
   qrCodeSize: 150,
-  generateQrCodeValue: mockGenerateQrCodeValue,
+  generateQrCodeValue: mockGenerateQrCodeValue
 }))
 
 const localVue = createTestVue()
@@ -48,8 +48,8 @@ describe('Host.vue', () => {
       localVue,
       stubs: {
         'qrcode-vue': '<div data-test="qrcode-vue"></div>',
-        youtube: '<div data-test="youtube-player"></div>',
-      },
+        youtube: '<div data-test="youtube-player"></div>'
+      }
     })
   })
   describe('default', () => {

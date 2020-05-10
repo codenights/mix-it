@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 import socketio from 'socket.io-client'
 
-import { Party, Playlist } from '@/models/party'
+import { Party, Playlist } from '@front/models/party'
 
 interface PartyOptions {
   owner: string

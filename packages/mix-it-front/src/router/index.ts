@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home/Home.vue'
-import MainLayout from '@/views/MainLayout/MainLayout.vue'
-import Host from '@/views/Host/Host.vue'
+
+import Home from '@front/views/Home/Home.vue'
+import MainLayout from '@front/views/MainLayout/MainLayout.vue'
+import Host from '@front/views/Host/Host.vue'
 
 Vue.use(VueRouter)
 
@@ -14,19 +15,19 @@ const routes = [
       {
         path: '',
         name: 'home',
-        component: Home,
+        component: Home
       },
       {
         path: 'host/:partyId',
         name: 'host',
-        component: Host,
-      },
-    ],
-  },
+        component: Host
+      }
+    ]
+  }
 ]
 
 const router = new VueRouter({
-  routes,
+  routes
 })
 
 export default router

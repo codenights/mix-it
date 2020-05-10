@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
-import useGoogleAuth from '@/feature/google-auth.feature'
+import useGoogleAuth from '@front/feature/google-auth.feature'
 import useHome from './home.feature'
 
 const Home = defineComponent({
@@ -29,9 +29,9 @@ const Home = defineComponent({
       createParty: handleCreateParty,
       isSignIn,
       signIn,
-      signOut,
+      signOut
     }
-  },
+  }
 })
 export default Home
 </script>

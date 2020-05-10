@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "types": ["webpack-env", "jest", "gapi", "gapi.auth2"],
+    "baseUrl": "packages",
+    "paths": {
+      "@core/*": ["core/src/*"],
+      "@client/*": ["mix-it-client/src/*"],
+      "@front/*": ["mix-it-front/src/*"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

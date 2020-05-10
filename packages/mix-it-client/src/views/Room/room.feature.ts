@@ -1,5 +1,5 @@
 import { onMounted, onUnmounted, ref } from '@vue/composition-api'
-import { partyService } from '@/services'
+import { partyService } from '@client/services'
 
 export default function useRoom(context) {
   const roomId = ref(context.root.$route.params.roomId)

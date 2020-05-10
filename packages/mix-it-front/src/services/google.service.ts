@@ -20,7 +20,7 @@ class GoogleServiceImpl implements GoogleService {
         this.auth2 = gapi.auth2.init({
           client_id: '298958821124-bpn976c48gqth5prkho0jl8qtb7i88fa.apps.googleusercontent.com',
           scope: 'profile email',
-          ux_mode: 'popup',
+          ux_mode: 'popup'
         })
         resolve()
       })

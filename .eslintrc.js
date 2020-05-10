@@ -3,7 +3,14 @@ module.exports = {
   env: {
     node: true
   },
+  plugins: ['import'],
   extends: ['plugin:vue/essential', '@vue/airbnb', '@vue/typescript', 'plugin:prettier/recommended'],
+  settings: {
+    // use a glob pattern
+    "import/resolver": {
+      typescript: {}
+    }
+  },
   rules: {
     'prettier/prettier': 'error',
     // 'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -13,7 +20,8 @@ module.exports = {
     'arrow-parens': 'off'
   },
   parserOptions: {
-    parser: '@typescript-eslint/parser'
+    parser: '@typescript-eslint/parser',
+    tsconfigRootDir: "./"
   },
   overrides: [
     {

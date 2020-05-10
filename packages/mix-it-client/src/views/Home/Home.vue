@@ -1,12 +1,7 @@
 <template>
   <div>
-    hello
-    {{ isSignIn }}
-    <button type="button" @click="signIn">google signin</button>
-    <button type="button" @click="signOut">google signout</button>
-    <!--    <template v-if="isSignIn">-->
-    <!--    </template>-->
     <section class="join-room">
+      <mi-input />
       <input id="room-input" type="text" v-model="room" @keydown.enter="redirectToRoom" data-test="join-room" />
       <label v-if="error" for="room-input" class="room-label">{{ error }}</label>
     </section>
@@ -16,8 +11,8 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 
-import { useGoogleAuth } from '@/feature/google-auth.feature'
-import { partyService } from '@/services'
+import { useGoogleAuth } from '@client/feature/google-auth.feature'
+import { partyService } from '@client/services'
 import useHome from './home.feature'
 
 const Home = defineComponent({

@@ -1,14 +1,15 @@
 /* eslint-disable no-console */
 import { Ref, ref, reactive } from '@vue/composition-api'
-import { partyService } from '@/services'
-import { Party, Playlist } from '@/models/party'
+
+import { partyService } from '@front/services'
+import { Party, Playlist } from '@front/models/party'
 
 export default function useHost(context) {
   const { partyId } = context.root.$route.params
   const party = reactive({
     id: partyId,
     playlist: [],
-    owner: '',
+    owner: ''
   })
 
   async function fetchParty(): Promise<void> {
@@ -63,6 +64,6 @@ export default function useHost(context) {
     join,
     joinRoomAsHost,
     leave,
-    onPlaylist,
+    onPlaylist
   }
 }

@@ -1,8 +1,8 @@
-import HostService from '@/services/host.service'
-import RoomService from '@/services/room.service'
-import { createPartyService } from '@/services/party.service'
-import config from '@/config'
-import { createGoogleService } from '@/services/google.service'
+import HostService from '@front/services/host.service'
+import RoomService from '@front/services/room.service'
+import { createPartyService } from '@front/services/party.service'
+import config from '@front/config'
+import { createGoogleService } from '@front/services/google.service'
 
 export const hostService = new HostService({ hostApi: config.api })
 export const roomService = new RoomService({ hostApi: config.api })
