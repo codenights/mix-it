@@ -15,7 +15,6 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 
-import { useGoogleAuth } from '@client/feature/google-auth.feature'
 import { partyService } from '@client/services'
 import MiInput from '@core/ui-components/input/Input.vue'
 

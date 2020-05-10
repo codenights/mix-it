@@ -56,7 +56,6 @@ export default defineComponent({
 
     watchEffect(() => {
       // Putting this effect in useInput cause infinite loop o_O
-      console.log('hello')
       context.emit('input', inputValue.value)
     })
 

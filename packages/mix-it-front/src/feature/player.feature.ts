@@ -1,4 +1,4 @@
-import { ref } from '@vue/composition-api'
+import { computed, ref } from '@vue/composition-api'
 
 import { partyService } from '@front/services'
 
@@ -15,10 +15,12 @@ export default function usePlayerFeature(partyId) {
   }
 
   function onPlay() {
+    if (interval) {
+      clearInterval(interval)
+    }
     interval = setInterval(async () => {
       if (player.value.player.getCurrentTime() >= player.value.player.getDuration() - 10) {
         clearInterval(interval)
-        console.log('hello')
         // @ts-ignore
         player2.value.player.playVideo()
         await partyService.unshiftPlaylist(localPartyId)
