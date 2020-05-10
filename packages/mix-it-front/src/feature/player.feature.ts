@@ -18,6 +18,7 @@ export default function usePlayerFeature(partyId) {
     interval = setInterval(async () => {
       if (player.value.player.getCurrentTime() >= player.value.player.getDuration() - 10) {
         clearInterval(interval)
+        console.log('hello')
         // @ts-ignore
         player2.value.player.playVideo()
         await partyService.unshiftPlaylist(localPartyId)

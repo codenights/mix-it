@@ -1,7 +1,5 @@
 <template>
-  <div class="main-content">
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script lang="ts">
@@ -13,14 +11,3 @@ const MainLayout = defineComponent({
 
 export default MainLayout
 </script>
-
-<style lang="scss" scoped>
-@import '~mix-it-core/src/styles/variables';
-
-.main-content {
-  position: relative;
-  height: calc(100vh - #{$navbar-height});
-  margin-top: $navbar-height;
-  width: 100%;
-}
-</style>

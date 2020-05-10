@@ -1,7 +1,13 @@
 <template>
   <div id="app">
-    <nav class="nav">Mix it</nav>
-    <main-layout></main-layout>
+    <nav class="nav">
+      <div class="nav__content">
+        Mix it
+      </div>
+    </nav>
+    <div class="main-content">
+      <main-layout></main-layout>
+    </div>
   </div>
 </template>
 
@@ -18,7 +24,7 @@ export default App
 </script>
 
 <style lang="scss">
-@import '../../core/src/styles/main';
+@import '~mix-it-core/src/styles/main';
 
 body {
   background-color: $color-primary;
@@ -31,13 +37,20 @@ body {
   width: 100%;
   height: $navbar-height;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  .nav__content {
+    width: 80%;
+    margin: auto;
   }
+}
+
+.main-content {
+  position: relative;
+  height: calc(100vh - #{$navbar-height});
+  width: 80%;
+  margin: $navbar-height auto;
 }
 </style>
