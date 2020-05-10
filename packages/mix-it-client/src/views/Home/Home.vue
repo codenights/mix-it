@@ -27,15 +27,11 @@ const Home = defineComponent({
     MiInput
   },
   setup(props, context) {
-    const { isSignIn, signIn, signOut } = useGoogleAuth(context)
     const { error, room, redirectToRoom } = useHome({ partyService, router: context.root.$router })
     return {
       error,
-      isSignIn,
       room,
-      redirectToRoom,
-      signIn,
-      signOut
+      redirectToRoom
     }
   }
 })

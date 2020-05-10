@@ -24,7 +24,7 @@ export default App
 </script>
 
 <style lang="scss">
-@import '../../core/src/styles/main';
+@import '~mix-it-core/src/styles/main';
 
 body {
   background-color: $color-primary;

@@ -1,14 +1,27 @@
 <template>
   <label class="input-group">
-    <input type="text" class="input" v-model="value" :placeholder="placeholder" aria-label="mon gros label" />
-    <button v-if="type" class="button" :class="'button__' + type" type="button" @click="buttonClick"></button>
+    <input
+      type="text"
+      class="input"
+      @keydown.enter="buttonClick"
+      v-model="inputValue"
+      :placeholder="placeholder"
+      data-test="input"
+      aria-label="mon gros label"
+    />
+    <button
+      v-if="type"
+      class="button"
+      :class="'button__' + type"
+      type="button"
+      @click="buttonClick"
+      data-test="btn-input"
+    ></button>
   </label>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
-
-import useInput from './input.feature'
+import { defineComponent, ref, watch, watchEffect } from '@vue/composition-api'
 
 export default defineComponent({
   name: 'MiInput',
@@ -21,13 +34,34 @@ export default defineComponent({
     placeholder: {
       type: String,
       default: ''
+    },
+    value: {
+      type: String,
+      default: ''
     }
   },
   setup(props, context) {
-    const { value, buttonClick } = useInput(context)
+    const inputValue = ref('')
+
+    function buttonClick() {
+      context.emit('submit', inputValue.value)
+    }
+
+    watch(
+      () => props.value,
+      () => {
+        inputValue.value = props.value
+      }
+    )
+
+    watchEffect(() => {
+      // Putting this effect in useInput cause infinite loop o_O
+      console.log('hello')
+      context.emit('input', inputValue.value)
+    })
 
     return {
-      value,
+      inputValue,
       buttonClick
     }
   }
