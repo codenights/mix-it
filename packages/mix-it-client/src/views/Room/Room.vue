@@ -1,22 +1,30 @@
 <template>
-  <div class="room__container">
-    <div>
-      <h1>{{ roomId }}</h1>
-      <form @submit.prevent="submitSong(songId)">
-        <label for="song-id">Id video: </label>
-        <input type="text" id="song-id" v-model="songId" />
-        <button type="submit">Envoyer</button>
-        <button type="button" @click="songId = ''">Clear</button>
-      </form>
-    </div>
+  <div>
+    <h1>{{ roomId }}</h1>
+    <form @submit.prevent="submitSong(songId)" class="join-room">
+      <mi-input
+        v-model="songId"
+        type="add"
+        placeholder="Ajouter une musique"
+        data-test="join-room"
+        class="input__join-room"
+        @submit="submitSong(songId)"
+      />
+      <button type="button" @click="songId = ''">Clear</button>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api'
+
 import useRoom from '@client/views/Room/room.feature'
+import MiInput from '@core/ui-components/input/Input.vue'
 
 const Room = defineComponent({
+  components: {
+    MiInput
+  },
   name: 'Room',
   setup(props, context) {
     const songId = ref('')
@@ -41,5 +49,12 @@ export default Room
 .container__title {
   width: 100%;
   text-align: center;
+}
+.join-room {
+  display: flex;
+  width: 100%;
+}
+.input__join-room {
+  width: 100%;
 }
 </style>
