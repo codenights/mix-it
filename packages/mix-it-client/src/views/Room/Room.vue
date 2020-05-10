@@ -10,7 +10,7 @@
         class="input__join-room"
         @submit="submitSong(songId)"
       />
-      <button type="button" @click="clearValue()">Clear</button>
+      <button type="button" @click="clearValue">Clear</button>
     </form>
   </div>
 </template>
@@ -31,9 +31,7 @@ const Room = defineComponent({
     const { roomId, submitSong } = useRoom(context)
 
     function clearValue() {
-      console.log('helo')
       songId.value = ''
-      console.log('songId')
     }
 
     return {

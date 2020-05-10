@@ -14,12 +14,14 @@
         <youtube
           id="player1"
           :videoId="firstVideoId"
+          @ready="onReady"
           @playing="onPlay1"
           @paused="onPause1"
           @ended="onEnded1"
           ref="player1"
         ></youtube>
       </div>
+      {{ firstVideoId }} - {{ secondVideoId }}
       <div class="player">
         <youtube
           id="player2"
@@ -70,7 +72,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, watchEffect } from '@vue/composition-api'
+import { defineComponent, onMounted, onUnmounted, watch } from '@vue/composition-api'
 import QrcodeVue from 'qrcode.vue'
 import usePlayerFeature from '@front/feature/player.feature'
 import useQrCodeFeature from '@front/feature/qr-code.feature'
@@ -105,54 +107,67 @@ const Host = defineComponent({
       onEnded: onEnded2
     } = usePlayerFeature(party)
 
-    const stopEffect = watchEffect(() => {
-      if (party && party.playlist && party.playlist.length) {
+    const stopEffect = watch(
+      () => party.playlist.length,
+      async () => {
         const { playlist } = party
-        const [first, second] = playlist
-        if (!firstVideoId.value && !secondVideoId.value) {
+        if (playlist.length > 0) {
+          const [first, second] = playlist
           firstVideoId.value = first
           secondVideoId.value = second
-          setTimeout(() => {
-            player1.value.player.playVideo()
-            linkPlayer1(player2.value)
-            linkPlayer2(player1.value)
-            stopEffect()
-          }, 2000)
+          await context.root.$nextTick()
+          player1.value.player.playVideo()
+          linkPlayer1(player2.value)
+          linkPlayer2(player1.value)
+          stopEffect()
         }
       }
-    })
+    )
 
-    watchEffect(() => {
-      const { playlist } = party
-      const [, second] = playlist
-      if (second !== firstNextVideoId.value && player1.value.player && player1.value.player.getPlayerState() === 1) {
-        if (!firstVideoId.value) {
-          firstVideoId.value = second
-        } else if (!secondVideoId.value) {
-          secondVideoId.value = second
-        } else {
-          firstNextVideoId.value = second
-        }
-      } else if (
-        second !== secondNextVideoId.value &&
-        player2.value.player &&
-        player2.value.player.getPlayerState() === 1
-      ) {
-        if (!secondVideoId.value) {
-          secondVideoId.value = second
-        } else if (!firstVideoId.value) {
-          firstVideoId.value = second
-        } else {
-          secondNextVideoId.value = second
+    function playerState(player) {
+      return (
+        player.value &&
+        player.value.player &&
+        player.value.player.getPlayerState &&
+        player.value.player.getPlayerState()
+      )
+    }
+
+    async function onReady() {
+      await fetchParty()
+      onPlaylist()
+    }
+
+    watch(
+      () => party.playlist.length,
+      () => {
+        const { playlist } = party
+        const [, second] = playlist
+        const playerState1 = playerState(player1)
+        const playerState2 = playerState(player2)
+        if (second !== firstNextVideoId.value && playerState1 === 1) {
+          if (!firstVideoId.value) {
+            firstVideoId.value = second
+          } else if (!secondVideoId.value) {
+            secondVideoId.value = second
+          } else {
+            firstNextVideoId.value = second
+          }
+        } else if (second !== secondNextVideoId.value && playerState2 === 1) {
+          if (!secondVideoId.value) {
+            secondVideoId.value = second
+          } else if (!firstVideoId.value) {
+            firstVideoId.value = second
+          } else {
+            secondNextVideoId.value = second
+          }
         }
       }
-    })
+    )
 
     onMounted(async () => {
       // TODO: use props as an alternative
-      await joinRoomAsHost(player1, player2, firstVideoId, secondVideoId)
-      await fetchParty()
-      onPlaylist()
+      await joinRoomAsHost()
     })
 
     onUnmounted(async () => {
@@ -172,6 +187,7 @@ const Host = defineComponent({
       onEnded1,
       onEnded2,
       qrCodeSize,
+      onReady,
       generateQrCodeValue
     }
   }

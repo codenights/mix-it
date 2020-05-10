@@ -36,26 +36,8 @@ export default function useHost(context) {
     })
   }
 
-  async function joinRoomAsHost(player1, player2, firstVideoId, secondVideoId) {
+  async function joinRoomAsHost() {
     await join()
-    setTimeout(() => {
-      const player1State = player1.value.player.getPlayerState()
-      const player2State = player2.value.player.getPlayerState()
-
-      if (player1State > 1 || player2State > 1) {
-        if (player2State > 1) {
-          // eslint-disable-next-line no-param-reassign,prefer-destructuring
-          secondVideoId.value = party.playlist[1]
-          if (player1State > 1) {
-            // eslint-disable-next-line no-param-reassign,prefer-destructuring
-            firstVideoId.value = party.playlist[0]
-          }
-        } else {
-          // eslint-disable-next-line no-param-reassign,prefer-destructuring
-          firstVideoId.value = party.playlist[1]
-        }
-      }
-    }, 2000)
   }
 
   return {
