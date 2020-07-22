@@ -1,20 +1,19 @@
 /* eslint-disable no-console */
-import { Ref, ref, reactive } from '@vue/composition-api'
+import { onMounted, onUnmounted, reactive, ref } from '@vue/composition-api'
 
 import { partyService } from '@front/services'
-import { Party, Playlist } from '@front/models/party'
+import { Playlist } from '@front/models/party'
 
-export default function useHost(context) {
-  const { partyId } = context.root.$route.params
+export default function useHost(partyId: string) {
   const party = reactive({
     id: partyId,
     playlist: [],
     owner: ''
   })
+  const users = ref<string[]>([])
 
   async function fetchParty(): Promise<void> {
     const fetchedParty = await partyService.get(partyId)
-    console.log('fetchedParty', fetchedParty)
     party.id = fetchedParty.id
     party.playlist = fetchedParty.playlist
     party.owner = fetchedParty.owner
@@ -30,22 +29,33 @@ export default function useHost(context) {
     await partyService.leave(party.id)
   }
 
+  function onClientJoined(): void {
+    partyService.onClientJoined((clients: string[]) => {
+      users.value = clients
+    })
+  }
+
   function onPlaylist(): void {
     partyService.onPlaylist((playlist: Playlist) => {
       party.playlist = playlist
     })
   }
 
-  async function joinRoomAsHost() {
+  onMounted(async () => {
+    onPlaylist()
+    onClientJoined()
     await join()
-  }
+  })
+
+  onUnmounted(async () => {
+    await leave()
+  })
 
   return {
     party,
+    users,
     fetchParty,
     join,
-    joinRoomAsHost,
-    leave,
-    onPlaylist
+    leave
   }
 }

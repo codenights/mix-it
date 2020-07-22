@@ -1,21 +1,22 @@
 import axios, { AxiosInstance } from 'axios'
 import socketio from 'socket.io-client'
 
-import { Party, Playlist } from '@client/models'
+import { Client, Party, Playlist } from '@client/models'
 
 interface PartyOptions {
   owner: string
 }
 
-interface OnPlaylistCallback {
-  (playlist: Playlist): void
-}
+type OnClientCallback = (clients: Client[]) => void
+type OnPlaylistCallback = (playlist: Playlist) => void
 
 export interface PartyService {
   get(partyId: string): Promise<Party>
   join(partyId: string): Promise<void>
   leave(partyId: string): Promise<void>
   submitSong(songId: string): Promise<void>
+  onClientJoined(cb: OnClientCallback): void
+  onClientLeft(cb: OnClientCallback): void
   onPlaylist(cb: OnPlaylistCallback): void
 }
 
@@ -36,13 +37,13 @@ class PartyServiceImpl implements PartyService {
 
   async join(partyId: string): Promise<void> {
     return new Promise((resolve) => {
-      this.socket.emit('room:join', { partyId, clientType: 'client' }, resolve)
+      this.socket.emit('user:join', partyId, resolve)
     })
   }
 
   async leave(partyId: string): Promise<void> {
     return new Promise((resolve) => {
-      this.socket.emit('room:leave', resolve)
+      this.socket.emit('user:leave', resolve)
     })
   }
 
@@ -50,6 +51,14 @@ class PartyServiceImpl implements PartyService {
     return new Promise((resolve) => {
       this.socket.emit('song:submit', songId, resolve)
     })
+  }
+
+  onClientJoined(cb: OnClientCallback): void {
+    this.socket.on('user:joined', cb)
+  }
+
+  onClientLeft(cb: OnClientCallback): void {
+    this.socket.on('user:left', cb)
   }
 
   onPlaylist(cb: OnPlaylistCallback): void {

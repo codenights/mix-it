@@ -38,25 +38,9 @@
           <strong>Utilisateurs</strong>
         </div>
         <ul>
-          <li>
+          <li v-for="user in users" :key="user">
             <span class="users__list__img"></span>
-            <span>Artur Carme</span>
-          </li>
-          <li>
-            <span class="users__list__img"></span>
-            <span>Lorem Ipsum</span>
-          </li>
-          <li>
-            <span class="users__list__img"></span>
-            <span>Èric Roc</span>
-          </li>
-          <li>
-            <span class="users__list__img"></span>
-            <span>Maria Marcel</span>
-          </li>
-          <li>
-            <span class="users__list__img"></span>
-            <span>Diana Ramon</span>
+            <span>{{ user }}</span>
           </li>
         </ul>
       </div>
@@ -71,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, watch } from '@vue/composition-api'
+import { defineComponent, watch } from '@vue/composition-api'
 import QrcodeVue from 'qrcode.vue'
 import usePlayerFeature from '@front/feature/player.feature'
 import useQrCodeFeature from '@front/feature/qr-code.feature'
@@ -83,8 +67,7 @@ const Host = defineComponent({
     QrcodeVue
   },
   setup(props, context) {
-    const { party, fetchParty, joinRoomAsHost, leave, onPlaylist } = useHost(context)
-
+    const { party, users, fetchParty } = useHost(context.root.$route.params.partyId)
     const { qrCodeSize, generateQrCodeValue } = useQrCodeFeature()
 
     const {
@@ -124,17 +107,11 @@ const Host = defineComponent({
     )
 
     function playerState(player) {
-      return (
-        player.value &&
-        player.value.player &&
-        player.value.player.getPlayerState &&
-        player.value.player.getPlayerState()
-      )
+      return player?.value?.player?.getPlayerState?.()
     }
 
     async function onReady() {
       await fetchParty()
-      onPlaylist()
     }
 
     watch(
@@ -164,17 +141,9 @@ const Host = defineComponent({
       }
     )
 
-    onMounted(async () => {
-      // TODO: use props as an alternative
-      await joinRoomAsHost()
-    })
-
-    onUnmounted(async () => {
-      await leave()
-    })
-
     return {
       party,
+      users,
       player1,
       player2,
       firstVideoId,
