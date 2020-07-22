@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { shallowMount } from '@vue/test-utils'
-import { createTestVue } from '@front/testHelper'
 
+import { createTestVue, stubComponent } from '@core/test-helper'
 import Host from '../../Host.vue'
 
 const mockOnReady = jest.fn()
@@ -15,10 +15,11 @@ const mockJoinRoomAsHost = jest.fn()
 const mockLeave = jest.fn()
 const mockOnPlaylist = jest.fn()
 
-const mockGenerateQrCodeValue = jest.fn().mockReturnValue('url qr-code')
+const mockGenerateQrCodeValue = jest.fn()
 
 jest.mock('@front/views/Host/host.feature', () => () => ({
   party: { playlist: [] },
+  users: [],
   fetchParty: mockFetchParty,
   joinRoomAsHost: mockJoinRoomAsHost,
   leave: mockLeave,
@@ -43,15 +44,22 @@ const localVue = createTestVue()
 
 describe('Host.vue', () => {
   let wrapper
+
   beforeEach(() => {
     wrapper = shallowMount(Host, {
       localVue,
+      mocks: {
+        $route: {
+          params: { partyId: 'id' }
+        }
+      },
       stubs: {
-        'qrcode-vue': '<div data-test="qrcode-vue"></div>',
-        youtube: '<div data-test="youtube-player"></div>'
+        'qrcode-vue': stubComponent({ test: 'qrcode-vue' }),
+        youtube: stubComponent({ test: 'youtube-player' })
       }
     })
   })
+
   describe('default', () => {
     it('should create', () => {
       expect(wrapper.exists()).toBe(true)

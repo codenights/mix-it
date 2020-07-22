@@ -67,7 +67,7 @@ const Host = defineComponent({
     QrcodeVue
   },
   setup(props, context) {
-    const { party, users, fetchParty } = useHost(context)
+    const { party, users, fetchParty } = useHost(context.root.$route.params.partyId)
     const { qrCodeSize, generateQrCodeValue } = useQrCodeFeature()
 
     const {
@@ -107,12 +107,7 @@ const Host = defineComponent({
     )
 
     function playerState(player) {
-      return (
-        player.value &&
-        player.value.player &&
-        player.value.player.getPlayerState &&
-        player.value.player.getPlayerState()
-      )
+      return player?.value?.player?.getPlayerState?.()
     }
 
     async function onReady() {
