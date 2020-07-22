@@ -92,7 +92,7 @@ class NedbPartyRepository implements PartyRepository {
     })
   }
 
-  removeAll(): Promise<void> {
+  async removeAll(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.db.remove({}, (err: Error, n: number) => {
         if (err) return reject(err)

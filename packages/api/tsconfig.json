@@ -14,13 +14,13 @@
         "node_modules/*",
         "src/types/*"
       ]
-    }
+    },
+    "typeRoots": ["node_modules/@types", "src/types"]
   },
   "include": [
     "bin/index.ts"
   ],
   "exclude": [
-    "node_modules",
-    "src/types"
+    "node_modules"
   ]
 }

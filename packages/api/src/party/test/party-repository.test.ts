@@ -35,8 +35,21 @@ describe('Integration | Repository | Party', () => {
     })
   })
 
+  describe('#addSong', () => {
+    it('adds a song to the playlist', async () => {
+      const party = await partyRepository.create({
+        playlist: []
+      })
+      const actual = await partyRepository.addSong(party.id, 'song')
+      expect(actual).toStrictEqual({
+        id: party.id,
+        playlist: ['song']
+      })
+    })
+  })
+
   describe('#unshiftPlaylist', () => {
-    it('gets a party', async () => {
+    it('unshifts a song from a playlist', async () => {
       const expected = await partyRepository.create({
         playlist: ['abc', 'def']
       })
@@ -45,6 +58,13 @@ describe('Integration | Repository | Party', () => {
         id: expected.id,
         playlist: ['def']
       })
+    })
+  })
+
+  describe('#removeAll', () => {
+    it('removes all the parties', async () => {
+      await partyRepository.removeAll()
+      // TODO: count or findAll to prove that there is no more party
     })
   })
 })
