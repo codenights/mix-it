@@ -13,11 +13,17 @@
 
 <script>
 import { defineComponent } from '@vue/composition-api'
+import { provideToast } from 'vue-toastification/composition'
+import 'vue-toastification/dist/index.css'
+
 import MainLayout from './views/MainLayout/MainLayout.vue'
 
 const App = defineComponent({
   name: 'App',
-  components: { MainLayout }
+  components: { MainLayout },
+  setup() {
+    provideToast({ timeout: 3000 })
+  }
 })
 
 export default App

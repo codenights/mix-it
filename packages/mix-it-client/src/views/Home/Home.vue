@@ -16,9 +16,8 @@
 import { defineComponent } from '@vue/composition-api'
 
 import { partyService } from '@client/services'
+import useHome from '@client/views/Home/home.feature'
 import MiInput from '@core/ui-components/input/Input.vue'
-
-import useHome from './home.feature'
 
 const Home = defineComponent({
   name: 'Home',
@@ -27,6 +26,7 @@ const Home = defineComponent({
   },
   setup(props, context) {
     const { error, room, redirectToRoom } = useHome({ partyService, router: context.root.$router })
+
     return {
       error,
       room,
