@@ -44,7 +44,9 @@ export const withUser = (opts: WithUserOptions) => (socket: Socket): Socket => {
     const party: Party | null = await partyRepository.get(partyId)
     if (!party) {
       const error = new MissingPartyError(partyId)
-      return onUserJoined(error)
+      logger.error(error.message)
+      onUserJoined?.(error)
+      return socket.error(error)
     }
 
     socket.join(partyId, err => {

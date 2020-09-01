@@ -68,8 +68,8 @@ describe('Integration | Socket | Host', () => {
       partyRepository.get.mockResolvedValue(null)
       socket.emit(HostEvents.HOST_JOIN, 'non existing', (err: Error) => {
         expect(err).toStrictEqual({
-          name: 'MissingPartyError',
-          message: 'The party "non existing" does not exist.'
+          message: expect.any(String),
+          name: 'MissingPartyError'
         })
         done()
       })

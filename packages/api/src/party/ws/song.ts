@@ -1,10 +1,9 @@
 import { Socket } from 'socket.io'
 
+import { logger, room, SongExistsError } from '../../core'
 import { PartyRepository } from '../party-repository'
-import { Party } from '../party'
-import { logger } from '../../core'
+import { hasSong, Party } from '../party'
 import { PlaylistEvents } from './playlist'
-import { room } from '../../core/socket-utils'
 
 export interface WithSongOptions {
   party: Party
@@ -32,14 +31,23 @@ export const onSongSubmit = (opts: WithSongOptions) => (socket: Socket): Socket 
   const toRoom = room(socket, partyId)
 
   socket.on(SongEvents.SONG_SUBMIT, async (song: string, onSongSubmitted?: Function) => {
-    logger.info(`Song received ${song} to the party ${partyId}`)
+    logger.info(`Song ${song} received to the party ${partyId}`)
+
     const safeSong = makeSafeSongId(song)
-    const party: Party = await opts.partyRepository.addSong(partyId, safeSong)
+    const party: Party = await opts.partyRepository.get(partyId)
+    if (hasSong(safeSong)(party)) {
+      const error = new SongExistsError(song)
+      logger.error(error.message)
+      onSongSubmitted?.(error)
+      return socket.error(error)
+    }
+
+    const updatedParty: Party = await opts.partyRepository.addSong(partyId, safeSong)
     logger.info(`Added song ${safeSong} to the party ${partyId}`)
     onSongSubmitted?.()
     // Deprecated
-    toRoom.emit('playlist', party.playlist)
-    toRoom.emit(PlaylistEvents.PLAYLIST_REFRESH, party.playlist)
+    toRoom.emit('playlist', updatedParty.playlist)
+    toRoom.emit(PlaylistEvents.PLAYLIST_REFRESH, updatedParty.playlist)
   })
   return socket
 }

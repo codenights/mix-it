@@ -63,6 +63,12 @@ describe('Integration | Socket | Song', () => {
   describe(SongEvents.SONG_SUBMIT, () => {
     beforeEach(done => {
       serverSocket.join(party.id, () => {
+        partyRepository.get.mockImplementation(async (id: string) => {
+          return {
+            id,
+            playlist: []
+          }
+        })
         partyRepository.addSong.mockImplementation(async (id: string, song: string) => {
           return {
             playlist: [song]
@@ -78,10 +84,27 @@ describe('Integration | Socket | Song', () => {
 
     it(`emits ${PlaylistEvents.PLAYLIST_REFRESH} with the playlist as payload`, done => {
       socket.on(PlaylistEvents.PLAYLIST_REFRESH, (playlist: Playlist) => {
-        expect(playlist).toStrictEqual(['abc'])
+        expect(playlist).toStrictEqual(['song'])
         done()
       })
-      socket.emit(SongEvents.SONG_SUBMIT, 'abc')
+      socket.emit(SongEvents.SONG_SUBMIT, 'song')
+    })
+
+    it('emits an error when the playlist already contains the given song', done => {
+      partyRepository.get.mockImplementation(async id => {
+        return {
+          id,
+          playlist: ['song']
+        }
+      })
+      socket.on('error', (error: Error) => {
+        expect(error).toStrictEqual({
+          message: expect.any(String),
+          name: 'SongExistsError'
+        })
+        done()
+      })
+      socket.emit(SongEvents.SONG_SUBMIT, 'song')
     })
   })
 })
