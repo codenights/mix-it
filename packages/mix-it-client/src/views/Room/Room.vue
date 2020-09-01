@@ -1,14 +1,14 @@
 <template>
   <div>
     <h1>{{ roomId }}</h1>
-    <form @submit.prevent="submitSong(songId)" class="join-room">
+    <form class="join-room">
       <mi-input
         v-model="songId"
         type="add"
         placeholder="Ajouter une musique"
         data-test="join-room"
         class="input__join-room"
-        @submit="submitSong(songId)"
+        @submit="submit"
       />
       <button type="button" @click="clearValue">Clear</button>
     </form>
@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api'
+import { useToast } from 'vue-toastification/composition'
 
 import useRoom from '@client/views/Room/room.feature'
 import MiInput from '@core/ui-components/input/Input.vue'
@@ -28,16 +29,22 @@ const Room = defineComponent({
   name: 'Room',
   setup(props, context) {
     const songId = ref('')
-    const { roomId, submitSong } = useRoom(context)
+    const { roomId, submitSong } = useRoom(context.root.$route.params.roomId, context.root.$router)
+    const toast = useToast()
 
     function clearValue() {
       songId.value = ''
     }
 
+    async function submit() {
+      await submitSong(songId.value)
+      toast.success('Song sent')
+    }
+
     return {
       roomId,
       songId,
-      submitSong,
+      submit,
       clearValue
     }
   }

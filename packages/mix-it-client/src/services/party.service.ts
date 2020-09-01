@@ -3,12 +3,9 @@ import socketio from 'socket.io-client'
 
 import { Client, Party, Playlist } from '@client/models'
 
-interface PartyOptions {
-  owner: string
-}
-
 type OnClientCallback = (clients: Client[]) => void
 type OnPlaylistCallback = (playlist: Playlist) => void
+type OnErrorCallback = (error: Error) => void
 
 export interface PartyService {
   get(partyId: string): Promise<Party>
@@ -18,6 +15,7 @@ export interface PartyService {
   onClientJoined(cb: OnClientCallback): void
   onClientLeft(cb: OnClientCallback): void
   onPlaylist(cb: OnPlaylistCallback): void
+  onError(cb: OnErrorCallback): void
 }
 
 class PartyServiceImpl implements PartyService {
@@ -36,8 +34,8 @@ class PartyServiceImpl implements PartyService {
   }
 
   async join(partyId: string): Promise<void> {
-    return new Promise((resolve) => {
-      this.socket.emit('user:join', partyId, resolve)
+    return new Promise((resolve, reject) => {
+      this.socket.emit('user:join', partyId, (err?: Error) => (err ? reject(err) : resolve()))
     })
   }
 
@@ -48,8 +46,8 @@ class PartyServiceImpl implements PartyService {
   }
 
   async submitSong(songId: string): Promise<void> {
-    return new Promise((resolve) => {
-      this.socket.emit('song:submit', songId, resolve)
+    return new Promise((resolve, reject) => {
+      this.socket.emit('song:submit', songId, (err?: Error) => (err ? reject(err) : resolve()))
     })
   }
 
@@ -63,6 +61,10 @@ class PartyServiceImpl implements PartyService {
 
   onPlaylist(cb: OnPlaylistCallback): void {
     this.socket.on('playlist', cb)
+  }
+
+  onError(cb: OnErrorCallback): void {
+    this.socket.on('error', cb)
   }
 }
 

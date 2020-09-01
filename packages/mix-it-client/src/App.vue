@@ -11,13 +11,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { partyService } from '@client/services'
 import { defineComponent } from '@vue/composition-api'
+import { provideToast, useToast } from 'vue-toastification/composition'
+import 'vue-toastification/dist/index.css'
+
 import MainLayout from './views/MainLayout/MainLayout.vue'
 
 const App = defineComponent({
   name: 'App',
-  components: { MainLayout }
+  components: { MainLayout },
+  setup() {
+    provideToast({ timeout: 3000 })
+    const toast = useToast()
+    partyService.onError((error: Error) => {
+      toast.error(error.message)
+    })
+  }
 })
 
 export default App
