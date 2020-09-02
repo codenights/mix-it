@@ -61,7 +61,15 @@ jobs:
     - curl https://mix-it-client.herokuapp.com
     - lerna --scope mix-it-client run test:e2e -- --headless --url https://mix-it-client-staging.herokuapp.com
 
-  # Déploiement en prod
+  # Release
+  - stage: release
+    if: branch = master
+    deploy:
+      provider: script
+      script: yarn release
+      skip_cleanup: true
+
+    # Déploiement en prod
   - stage: Deploy front to production
     if: tag =~ ^v
     env:
