@@ -63,12 +63,11 @@ jobs:
 
   # Release
   - stage: release
+    if: branch = master
     deploy:
       provider: script
-      skip_cleanup: true
       script: yarn release
-      on:
-        all_branches: true
+      skip_cleanup: true
 
     # Déploiement en prod
   - stage: Deploy front to production
