@@ -62,7 +62,7 @@ jobs:
     - lerna --scope mix-it-client run test:e2e -- --headless --url https://mix-it-client-staging.herokuapp.com
 
   # Release
-  - stage: release
+  - stage: Release
     if: branch = master
     deploy:
       provider: script
