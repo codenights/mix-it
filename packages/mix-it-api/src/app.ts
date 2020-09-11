@@ -1,14 +1,13 @@
-import Http from 'http'
-import { Http2Server } from 'http2'
+import { Server as HttpServer } from 'http'
 import { Server as WebSocketServer } from 'socket.io'
 
-import createHttpServer from './http-server'
-import createWebsocketServer from './websocket-server'
+import { createHttpServer } from './http-server'
+import { createWebsocketServer } from './websocket-server'
 import { logger } from './core'
 import config from './config'
 
 interface App {
-  http: Http.Server | Http2Server
+  http: HttpServer
   ws: WebSocketServer
   start(): Promise<void>
   stop(): Promise<void>
@@ -35,10 +34,7 @@ export function createApp(opts: AppOptions = config): App {
     },
     async stop(): Promise<void> {
       return new Promise((resolve, reject) => {
-        http.close((err?: Error) => {
-          if (err) return reject(err)
-          resolve()
-        })
+        http.close((err?: Error) => (err ? reject(err) : resolve()))
       })
     }
   }

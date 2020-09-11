@@ -3,8 +3,8 @@ import { Server as HttpServer } from 'http'
 import { Http2Server } from 'http2'
 import request from 'supertest'
 
-import createApp from '../app'
-import createPartyRepository from '../party/party-repository'
+import { createApp } from '../app'
+import { createPartyRepository } from '../party/party-repository'
 import { Party } from '../party'
 
 describe('Integration | API | Host', () => {

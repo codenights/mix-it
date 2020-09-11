@@ -17,7 +17,7 @@ export default function createPartyController(partyRepository: PartyRepository):
      * @param ctx
      */
     async create(ctx): Promise<void> {
-      const body = ctx.request.body
+      const { body } = ctx.request
       const party: Party = await partyRepository.create({
         ...body,
         playlist: [],

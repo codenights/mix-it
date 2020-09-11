@@ -2,7 +2,7 @@ import { flow } from 'fp-ts/lib/function'
 import { Namespace, Server, Socket } from 'socket.io'
 
 import { logger } from '../../core'
-import createPartyRepository, { PartyRepository } from '../party-repository'
+import { createPartyRepository, PartyRepository } from '../party-repository'
 import { withHost } from './host'
 import { withUser } from './user'
 

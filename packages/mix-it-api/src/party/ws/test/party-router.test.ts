@@ -1,8 +1,8 @@
 import client from 'socket.io-client'
 
+import getPort from 'get-port'
 import createPartyRepository from '../../party-repository'
 import { Party } from '../../party'
-import getPort from 'get-port'
 import createApp from '../../../app'
 import { MissingPartyError } from '../../../core/errors'
 
