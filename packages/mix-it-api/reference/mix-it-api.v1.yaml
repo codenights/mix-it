@@ -1,0 +1,114 @@
+openapi: 3.0.0
+info:
+  title: Mix it API
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'https://mix-it-back.herokuapp.com'
+    description: Heroku
+paths:
+  /parties:
+    parameters: []
+    post:
+      summary: Create a party
+      operationId: post-party
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                title: Party
+                type: object
+                x-examples: {}
+                description: Represents a room in which people listen to music.
+                properties:
+                  id:
+                    type: string
+                  owner:
+                    type: string
+                  playlist:
+                    type: array
+                    items:
+                      type: string
+              examples: {}
+          headers:
+            Location:
+              schema:
+                type: string
+              description: The URL describing your new party
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  name:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner:
+                  type: string
+                  description: "The owner's Google ID"
+              required:
+                - owner
+            examples: {}
+        description: The party options
+      tags:
+        - Party
+  '/parties/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get a party by ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: Party
+                type: object
+                x-examples: {}
+                description: Represents a room in which people listen to music.
+                properties:
+                  id:
+                    type: string
+                  owner:
+                    type: string
+                  playlist:
+                    type: array
+                    items:
+                      type: string
+      operationId: get-party
+      tags:
+        - Party
+      description: ''
+components:
+  schemas:
+    Party:
+      title: Party
+      type: object
+      x-examples: {}
+      description: Represents a room in which people listen to music.
+      properties:
+        id:
+          type: string
+        owner:
+          type: string
+        playlist:
+          type: array
+          items:
+            type: string
+  securitySchemes: {}

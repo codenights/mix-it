@@ -74,7 +74,6 @@
 import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
-  name: 'Clients',
-  setup(props, context) {}
+  name: 'Clients'
 })
 </script>
