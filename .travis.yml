@@ -63,7 +63,7 @@ jobs:
 
   # Release
   - stage: Release
-    if: branch = master
+    if: branch = master AND type = push
     deploy:
       provider: script
       script: yarn release
@@ -71,7 +71,7 @@ jobs:
 
     # Déploiement en prod
   - stage: Deploy front to production
-    if: tag =~ ^v
+    if: branch = master AND type = push
     env:
     - VUE_APP_CLIENT=https://mix-it-client.herokuapp.com
     - VUE_APP_API=https://mix-it-back.herokuapp.com
@@ -83,7 +83,7 @@ jobs:
       on:
         repo: codenights/mix-it
   - stage: Deploy client to production
-    if: tag =~ ^v
+    if: branch = master AND type = push
     env:
     - VUE_APP_API=https://mix-it-back.herokuapp.com
     script: skip
@@ -96,11 +96,11 @@ jobs:
 
   # Test des déploiements en production
   - stage: Test production Front
-    if: tag =~ ^v
+    if: branch = master AND type = push
     build: skip
     script: curl http://mix-it-front.herokuapp.com
   - name: Test production Client
-    if: tag =~ ^v
+    if: branch = master AND type = push
     build: skip
     script:
      - curl http://mix-it-front.herokuapp.com
