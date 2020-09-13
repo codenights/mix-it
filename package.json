@@ -3,6 +3,9 @@
   "author": "jordantaillefer <jtaillefer02@gmail.com>, Falinor",
   "version": "0.4.0",
   "private": true,
+  "engines": {
+    "node": ">= 12"
+  },
   "workspaces": [
     "packages/**"
   ],
@@ -52,6 +55,7 @@
     "**/*.{js,ts,tsx,css,md}": "prettier --write"
   },
   "dependencies": {
+    "mix-it-api": "file:packages/mix-it-api",
     "mix-it-client": "file:packages/mix-it-client",
     "mix-it-front": "file:packages/mix-it-front"
   },

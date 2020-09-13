@@ -64,6 +64,7 @@ jobs:
   # Release
   - stage: Release
     if: branch = master AND type = push
+    script: skip
     deploy:
       provider: script
       script: yarn release
@@ -117,7 +118,7 @@ jobs:
       app: mix-it-back
       on:
         repo: codenights/mix-it
-  - name: Deploy API reference to production
+  - name: API reference
     if: branch = master
     install: yarn global add redoc-cli
     script:
