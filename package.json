@@ -55,7 +55,6 @@
     "**/*.{js,ts,tsx,css,md}": "prettier --write"
   },
   "dependencies": {
-    "mix-it-api": "file:packages/mix-it-api",
     "mix-it-client": "file:packages/mix-it-client",
     "mix-it-front": "file:packages/mix-it-front"
   },
